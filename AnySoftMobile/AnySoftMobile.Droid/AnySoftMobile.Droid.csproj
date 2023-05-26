@@ -57,7 +57,11 @@
         <Compile Include="Properties\AssemblyInfo.cs" />
     </ItemGroup>
     <ItemGroup>
-        <None Include="Assets\Fonts\Outfit-Regular.ttf" />
+        <AndroidAsset Include="Assets\Fonts\Outfit-Regular.ttf" />
+        <AndroidAsset Include="Assets\Fonts\Outfit-Bold.ttf" />
+        <Content Include="Assets\Images\book.svg" />
+        <Content Include="Assets\Images\controller.svg" />
+        <Content Include="Assets\Images\view-grid.svg" />
         <None Include="Resources\AboutResources.txt" />
         <None Include="Assets\AboutAssets.txt" />
         <None Include="Properties\AndroidManifest.xml" />
