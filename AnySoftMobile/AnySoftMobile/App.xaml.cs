@@ -1,4 +1,5 @@
 ﻿using System;
+using AnySoftDesktop.Models;
 using AnySoftMobile.Utils;
 using AnySoftMobile.Views;
 using Xamarin.Forms;
@@ -16,7 +17,7 @@ namespace AnySoftMobile
             InitializeComponent();
             XF.Material.Forms.Material.Use("Material.Style");
 
-            navigationService.SetRootView(ViewNames.MainView);
+            navigationService.SetRootView(ViewNames.DashboardView);
         }
 
         protected override void OnStart()
@@ -33,5 +34,14 @@ namespace AnySoftMobile
         {
             // Handle when your app resumes
         }
+    }
+    
+    public partial class App
+    {
+        public static string CdnUrl { get; } = "https://157e-91-245-37-31.ngrok-free.app/";
+        
+        public static string ApiUrl { get; } = "https://157e-91-245-37-31.ngrok-free.app/";
+
+        public static ApplicationUser ApplicationUser { get; set; } = new ApplicationUser();
     }
 }
