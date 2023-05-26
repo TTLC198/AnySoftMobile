@@ -29,6 +29,10 @@
         <SolidColorBrush x:Key="SearchBarColorBrush" Color="{DynamicResource SearchBarColor}" />
         <SolidColorBrush x:Key="UiElementsColorBrush" Color="{DynamicResource BackgroundColor}" />
     
+        <OnPlatform x:Key="FontFamily.OutfitBold"
+                    x:TypeArguments="x:String"
+                    Android="Fonts/Outfit-Bold.ttf#Outfit-Bold"/>
+        
         <OnPlatform x:Key="FontFamily.OutfitRegular"
                     x:TypeArguments="x:String"
                     Android="Fonts/Outfit-Regular.ttf#Outfit-Regular"/>
@@ -36,17 +40,17 @@
         <typography:MaterialFontConfiguration x:Key="Material.Font"
                                             Body1="{StaticResource FontFamily.OutfitRegular}"
                                             Body2="{StaticResource FontFamily.OutfitRegular}"
-                                            Button="{StaticResource FontFamily.OutfitRegular}"
+                                            Button="{StaticResource FontFamily.OutfitBold}"
                                             Caption="{StaticResource FontFamily.OutfitRegular}"
                                             H1="{StaticResource FontFamily.OutfitRegular}"
                                             H2="{StaticResource FontFamily.OutfitRegular}"
                                             H3="{StaticResource FontFamily.OutfitRegular}"
                                             H4="{StaticResource FontFamily.OutfitRegular}"
                                             H5="{StaticResource FontFamily.OutfitRegular}"
-                                            H6="{StaticResource FontFamily.OutfitRegular}"
+                                            H6="{StaticResource FontFamily.OutfitBold}"
                                             Overline="{StaticResource FontFamily.OutfitRegular}"
                                             Subtitle1="{StaticResource FontFamily.OutfitRegular}"
-                                            Subtitle2="{StaticResource FontFamily.OutfitRegular}" />
+                                            Subtitle2="{StaticResource FontFamily.OutfitBold}" />
         
         <resources:MaterialColorConfiguration x:Key="Material.Color"
                                          Background="{DynamicResource BackgroundColor}"
