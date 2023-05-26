@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Autofac" Version="7.0.1" />
+        <PackageReference Include="Autofac.Extras.CommonServiceLocator" Version="6.1.0" />
+        <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\AnySoftMobile\AnySoftMobile.csproj" />
+      <ProjectReference Include="AnySoftMobile\AnySoftMobile\AnySoftMobile.csproj" />
+    </ItemGroup>
+</Project>
