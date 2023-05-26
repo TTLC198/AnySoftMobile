@@ -1,4 +1,5 @@
-﻿using AnySoftMobile.Utils;
+﻿using System;
+using AnySoftMobile.Utils;
 using CommonServiceLocator;
 
 namespace AnySoftMobile.ViewModels
@@ -28,6 +29,8 @@ namespace AnySoftMobile.ViewModels
         {
             CleanUp();
         }
+
+        public virtual void OnViewAppearing(object sender, EventArgs args) { }
 
         public virtual void CleanUp() { }
     }

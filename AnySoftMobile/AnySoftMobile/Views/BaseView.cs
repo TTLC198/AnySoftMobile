@@ -1,4 +1,5 @@
-﻿using AnySoftMobile.ViewModels;
+﻿using System;
+using AnySoftMobile.ViewModels;
 using Xamarin.Forms;
 
 namespace AnySoftMobile.Views
@@ -11,6 +12,12 @@ namespace AnySoftMobile.Views
         {
             ViewModel = CommonServiceLocator.ServiceLocator.Current.GetInstance<TViewModel>();
             BindingContext = ViewModel;
+        }
+        
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            ViewModel.OnViewAppearing(this, EventArgs.Empty);
         }
     }
 }
