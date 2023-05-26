@@ -1,13 +1,7 @@
 ﻿using System;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Threading;
-using AnySoftMobile;
 using Xamarin.Forms;
 
-namespace AnySoftDesktop.Utils.Converters;
+namespace AnySoftMobile.Utils.Converters;
 
 public class UrlToImageConverter : IValueConverter
 {

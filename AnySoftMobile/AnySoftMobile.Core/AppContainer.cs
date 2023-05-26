@@ -30,9 +30,13 @@ namespace AnySoftMobile.Core
 
             containerBuilder.RegisterType<NavigationService>().As<INavigationService>().SingleInstance();
             containerBuilder.RegisterType<JobDialogService>().As<IJobDialogService>().InstancePerDependency();
-
+            
+            containerBuilder.RegisterType<SingleProductView>().Named<Page>(ViewNames.SingleProductView).As<SingleProductView>().InstancePerDependency();
+            containerBuilder.RegisterType<DashboardView>().Named<Page>(ViewNames.DashboardView).As<DashboardView>().InstancePerDependency();
             containerBuilder.RegisterType<MainView>().Named<Page>(ViewNames.MainView).As<MainView>().InstancePerDependency();
             
+            containerBuilder.RegisterType<SingleProductViewModel>().InstancePerDependency();
+            containerBuilder.RegisterType<DashboardViewModel>().InstancePerDependency();
             containerBuilder.RegisterType<MainViewModel>().InstancePerDependency();
         }
     }
