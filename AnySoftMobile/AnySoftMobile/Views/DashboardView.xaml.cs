@@ -3,18 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using AnySoftMobile.ViewModels;
+using AnySoftMobile.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace AnySoftMobile.Views
+namespace AnySoftMobile.Views;
+
+[XamlCompilation(XamlCompilationOptions.Compile)]
+public partial class DashboardView : BaseDashboardView
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class DashboardView : ContentPage
+    public DashboardView(DashboardViewModel dashboardViewModel)
     {
-        public DashboardView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
+}
+
+public abstract class BaseDashboardView : BaseView<DashboardViewModel>
+{
 }

@@ -1,13 +1,102 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="AnySoftMobile.Views.DashboardView">
-    <ContentPage.Content>
+<views:BaseDashboardView
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:AnySoftMobile.Views;assembly=AnySoftMobile"
+    xmlns:ui="clr-namespace:XF.Material.Forms.UI;assembly=XF.Material"
+    xmlns:converters="clr-namespace:AnySoftMobile.Utils.Converters;assembly=AnySoftMobile"
+    x:Class="AnySoftMobile.Views.DashboardView"
+    x:Name="Root"
+    Title="AnySoft"
+    ui:MaterialNavigationPage.AppBarColor="{StaticResource BackgroundColor}"
+    ui:MaterialNavigationPage.AppBarTitleTextAlignment="Start"
+    ui:MaterialNavigationPage.AppBarTitleTextFontFamily="{StaticResource FontFamily.OutfitBold}"
+    ui:MaterialNavigationPage.AppBarTitleTextFontSize="14"
+    ui:MaterialNavigationPage.StatusBarColor="{StaticResource UiElementsColor}">
+    <views:BaseDashboardView.Content>
         <StackLayout>
-            <Label Text="Hello, world!"
-                   VerticalOptions="CenterAndExpand"
-                   HorizontalOptions="CenterAndExpand" />
+            <StackLayout
+                Orientation="Horizontal"
+                VerticalOptions="Start">
+                <!-- top controls -->
+            </StackLayout>
+            <StackLayout
+                VerticalOptions="CenterAndExpand">
+                <CarouselView
+                    IsBounceEnabled="True"
+                    ItemsSource="{Binding Products}">
+                    <CarouselView.ItemTemplate>
+                        <DataTemplate>
+                            <ui:MaterialCard
+                                CornerRadius="2"
+                                Elevation="1"
+                                HeightRequest="80"
+                                IsClickable="True"
+                                HorizontalOptions="FillAndExpand">
+                                <ui:MaterialCard.Content>
+                                    <StackLayout
+                                        Orientation="Vertical">
+                                        <Frame
+                                            CornerRadius="15"
+                                            Padding="0"
+                                            IsClippedToBounds="True">
+                                            <Image
+                                                Aspect="AspectFit"
+                                                Source="{Binding Images[1], Converter={x:Static converters:UrlToImageConverter.Instance}}" />
+                                        </Frame>
+                                        <FlexLayout
+                                            HorizontalOptions="Start">
+                                            <Frame
+                                                CornerRadius="15"
+                                                Padding="0"
+                                                IsClippedToBounds="True">
+                                                <Image
+                                                    HeightRequest="{Binding Height, Source={x:Reference ProductDescriptionLayout}}"
+                                                    WidthRequest="{Binding Height}"
+                                                    Aspect="AspectFill"
+                                                    Source="{Binding Images[0], Converter={x:Static converters:UrlToImageConverter.Instance}}" />
+                                            </Frame>
+                                            <StackLayout
+                                                x:Name="ProductDescriptionLayout"
+                                                Margin="7, 0, 0, 0"
+                                                VerticalOptions="Center"
+                                                Orientation="Vertical"
+                                                HorizontalOptions="Fill">
+                                                <ui:MaterialLabel
+                                                    VerticalTextAlignment="Center"
+                                                    Text="{Binding Name}"
+                                                    TypeScale="H6" />
+                                                <ui:MaterialLabel
+                                                    VerticalTextAlignment="Center"
+                                                    Text="{Binding Description, StringFormat='{0,15}'}"
+                                                    TypeScale="Subtitle1" />
+                                            </StackLayout>
+                                        </FlexLayout>
+                                    </StackLayout>
+                                </ui:MaterialCard.Content>
+                            </ui:MaterialCard>
+                        </DataTemplate>
+                    </CarouselView.ItemTemplate>
+                </CarouselView>
+            </StackLayout>
+            <FlexLayout
+                JustifyContent="SpaceEvenly"
+                VerticalOptions="End"
+                MinimumHeightRequest="210">
+                <ui:MaterialIconButton
+                    ButtonType="Flat"
+                    VerticalOptions="Center" 
+                    Image="controller.svg"/>
+                <ui:MaterialIconButton
+                    ButtonType="Flat"
+                    VerticalOptions="Center" 
+                    Image="view-grid.svg"/>
+                <ui:MaterialIconButton
+                    ButtonType="Flat"
+                    VerticalOptions="Center" 
+                    Image="book.svg"/>
+            </FlexLayout>
         </StackLayout>
-    </ContentPage.Content>
-</ContentPage>
+    </views:BaseDashboardView.Content>
+</views:BaseDashboardView>
