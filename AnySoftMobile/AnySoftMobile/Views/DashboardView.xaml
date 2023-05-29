@@ -9,6 +9,7 @@
     x:Class="AnySoftMobile.Views.DashboardView"
     x:Name="Root"
     Title="AnySoft"
+    BackgroundColor="{StaticResource BackgroundColor}"
     ui:MaterialNavigationPage.AppBarColor="{StaticResource BackgroundColor}"
     ui:MaterialNavigationPage.AppBarTitleTextAlignment="Start"
     ui:MaterialNavigationPage.AppBarTitleTextFontFamily="{StaticResource FontFamily.OutfitBold}"
@@ -19,92 +20,131 @@
         <StackLayout>
             <StackLayout
                 Orientation="Horizontal"
-                VerticalOptions="Start">
+                VerticalOptions="Start"
+                HeightRequest="40"
+                Padding="15, 15, 15, 5">
                 <!-- top controls -->
+                <Frame
+                    Padding="0"
+                    IsClippedToBounds="True"
+                    CornerRadius="15"
+                    VerticalOptions="FillAndExpand"
+                    HorizontalOptions="FillAndExpand"
+                    BackgroundColor="{StaticResource UiElementsColor}">
+                    <StackLayout
+                        Orientation="Horizontal"
+                        VerticalOptions="Center"
+                        HorizontalOptions="FillAndExpand"
+                        Padding="0">
+                        <!--
+                        <ui:MaterialIconButton
+                            HorizontalOptions="Start"
+                            VerticalOptions="CenterAndExpand"
+                            ButtonType="Outlined"
+                            TintColor="{StaticResource PrimaryColor}"
+                            Image="magnify.png"
+                            BackgroundColor="{StaticResource UiElementsColor}" 
+                            HeightRequest="25"/>-->
+                        <ui:MaterialTextField
+                            LeadingIcon="magnify.png"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="Center"
+                            LeadingIconTintColor="{StaticResource PrimaryColor}"
+                            TextColor="{StaticResource PrimaryColor}"
+                            PlaceholderColor="{StaticResource SecondaryColor}"
+                            TintColor="{StaticResource SecondaryColor}"
+                            UnderlineColor="{StaticResource SecondaryColor}"
+                            FloatingPlaceholderColor="{StaticResource SecondaryColor}"
+                            HelperTextColor="{StaticResource SecondaryColor}"
+                            CardBackgroundColor="Transparent"
+                            FloatingPlaceholderEnabled="False"
+                            IsTextPredictionEnabled="True"
+                            AlwaysShowUnderline="False"
+                            ShouldAnimateUnderline="False"
+                            BackgroundColor="Transparent"
+                            Placeholder="Search something..."
+                            InputType="Text" />
+                    </StackLayout>
+                </Frame>
             </StackLayout>
-            <StackLayout
-                VerticalOptions="CenterAndExpand">
+            <ScrollView>
                 <StackLayout
-                    VerticalOptions="Start">
-                    <CarouselView
-                        IsBounceEnabled="True"
-                        ItemsSource="{Binding Products}"
-                        IndicatorView="indicatorView"
-                        PeekAreaInsets="30"
+                    VerticalOptions="CenterAndExpand">
+                    <!--Products list-->
+                    <StackLayout
                         VerticalOptions="Start">
-                        <CarouselView.ItemsLayout>
-                            <LinearItemsLayout
-                                Orientation="Horizontal"
-                                ItemSpacing="10"/>
-                        </CarouselView.ItemsLayout>
-                        <CarouselView.ItemTemplate>
-                            <DataTemplate>
-                                <ui:MaterialCard
-                                    CornerRadius="15"
-                                    BackgroundColor="{StaticResource UiElementsColor}"
-                                    Elevation="1"
-                                    HeightRequest="80"
-                                    IsClickable="True"
-                                    HorizontalOptions="FillAndExpand"
-                                    VerticalOptions="Center">
-                                    <ui:MaterialCard.Content>
-                                        <StackLayout
-                                            Orientation="Vertical">
-                                            <Frame
-                                                CornerRadius="15"
-                                                Padding="0"
-                                                IsClippedToBounds="True">
-                                                <Image
-                                                    Aspect="AspectFit"
-                                                    Source="{Binding Images[1], Converter={x:Static converters:UrlToImageConverter.Instance}}" />
-                                            </Frame>
-                                            <FlexLayout
-                                                HorizontalOptions="Start">
+                        <CarouselView
+                            IsBounceEnabled="True"
+                            ItemsSource="{Binding Products}"
+                            PeekAreaInsets="15"
+                            VerticalOptions="FillAndExpand"
+                            HorizontalOptions="FillAndExpand">
+                            <CarouselView.ItemsLayout>
+                                <LinearItemsLayout
+                                    Orientation="Horizontal"
+                                    ItemSpacing="5" />
+                            </CarouselView.ItemsLayout>
+                            <CarouselView.ItemTemplate>
+                                <DataTemplate>
+                                    <ui:MaterialCard
+                                        CornerRadius="15"
+                                        BackgroundColor="{StaticResource UiElementsColor}"
+                                        Elevation="1"
+                                        IsClickable="True"
+                                        VerticalOptions="FillAndExpand"
+                                        HorizontalOptions="FillAndExpand">
+                                        <ui:MaterialCard.Content>
+                                            <StackLayout
+                                                Orientation="Vertical">
                                                 <Frame
                                                     CornerRadius="15"
                                                     Padding="0"
                                                     IsClippedToBounds="True">
                                                     <Image
-                                                        HeightRequest="{Binding Height, Source={x:Reference ProductDescriptionLayout}}"
-                                                        WidthRequest="{Binding Height}"
-                                                        Aspect="AspectFill"
-                                                        Source="{Binding Images[0], Converter={x:Static converters:UrlToImageConverter.Instance}}" />
+                                                        Aspect="AspectFit"
+                                                        Source="{Binding Images[1], Converter={x:Static converters:UrlToImageConverter.Instance}}" />
                                                 </Frame>
-                                                <StackLayout
-                                                    x:Name="ProductDescriptionLayout"
-                                                    Margin="7, 0, 0, 0"
-                                                    VerticalOptions="Center"
-                                                    Orientation="Vertical"
-                                                    HorizontalOptions="Fill">
-                                                    <ui:MaterialLabel
-                                                        VerticalTextAlignment="Center"
-                                                        Text="{Binding Name}"
-                                                        TypeScale="H6" />
-                                                    <ui:MaterialLabel
-                                                        VerticalTextAlignment="Center"
-                                                        Text="{Binding Description, StringFormat='{0,15}'}"
-                                                        TypeScale="Subtitle1" />
-                                                </StackLayout>
-                                            </FlexLayout>
-                                        </StackLayout>
-                                    </ui:MaterialCard.Content>
-                                </ui:MaterialCard>
-                            </DataTemplate>
-                        </CarouselView.ItemTemplate>
-                    </CarouselView>
-                    <IndicatorView
-                        x:Name="indicatorView"
-                        IndicatorsShape="Circle"
-                        MaximumVisible="6"
-                        IndicatorColor="{StaticResource SecondaryColor}"
-                        SelectedIndicatorColor="{StaticResource PrimaryColor}"
-                        HorizontalOptions="Center" />
+                                                <FlexLayout
+                                                    HorizontalOptions="Start">
+                                                    <Frame
+                                                        CornerRadius="15"
+                                                        Padding="0"
+                                                        IsClippedToBounds="True">
+                                                        <Image
+                                                            HeightRequest="{Binding Height, Source={x:Reference ProductDescriptionLayout}}"
+                                                            WidthRequest="{Binding Height}"
+                                                            Aspect="AspectFill"
+                                                            Source="{Binding Images[0], Converter={x:Static converters:UrlToImageConverter.Instance}}" />
+                                                    </Frame>
+                                                    <StackLayout
+                                                        x:Name="ProductDescriptionLayout"
+                                                        Margin="7, 0, 0, 0"
+                                                        VerticalOptions="Center"
+                                                        Orientation="Vertical"
+                                                        HorizontalOptions="Fill">
+                                                        <ui:MaterialLabel
+                                                            VerticalTextAlignment="Center"
+                                                            Text="{Binding Name}"
+                                                            TypeScale="H6" />
+                                                        <ui:MaterialLabel
+                                                            VerticalTextAlignment="Center"
+                                                            Text="{Binding Description, StringFormat='{0,15}'}"
+                                                            TypeScale="Subtitle1" />
+                                                    </StackLayout>
+                                                </FlexLayout>
+                                            </StackLayout>
+                                        </ui:MaterialCard.Content>
+                                    </ui:MaterialCard>
+                                </DataTemplate>
+                            </CarouselView.ItemTemplate>
+                        </CarouselView>
+                    </StackLayout>
                 </StackLayout>
-            </StackLayout>
+            </ScrollView>
             <StackLayout
                 HeightRequest="100"
                 VerticalOptions="End"
-                BackgroundColor="{StaticResource BackgroundColor}">
+                BackgroundColor="{StaticResource UiElementsColor}">
                 <FlexLayout
                     JustifyContent="SpaceEvenly"
                     VerticalOptions="CenterAndExpand">
