@@ -22,8 +22,6 @@ public class DashboardViewModel : BaseViewModel
 {
     private readonly IJobDialogService _dialogService;
 
-    public ICommand OnSearchBarTextEntered { get; set; }
-
     private ObservableCollection<ProductResponseDto> _products = new();
 
     public ObservableCollection<ProductResponseDto> Products
@@ -33,19 +31,28 @@ public class DashboardViewModel : BaseViewModel
     }
     
     public string? SearchString { get; set; }
+    
+    public ICommand OnSearchBarTextEntered { get; set; }
+    public ICommand OnProductViewEntered { get; set; }
 
     public DashboardViewModel(IJobDialogService dialogService)
     {
         _dialogService = dialogService;
-        OnSearchBarTextEntered = new Command(async () => await OpenSearchPage());
+        OnSearchBarTextEntered = new Command(OpenSearchPage);
+        OnProductViewEntered = new Command(OpenSingleProductPage);
     }
 
     public override async void OnViewAppearing(object sender, EventArgs args)
     {
         await UpdateProducts();
     }
-    
-    public async Task OpenSearchPage()
+
+    private async void OpenSingleProductPage(object id)
+    {
+        await Navigation.PushAsync(ViewNames.SingleProductView, id);
+    }
+
+    private async void OpenSearchPage(object o)
     {
         try
         {
@@ -60,6 +67,7 @@ public class DashboardViewModel : BaseViewModel
                 Properties = SelectedProperty is {Id: > 0}
                     ? new List<int>() {SelectedProperty.Id}
                     : null,*/
+                //TODO
             };
             var productRequestQueryJson =
                 HttpUtility.UrlEncode(JsonSerializer.Serialize(productRequestDto, CustomJsonSerializerOptions.Options));
@@ -76,6 +84,19 @@ public class DashboardViewModel : BaseViewModel
                     {
                         SearchString = SearchString ?? "",
                         Products = productsFiltered
+                            .Select(p => new ProductResponseDto()
+                            {
+                                Id = p.Id,
+                                Name = p.Name,
+                                Cost = p.Cost,
+                                Discount = p.Discount,
+                                Rating = p.Rating,
+                                Seller = p.Seller,
+                                Description = p.Description?.Substring(0, 65) + "...",
+                                Images = p.Images,
+                                Genres = p.Genres,
+                                Properties = p.Properties
+                            })
                     });
 
             }

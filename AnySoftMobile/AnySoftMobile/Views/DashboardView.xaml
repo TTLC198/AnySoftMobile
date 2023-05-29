@@ -51,17 +51,13 @@
                                 <ui:MaterialTextField
                                     LeadingIcon="magnify.png"
                                     HorizontalOptions="FillAndExpand"
-                                    VerticalOptions="CenterAndExpand"
+                                    VerticalOptions="FillAndExpand"
                                     LeadingIconTintColor="{StaticResource PrimaryColor}"
                                     TextColor="{StaticResource PrimaryColor}"
                                     PlaceholderColor="{StaticResource SecondaryColor}"
-                                    TintColor="{StaticResource SecondaryColor}"
-                                    UnderlineColor="{StaticResource SecondaryColor}"
-                                    FloatingPlaceholderColor="{StaticResource SecondaryColor}"
-                                    HelperTextColor="{StaticResource SecondaryColor}"
                                     CardBackgroundColor="Transparent"
+                                    IsSpellCheckEnabled="False"
                                     FloatingPlaceholderEnabled="False"
-                                    IsTextPredictionEnabled="True"
                                     AlwaysShowUnderline="False"
                                     ShouldAnimateUnderline="False"
                                     BackgroundColor="Transparent"
@@ -99,6 +95,8 @@
                                         BackgroundColor="{StaticResource UiElementsColor}"
                                         Elevation="1"
                                         IsClickable="True"
+                                        ClickCommand="{Binding BindingContext.OnProductViewEntered, Source={x:RelativeSource Mode=FindAncestor, AncestorType={x:Type views:BaseDashboardView}}}"
+                                        ClickCommandParameter="{Binding Id}"
                                         HorizontalOptions="Center">
                                         <ui:MaterialCard.Content>
                                             <StackLayout
@@ -119,7 +117,7 @@
                                                         IsClippedToBounds="True">
                                                         <Image
                                                             HeightRequest="{Binding Height, Source={x:Reference ProductDescriptionLayout}}"
-                                                            WidthRequest="{Binding Height}"
+                                                            WidthRequest="{Binding Height, Source={RelativeSource Self}}"
                                                             Aspect="AspectFill"
                                                             Source="{Binding Images[0], Converter={x:Static converters:UrlToImageConverter.Instance}}" />
                                                     </Frame>
