@@ -48,7 +48,6 @@
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
-        <PackageReference Include="XF.Material" Version="1.8.0" />
     </ItemGroup>
     <ItemGroup>
         <Compile Include="Core\PlatformContainer.cs" />
@@ -59,14 +58,17 @@
     <ItemGroup>
         <AndroidAsset Include="Assets\Fonts\Outfit-Regular.ttf" />
         <AndroidAsset Include="Assets\Fonts\Outfit-Bold.ttf" />
-        <Content Include="Assets\Images\book.svg" />
-        <Content Include="Assets\Images\controller.svg" />
-        <Content Include="Assets\Images\view-grid.svg" />
         <None Include="Resources\AboutResources.txt" />
         <None Include="Assets\AboutAssets.txt" />
         <None Include="Properties\AndroidManifest.xml" />
     </ItemGroup>
     <ItemGroup>
+        <AndroidResource Include="Resources\drawable-hdpi\arrowleftbold.png" />
+        <AndroidResource Include="Resources\drawable-hdpi\book.png" />
+        <AndroidResource Include="Resources\drawable-hdpi\controller.png" />
+        <AndroidResource Include="Resources\drawable-hdpi\magnify.png" />
+        <AndroidResource Include="Resources\drawable-hdpi\star.png" />
+        <AndroidResource Include="Resources\drawable-hdpi\viewdashboard.png" />
         <AndroidResource Include="Resources\layout\Tabbar.axml" />
         <AndroidResource Include="Resources\layout\Toolbar.axml" />
         <AndroidResource Include="Resources\values\styles.xml" />
