@@ -13,22 +13,15 @@ public class WebApiService
     {  
         ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;  
         var apiUrl = App.ApiUrl + url;
-        try
-        {
-            using var client = new HttpClient();
-            if (authorizatonToken != string.Empty)
-                client.DefaultRequestHeaders.Add("Authorization", $"Bearer {authorizatonToken}");
-            client.BaseAddress = new Uri(apiUrl);  
-            client.Timeout = TimeSpan.FromSeconds(900);  
-            client.DefaultRequestHeaders.Accept.Clear();  
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));  
-            var response = await client.GetAsync(apiUrl);   
-            return response;
-        }
-        catch
-        {
-            throw;
-        }
+        using var client = new HttpClient();
+        if (authorizatonToken != string.Empty)
+            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {authorizatonToken}");
+        client.BaseAddress = new Uri(apiUrl);  
+        client.Timeout = TimeSpan.FromSeconds(900);  
+        client.DefaultRequestHeaders.Accept.Clear();  
+        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));  
+        var response = await client.GetAsync(apiUrl);   
+        return response;
     } 
     
     public static async Task<HttpResponseMessage> PostCall<T>(
@@ -39,22 +32,15 @@ public class WebApiService
     {
         var apiUrl = App.ApiUrl + url;
         ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-        try
-        {
-            using var client = new HttpClient();
-            if (authorizationToken is not null)
-                client.DefaultRequestHeaders.Add("Authorization", $"Bearer {authorizationToken}");
-            client.BaseAddress = new Uri(apiUrl);  
-            client.Timeout = TimeSpan.FromSeconds(900);  
-            client.DefaultRequestHeaders.Accept.Clear();  
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(contentType ??= "application/json"));  
-            var response = await client.PostAsJsonAsync(apiUrl, model);  
-            return response;
-        }
-        catch
-        {
-            throw;
-        }
+        using var client = new HttpClient();
+        if (authorizationToken is not null)
+            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {authorizationToken}");
+        client.BaseAddress = new Uri(apiUrl);  
+        client.Timeout = TimeSpan.FromSeconds(900);  
+        client.DefaultRequestHeaders.Accept.Clear();  
+        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(contentType ??= "application/json"));  
+        var response = await client.PostAsJsonAsync(apiUrl, model);  
+        return response;
     }  
     
     public static async Task<HttpResponseMessage> PostCall(
@@ -65,22 +51,15 @@ public class WebApiService
     {
         var apiUrl = App.ApiUrl + url;
         ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-        try
-        {
-            using var client = new HttpClient();
-            if (authorizationToken is not null)
-                client.DefaultRequestHeaders.Add("Authorization", $"Bearer {authorizationToken}");
-            client.BaseAddress = new Uri(apiUrl);  
-            client.Timeout = TimeSpan.FromSeconds(900);  
-            client.DefaultRequestHeaders.Accept.Clear();  
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(contentType ??= "application/json"));  
-            var response = await client.PostAsync(apiUrl, content);  
-            return response;
-        }
-        catch
-        {
-            throw;
-        }
+        using var client = new HttpClient();
+        if (authorizationToken is not null)
+            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {authorizationToken}");
+        client.BaseAddress = new Uri(apiUrl);  
+        client.Timeout = TimeSpan.FromSeconds(900);  
+        client.DefaultRequestHeaders.Accept.Clear();  
+        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(contentType ??= "application/json"));  
+        var response = await client.PostAsync(apiUrl, content);  
+        return response;
     }  
     
     public static async Task<HttpResponseMessage> PutCall<T>(
@@ -90,22 +69,15 @@ public class WebApiService
     {  
         ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;  
         var apiUrl = App.ApiUrl + url;
-        try
-        {
-            using var client = new HttpClient();
-            if (authorizationToken is not null)
-                client.DefaultRequestHeaders.Add("Authorization", $"Bearer {authorizationToken}");
-            client.BaseAddress = new Uri(apiUrl);  
-            client.Timeout = TimeSpan.FromSeconds(900);  
-            client.DefaultRequestHeaders.Accept.Clear();  
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));  
-            var response = await client.PutAsJsonAsync(apiUrl, model); 
-            return response;
-        }
-        catch
-        {
-            throw;
-        }
+        using var client = new HttpClient();
+        if (authorizationToken is not null)
+            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {authorizationToken}");
+        client.BaseAddress = new Uri(apiUrl);  
+        client.Timeout = TimeSpan.FromSeconds(900);  
+        client.DefaultRequestHeaders.Accept.Clear();  
+        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));  
+        var response = await client.PutAsJsonAsync(apiUrl, model); 
+        return response;
     }  
     
     public static async Task<HttpResponseMessage> DeleteCall(
