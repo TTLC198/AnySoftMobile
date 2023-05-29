@@ -7,15 +7,17 @@ using AnySoftMobile.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace AnySoftMobile.Views
+namespace AnySoftMobile.Views;
+
+[XamlCompilation(XamlCompilationOptions.Compile)]
+public partial class SingleProductView : BaseSingleProductView
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class SingleProductView : ContentPage
+    public SingleProductView(SingleProductViewModel singleProductViewModel)
     {
-        public SingleProductView()
-        {
-            InitializeComponent();
-            BindingContext = new SingleProductViewModel();
-        }
+        InitializeComponent();
     }
+}
+
+public abstract class BaseSingleProductView : BaseView<SingleProductViewModel>
+{
 }
