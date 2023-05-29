@@ -8,17 +8,78 @@
     xmlns:converters="clr-namespace:AnySoftMobile.Utils.Converters;assembly=AnySoftMobile"
     x:Class="AnySoftMobile.Views.MultipleProductsView"
     x:Name="Root"
-    Title="AnySoft"
+    Title="{Binding SearchString}"
     BackgroundColor="{StaticResource BackgroundColor}"
     ui:MaterialNavigationPage.AppBarColor="{StaticResource BackgroundColor}"
     ui:MaterialNavigationPage.AppBarTitleTextAlignment="Start"
     ui:MaterialNavigationPage.AppBarTitleTextFontFamily="{StaticResource FontFamily.OutfitBold}"
     ui:MaterialNavigationPage.AppBarTitleTextFontSize="14"
     ui:MaterialNavigationPage.StatusBarColor="{StaticResource UiElementsColor}"
-    NavigationPage.HasNavigationBar="False">
+    NavigationPage.HasNavigationBar="True">
     <views:BaseMultipleProductsView.Content>
-        <StackLayout>
-            
-        </StackLayout>
+        <ScrollView>
+            <ListView
+                ItemsSource="{Binding Products}"
+                VerticalOptions="FillAndExpand">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ui:MaterialCard
+                                MinimumHeightRequest="310"
+                                CornerRadius="15"
+                                BackgroundColor="{StaticResource UiElementsColor}"
+                                Elevation="1"
+                                IsClickable="True"
+                                HorizontalOptions="FillAndExpand">
+                                <ui:MaterialCard.Content>
+                                    <StackLayout
+                                        Orientation="Vertical">
+                                        <Frame
+                                            CornerRadius="15"
+                                            Padding="0"
+                                            IsClippedToBounds="True">
+                                            <Image
+                                                Aspect="AspectFit"
+                                                Source="{Binding Images[1], Converter={x:Static converters:UrlToImageConverter.Instance}}" />
+                                        </Frame>
+                                        <FlexLayout
+                                            HorizontalOptions="Start">
+                                            <Frame
+                                                CornerRadius="15"
+                                                Padding="0"
+                                                IsClippedToBounds="True">
+                                                <Image
+                                                    HeightRequest="{Binding Height, Source={x:Reference ProductDescriptionLayout}}"
+                                                    WidthRequest="{Binding Height}"
+                                                    Aspect="AspectFill"
+                                                    Source="{Binding Images[0], Converter={x:Static converters:UrlToImageConverter.Instance}}" />
+                                            </Frame>
+                                            <StackLayout
+                                                x:Name="ProductDescriptionLayout"
+                                                Margin="7, 0, 0, 0"
+                                                VerticalOptions="StartAndExpand"
+                                                Orientation="Vertical"
+                                                HorizontalOptions="Fill">
+                                                <ui:MaterialLabel
+                                                    TextColor="{StaticResource PrimaryColor}"
+                                                    VerticalTextAlignment="Center"
+                                                    Text="{Binding Name}"
+                                                    TypeScale="H6" />
+                                                <ui:MaterialLabel
+                                                    TextColor="{StaticResource SecondaryColor}"
+                                                    VerticalTextAlignment="Start"
+                                                    LineHeight="1"
+                                                    Text="{Binding Description, StringFormat='{0,15}'}"
+                                                    TypeScale="Subtitle1" />
+                                            </StackLayout>
+                                        </FlexLayout>
+                                    </StackLayout>
+                                </ui:MaterialCard.Content>
+                            </ui:MaterialCard>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </ScrollView>
     </views:BaseMultipleProductsView.Content>
 </views:BaseMultipleProductsView>
