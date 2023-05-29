@@ -17,69 +17,88 @@
     ui:MaterialNavigationPage.StatusBarColor="{StaticResource UiElementsColor}"
     NavigationPage.HasNavigationBar="True">
     <views:BaseMultipleProductsView.Content>
-        <ScrollView>
-            <ListView
-                ItemsSource="{Binding Products}"
-                VerticalOptions="FillAndExpand">
-                <ListView.ItemTemplate>
+        <ScrollView
+            VerticalOptions="FillAndExpand"
+            VerticalScrollBarVisibility="Always">
+            <StackLayout
+                BindableLayout.ItemsSource="{Binding Products}">
+                <BindableLayout.ItemTemplate>
                     <DataTemplate>
-                        <ViewCell>
-                            <ui:MaterialCard
-                                MinimumHeightRequest="310"
-                                CornerRadius="15"
-                                BackgroundColor="{StaticResource UiElementsColor}"
-                                Elevation="1"
-                                IsClickable="True"
-                                HorizontalOptions="FillAndExpand">
-                                <ui:MaterialCard.Content>
-                                    <StackLayout
-                                        Orientation="Vertical">
+                        <ui:MaterialCard
+                            Margin="5"
+                            HeightRequest="350"
+                            CornerRadius="15"
+                            BackgroundColor="{StaticResource UiElementsColor}"
+                            Elevation="1"
+                            IsClickable="True"
+                            HorizontalOptions="FillAndExpand">
+                            <ui:MaterialCard.Content>
+                                <StackLayout
+                                    Orientation="Vertical">
+                                    <Frame
+                                        CornerRadius="15"
+                                        Padding="0"
+                                        IsClippedToBounds="True">
+                                        <Image
+                                            Aspect="AspectFit"
+                                            Source="{Binding Images[1], Converter={x:Static converters:UrlToImageConverter.Instance}}" />
+                                    </Frame>
+                                    <FlexLayout
+                                        HorizontalOptions="Start">
                                         <Frame
                                             CornerRadius="15"
                                             Padding="0"
                                             IsClippedToBounds="True">
                                             <Image
-                                                Aspect="AspectFit"
-                                                Source="{Binding Images[1], Converter={x:Static converters:UrlToImageConverter.Instance}}" />
+                                                HeightRequest="{Binding Height, Source={x:Reference ProductDescriptionLayout}}"
+                                                WidthRequest="{Binding Height, Source={RelativeSource Self}}"
+                                                Aspect="AspectFill"
+                                                Source="{Binding Images[0], Converter={x:Static converters:UrlToImageConverter.Instance}}" />
                                         </Frame>
-                                        <FlexLayout
-                                            HorizontalOptions="Start">
-                                            <Frame
-                                                CornerRadius="15"
-                                                Padding="0"
-                                                IsClippedToBounds="True">
-                                                <Image
-                                                    HeightRequest="{Binding Height, Source={x:Reference ProductDescriptionLayout}}"
-                                                    WidthRequest="{Binding Height}"
-                                                    Aspect="AspectFill"
-                                                    Source="{Binding Images[0], Converter={x:Static converters:UrlToImageConverter.Instance}}" />
-                                            </Frame>
+                                        <StackLayout
+                                            x:Name="ProductDescriptionLayout"
+                                            Margin="7, 0, 0, 0"
+                                            VerticalOptions="StartAndExpand"
+                                            Orientation="Vertical"
+                                            HorizontalOptions="Fill">
+                                            <ui:MaterialLabel
+                                                TextColor="{StaticResource PrimaryColor}"
+                                                VerticalTextAlignment="Center"
+                                                Text="{Binding Name}"
+                                                TypeScale="H6" />
+                                            <ui:MaterialLabel
+                                                TextColor="{StaticResource SecondaryColor}"
+                                                VerticalTextAlignment="Start"
+                                                LineHeight="1"
+                                                Text="{Binding Description, StringFormat='{0,15}'}"
+                                                TypeScale="Subtitle1" />
                                             <StackLayout
-                                                x:Name="ProductDescriptionLayout"
-                                                Margin="7, 0, 0, 0"
-                                                VerticalOptions="StartAndExpand"
-                                                Orientation="Vertical"
-                                                HorizontalOptions="Fill">
+                                                Orientation="Horizontal">
                                                 <ui:MaterialLabel
-                                                    TextColor="{StaticResource PrimaryColor}"
-                                                    VerticalTextAlignment="Center"
-                                                    Text="{Binding Name}"
-                                                    TypeScale="H6" />
-                                                <ui:MaterialLabel
+                                                    Padding="0"
+                                                    Margin="0"
+                                                    HorizontalOptions="Start"
                                                     TextColor="{StaticResource SecondaryColor}"
                                                     VerticalTextAlignment="Start"
                                                     LineHeight="1"
-                                                    Text="{Binding Description, StringFormat='{0,15}'}"
-                                                    TypeScale="Subtitle1" />
+                                                    Text="{Binding Rating}"
+                                                    TypeScale="Body1" />
+                                                <ui:MaterialIcon
+                                                    Margin="0"
+                                                    HorizontalOptions="Start"
+                                                    WidthRequest="15"
+                                                    HeightRequest="15"
+                                                    Source="star.png"
+                                                    TintColor="{StaticResource SecondaryColor}"/>
                                             </StackLayout>
-                                        </FlexLayout>
-                                    </StackLayout>
-                                </ui:MaterialCard.Content>
-                            </ui:MaterialCard>
-                        </ViewCell>
+                                        </StackLayout>
+                                    </FlexLayout>
+                                </StackLayout>
+                            </ui:MaterialCard.Content>
+                        </ui:MaterialCard>
                     </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                </BindableLayout.ItemTemplate>
+            </StackLayout>
         </ScrollView>
     </views:BaseMultipleProductsView.Content>
 </views:BaseMultipleProductsView>
