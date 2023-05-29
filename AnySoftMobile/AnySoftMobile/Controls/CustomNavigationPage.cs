@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using AnySoftMobile.Utils;
 using AnySoftMobile.ViewModels;
+using AnySoftMobile.Views;
 using Xamarin.Forms;
 using XF.Material.Forms.UI;
 
@@ -12,7 +13,7 @@ namespace AnySoftMobile.Controls
     {
         private object _currentNavigationParameter;
 
-        public CustomNavigationPage(string rootViewName, object parameter = null) : base(ViewFactory.GetView(rootViewName))
+        public CustomNavigationPage(string rootViewName, object parameter = null!) : base(ViewFactory.GetView(rootViewName))
         {
             _currentNavigationParameter = parameter;
         }
@@ -22,14 +23,14 @@ namespace AnySoftMobile.Controls
             await Navigation.PopAsync(true);
         }
 
-        public async Task PushViewAsync(string rootViewName, object parameter = null)
+        public async Task PushViewAsync(string rootViewName, object parameter = null!)
         {
             _currentNavigationParameter = parameter;
             var view = ViewFactory.GetView(rootViewName);
             await Navigation.PushAsync(view, true);
         }
 
-        public async Task PushModalAsync(string rootViewName, object parameter = null)
+        public async Task PushModalAsync(string rootViewName, object parameter = null!)
         {
             _currentNavigationParameter = parameter;
             var view = ViewFactory.GetView(rootViewName);
