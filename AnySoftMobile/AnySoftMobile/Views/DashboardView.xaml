@@ -18,25 +18,28 @@
     NavigationPage.HasNavigationBar="False">
     <views:BaseDashboardView.Content>
         <StackLayout>
-            <StackLayout
-                Orientation="Horizontal"
-                VerticalOptions="Start"
-                HeightRequest="40"
-                Padding="15, 15, 15, 5">
-                <!-- top controls -->
-                <Frame
-                    Padding="0"
-                    IsClippedToBounds="True"
-                    CornerRadius="15"
-                    VerticalOptions="FillAndExpand"
-                    HorizontalOptions="FillAndExpand"
-                    BackgroundColor="{StaticResource UiElementsColor}">
+            <ScrollView>
+                <StackLayout
+                    VerticalOptions="FillAndExpand">
                     <StackLayout
                         Orientation="Horizontal"
-                        VerticalOptions="Center"
-                        HorizontalOptions="FillAndExpand"
-                        Padding="0">
-                        <!--
+                        VerticalOptions="Start"
+                        HeightRequest="40"
+                        Padding="15, 15, 15, 5">
+                        <!-- top controls -->
+                        <Frame
+                            Padding="0"
+                            IsClippedToBounds="True"
+                            CornerRadius="15"
+                            VerticalOptions="FillAndExpand"
+                            HorizontalOptions="FillAndExpand"
+                            BackgroundColor="{StaticResource UiElementsColor}">
+                            <StackLayout
+                                Orientation="Horizontal"
+                                VerticalOptions="Center"
+                                HorizontalOptions="FillAndExpand"
+                                Padding="0">
+                                <!--
                         <ui:MaterialIconButton
                             HorizontalOptions="Start"
                             VerticalOptions="CenterAndExpand"
@@ -45,31 +48,28 @@
                             Image="magnify.png"
                             BackgroundColor="{StaticResource UiElementsColor}" 
                             HeightRequest="25"/>-->
-                        <ui:MaterialTextField
-                            LeadingIcon="magnify.png"
-                            HorizontalOptions="FillAndExpand"
-                            VerticalOptions="Center"
-                            LeadingIconTintColor="{StaticResource PrimaryColor}"
-                            TextColor="{StaticResource PrimaryColor}"
-                            PlaceholderColor="{StaticResource SecondaryColor}"
-                            TintColor="{StaticResource SecondaryColor}"
-                            UnderlineColor="{StaticResource SecondaryColor}"
-                            FloatingPlaceholderColor="{StaticResource SecondaryColor}"
-                            HelperTextColor="{StaticResource SecondaryColor}"
-                            CardBackgroundColor="Transparent"
-                            FloatingPlaceholderEnabled="False"
-                            IsTextPredictionEnabled="True"
-                            AlwaysShowUnderline="False"
-                            ShouldAnimateUnderline="False"
-                            BackgroundColor="Transparent"
-                            Placeholder="Search something..."
-                            InputType="Text" />
+                                <ui:MaterialTextField
+                                    LeadingIcon="magnify.png"
+                                    HorizontalOptions="FillAndExpand"
+                                    VerticalOptions="CenterAndExpand"
+                                    LeadingIconTintColor="{StaticResource PrimaryColor}"
+                                    TextColor="{StaticResource PrimaryColor}"
+                                    PlaceholderColor="{StaticResource SecondaryColor}"
+                                    TintColor="{StaticResource SecondaryColor}"
+                                    UnderlineColor="{StaticResource SecondaryColor}"
+                                    FloatingPlaceholderColor="{StaticResource SecondaryColor}"
+                                    HelperTextColor="{StaticResource SecondaryColor}"
+                                    CardBackgroundColor="Transparent"
+                                    FloatingPlaceholderEnabled="False"
+                                    IsTextPredictionEnabled="True"
+                                    AlwaysShowUnderline="False"
+                                    ShouldAnimateUnderline="False"
+                                    BackgroundColor="Transparent"
+                                    Placeholder="Search something..."
+                                    InputType="Text" />
+                            </StackLayout>
+                        </Frame>
                     </StackLayout>
-                </Frame>
-            </StackLayout>
-            <ScrollView>
-                <StackLayout
-                    VerticalOptions="CenterAndExpand">
                     <!--Products list-->
                     <StackLayout
                         VerticalOptions="Start">
@@ -77,12 +77,17 @@
                             IsBounceEnabled="True"
                             ItemsSource="{Binding Products}"
                             PeekAreaInsets="15"
-                            VerticalOptions="FillAndExpand"
-                            HorizontalOptions="FillAndExpand">
+                            HorizontalOptions="FillAndExpand"
+                            HorizontalScrollBarVisibility="Never"
+                            VerticalScrollBarVisibility="Never"
+                            MinimumHeightRequest="310"
+                            HeightRequest="310"
+                            Loop="False">
                             <CarouselView.ItemsLayout>
                                 <LinearItemsLayout
                                     Orientation="Horizontal"
-                                    ItemSpacing="5" />
+                                    ItemSpacing="5" 
+                                    SnapPointsType="MandatorySingle"/>
                             </CarouselView.ItemsLayout>
                             <CarouselView.ItemTemplate>
                                 <DataTemplate>
@@ -91,8 +96,7 @@
                                         BackgroundColor="{StaticResource UiElementsColor}"
                                         Elevation="1"
                                         IsClickable="True"
-                                        VerticalOptions="FillAndExpand"
-                                        HorizontalOptions="FillAndExpand">
+                                        HorizontalOptions="Center">
                                         <ui:MaterialCard.Content>
                                             <StackLayout
                                                 Orientation="Vertical">
@@ -119,15 +123,18 @@
                                                     <StackLayout
                                                         x:Name="ProductDescriptionLayout"
                                                         Margin="7, 0, 0, 0"
-                                                        VerticalOptions="Center"
+                                                        VerticalOptions="StartAndExpand"
                                                         Orientation="Vertical"
                                                         HorizontalOptions="Fill">
                                                         <ui:MaterialLabel
+                                                            TextColor="{StaticResource PrimaryColor}"
                                                             VerticalTextAlignment="Center"
                                                             Text="{Binding Name}"
                                                             TypeScale="H6" />
                                                         <ui:MaterialLabel
-                                                            VerticalTextAlignment="Center"
+                                                            TextColor="{StaticResource SecondaryColor}"
+                                                            VerticalTextAlignment="Start"
+                                                            LineHeight="1"
                                                             Text="{Binding Description, StringFormat='{0,15}'}"
                                                             TypeScale="Subtitle1" />
                                                     </StackLayout>
@@ -143,7 +150,7 @@
             </ScrollView>
             <StackLayout
                 HeightRequest="100"
-                VerticalOptions="End"
+                VerticalOptions="EndAndExpand"
                 BackgroundColor="{StaticResource UiElementsColor}">
                 <FlexLayout
                     JustifyContent="SpaceEvenly"
