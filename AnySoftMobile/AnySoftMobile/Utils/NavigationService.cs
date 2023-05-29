@@ -1,5 +1,7 @@
 ﻿using System.Threading.Tasks;
 using AnySoftMobile.Controls;
+using AnySoftMobile.ViewModels;
+using AnySoftMobile.Views;
 using Xamarin.Forms;
 
 namespace AnySoftMobile.Utils
@@ -10,22 +12,22 @@ namespace AnySoftMobile.Utils
 
         public async Task PopAsync()
         {
-            await _currentNavigationPage?.PopViewAsync();
+            await _currentNavigationPage?.PopViewAsync()!;
         }
 
-        public async Task PushAsync(string viewName, object parameter = null)
+        public async Task PushAsync(string viewName, object parameter = null!)
         {
-            await _currentNavigationPage?.PushViewAsync(viewName, parameter);
+            await _currentNavigationPage?.PushViewAsync(viewName, parameter)!;
         }
 
-        public async Task PushModalAsync(string viewName, object parameter = null)
+        public async Task PushModalAsync(string viewName, object parameter = null!)
         {
-            await _currentNavigationPage?.PushModalAsync(viewName, parameter);
+            await _currentNavigationPage?.PushModalAsync(viewName, parameter)!;
         }
 
         public async Task PopModalAsync()
         {
-            await _currentNavigationPage?.PopModalAsync();
+            await _currentNavigationPage?.PopModalAsync()!;
         }
 
         public void SetRootView(string rootViewName, object parameter = null)
