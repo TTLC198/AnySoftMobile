@@ -63,9 +63,12 @@
         <None Include="Properties\AndroidManifest.xml" />
     </ItemGroup>
     <ItemGroup>
+        <AndroidResource Include="Resources\drawable-hdpi\account.png" />
+        <AndroidResource Include="Resources\drawable-hdpi\arrowrightbold.png" />
         <AndroidResource Include="Resources\drawable-hdpi\arrowleftbold.png" />
         <AndroidResource Include="Resources\drawable-hdpi\book.png" />
         <AndroidResource Include="Resources\drawable-hdpi\controller.png" />
+        <AndroidResource Include="Resources\drawable-hdpi\login.png" />
         <AndroidResource Include="Resources\drawable-hdpi\magnify.png" />
         <AndroidResource Include="Resources\drawable-hdpi\star.png" />
         <AndroidResource Include="Resources\drawable-hdpi\viewdashboard.png" />

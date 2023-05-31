@@ -17,7 +17,7 @@ namespace AnySoftMobile
             InitializeComponent();
             XF.Material.Forms.Material.Use("Material.Style");
 
-            navigationService.SetRootView(ViewNames.DashboardView);
+            navigationService.SetRootView(ViewNames.MainView);
         }
 
         protected override void OnStart()
@@ -38,9 +38,9 @@ namespace AnySoftMobile
     
     public partial class App
     {
-        public static string CdnUrl { get; } = "https://157e-91-245-37-31.ngrok-free.app/";
+        public static string CdnUrl { get; } = "https://0353-91-245-37-31.ngrok-free.app/";
         
-        public static string ApiUrl { get; } = "https://157e-91-245-37-31.ngrok-free.app/";
+        public static string ApiUrl { get; } = "https://0353-91-245-37-31.ngrok-free.app/";
 
         public static ApplicationUser ApplicationUser { get; set; } = new ApplicationUser();
     }
