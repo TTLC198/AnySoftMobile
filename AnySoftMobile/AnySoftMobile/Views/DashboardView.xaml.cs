@@ -17,6 +17,11 @@ public partial class DashboardView : BaseDashboardView
     {
         InitializeComponent();
     }
+
+    public DashboardView()
+    {
+        InitializeComponent();
+    }
 }
 
 public abstract class BaseDashboardView : BaseView<DashboardViewModel>

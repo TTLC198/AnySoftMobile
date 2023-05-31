@@ -34,12 +34,15 @@ public class DashboardViewModel : BaseViewModel
     
     public ICommand OnSearchBarTextEntered { get; set; }
     public ICommand OnProductViewEntered { get; set; }
+    
+    public ICommand OnLoginViewEntered { get; set; }
 
     public DashboardViewModel(IJobDialogService dialogService)
     {
         _dialogService = dialogService;
         OnSearchBarTextEntered = new Command(OpenSearchPage);
         OnProductViewEntered = new Command(OpenSingleProductPage);
+        OnLoginViewEntered = new Command(OpenLoginPage);
     }
 
     public override async void OnViewAppearing(object sender, EventArgs args)
@@ -50,6 +53,11 @@ public class DashboardViewModel : BaseViewModel
     private async void OpenSingleProductPage(object id)
     {
         await Navigation.PushAsync(ViewNames.SingleProductView, id);
+    }
+    
+    private async void OpenLoginPage()
+    {
+        await Navigation.PushAsync(ViewNames.LoginView);
     }
 
     private async void OpenSearchPage(object o)

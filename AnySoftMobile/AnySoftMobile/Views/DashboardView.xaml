@@ -76,7 +76,8 @@
                                         TintColor="{StaticResource PrimaryColor}"
                                         Image="login.png"
                                         BackgroundColor="Transparent" 
-                                        HeightRequest="20"/>
+                                        HeightRequest="20"
+                                        Command="{Binding OnLoginViewEntered}"/>
                                 </Grid>
                             </StackLayout>
                         </Frame>
