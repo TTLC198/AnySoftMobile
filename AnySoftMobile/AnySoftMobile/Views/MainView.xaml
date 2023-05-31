@@ -1,22 +1,33 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
-<views:BaseMainView xmlns="http://xamarin.com/schemas/2014/forms"
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
              xmlns:views="clr-namespace:AnySoftMobile.Views;assembly=AnySoftMobile"
              xmlns:ui="clr-namespace:XF.Material.Forms.UI;assembly=XF.Material"
              x:Class="AnySoftMobile.Views.MainView"
              x:Name="Root"
              Title="AnySoft"
-             ui:MaterialNavigationPage.AppBarColor="#2c3e50"
+             BackgroundColor="{StaticResource BackgroundColor}"
+             ui:MaterialNavigationPage.AppBarColor="{StaticResource BackgroundColor}"
              ui:MaterialNavigationPage.AppBarTitleTextAlignment="Start"
              ui:MaterialNavigationPage.AppBarTitleTextFontFamily="{StaticResource FontFamily.OutfitBold}"
              ui:MaterialNavigationPage.AppBarTitleTextFontSize="14"
-             ui:MaterialNavigationPage.StatusBarColor="#1B3147"
+             ui:MaterialNavigationPage.StatusBarColor="{StaticResource UiElementsColor}"
+             android:TabbedPage.ToolbarPlacement="Bottom"
+             UnselectedTabColor="{StaticResource SecondaryColor}"
+             SelectedTabColor="{StaticResource PrimaryColor}"
+             BarBackgroundColor="{StaticResource UiElementsColor}"
              NavigationPage.HasNavigationBar="False">
-    <views:BaseMainView.Content>
-        <StackLayout 
-            Padding="15,15"
-            HorizontalOptions="FillAndExpand"
-            VerticalOptions="CenterAndExpand" />
-    </views:BaseMainView.Content>
-</views:BaseMainView>
+    <TabbedPage.Children>
+        <views:DashboardView
+            IconImageSource="viewdashboard.png"
+            Title=""/>
+        <views:DashboardView
+            IconImageSource="controller.png"
+            Title=""/>
+        <views:DashboardView
+            IconImageSource="book.png"
+            Title=""/>
+    </TabbedPage.Children>
+</TabbedPage>
