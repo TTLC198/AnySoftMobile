@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<views:BaseLoginView
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:AnySoftMobile.Views;assembly=AnySoftMobile"
+    xmlns:ui="clr-namespace:XF.Material.Forms.UI;assembly=XF.Material"
+    x:Class="AnySoftMobile.Views.LoginView"
+    x:Name="Root"
+    Title="Login page"
+    BackgroundColor="{StaticResource BackgroundColor}"
+    ui:MaterialNavigationPage.AppBarColor="{StaticResource BackgroundColor}"
+    ui:MaterialNavigationPage.AppBarTitleTextAlignment="Start"
+    ui:MaterialNavigationPage.AppBarTitleTextFontFamily="{StaticResource FontFamily.OutfitBold}"
+    ui:MaterialNavigationPage.AppBarTitleTextFontSize="14"
+    ui:MaterialNavigationPage.StatusBarColor="{StaticResource UiElementsColor}"
+    NavigationPage.HasNavigationBar="True">
+    <views:BaseLoginView.Resources>
+        <Style
+            TargetType="ui:MaterialTextField">
+            <Setter
+                Property="LeadingIconTintColor"
+                Value="{StaticResource PrimaryColor}"/>
+            <Setter
+                Property="PlaceholderColor"
+                Value="{StaticResource SecondaryColor}"/>
+            <Setter
+                Property="UnderlineColor"
+                Value="{StaticResource PrimaryColor}"/>
+            <Setter
+                Property="TintColor"
+                Value="{StaticResource PrimaryColor}"/>
+            <Setter
+                Property="TextColor"
+                Value="{StaticResource PrimaryColor}"/>
+            <Setter
+                Property="FloatingPlaceholderColor"
+                Value="{StaticResource SecondaryColor}"/>
+            <Setter
+                Property="CardBackgroundColor"
+                Value="Transparent"/>
+            <Setter
+                Property="AlwaysShowUnderline"
+                Value="True"/>
+        </Style>
+        <Style
+            TargetType="ui:MaterialButton"
+            x:Key="LoginButtonStyle">
+            <Setter
+                Property="BackgroundColor"
+                Value="{StaticResource UiElementsColor}"/>
+            <Setter
+                Property="TextColor"
+                Value="{StaticResource PrimaryColor}"/>
+            <Setter
+                Property="CornerRadius"
+                Value="5"/>
+        </Style>
+    </views:BaseLoginView.Resources>
+    <views:BaseLoginView.Content>
+        <StackLayout
+            VerticalOptions="FillAndExpand"
+            HorizontalOptions="FillAndExpand"
+            Padding="15, 5">
+            <StackLayout
+                Orientation="Vertical"
+                VerticalOptions="StartAndExpand">
+                <ui:MaterialTextField
+                    VerticalOptions="Start"
+                    HorizontalOptions="FillAndExpand"
+                    Placeholder="Login"
+                    HelperText="Login"
+                    ErrorText="Enter valid data!"
+                    Text="{Binding UserCredentials.Login}"
+                    LeadingIcon="account.png"
+                    BackgroundColor="Transparent"
+                    InputType="Text" />
+                <ui:MaterialTextField
+                    VerticalOptions="Start"
+                    HorizontalOptions="FillAndExpand"
+                    Placeholder="Password"
+                    HelperText="Password"
+                    ErrorText="Enter valid data!"
+                    LeadingIcon="key.png"
+                    LeadingIconTintColor="{StaticResource PrimaryColor}"
+                    Text="{Binding UserCredentials.Password}"
+                    InputType="Password" />
+            </StackLayout>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition
+                        Width="*" />
+                    <ColumnDefinition
+                        Width="*" />
+                </Grid.ColumnDefinitions>
+                <ui:MaterialButton
+                    Grid.Column="0"
+                    Style="{StaticResource LoginButtonStyle}"
+                    
+                    Margin="0"
+                    Padding="0"
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="Start"
+                    ButtonType="Elevated"
+                    Text="Register"
+                    AllCaps="True"
+                    Command="{Binding OnRegisterButtonClicked}"
+                    HeightRequest="45" />
+                <ui:MaterialButton
+                    Grid.Column="1"
+                    Style="{StaticResource LoginButtonStyle}"
+                    Margin="0"
+                    Padding="0"
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="Start"
+                    ButtonType="Elevated"
+                    Text="Login"
+                    AllCaps="True"
+                    Command="{Binding OnLoginButtonClicked}"
+                    HeightRequest="45" />
+            </Grid>
+        </StackLayout>
+    </views:BaseLoginView.Content>
+</views:BaseLoginView>

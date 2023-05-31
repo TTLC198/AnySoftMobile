@@ -6,5 +6,6 @@
         public const string SingleProductView = nameof(Views.SingleProductView);
         public const string MultipleProductsView = nameof(Views.MultipleProductsView);
         public const string DashboardView = nameof(Views.DashboardView);
+        public const string LoginView = nameof(Views.LoginView);
     }
 }
