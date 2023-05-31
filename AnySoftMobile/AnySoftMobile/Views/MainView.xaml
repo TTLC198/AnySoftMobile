@@ -24,10 +24,10 @@
             IconImageSource="viewdashboard.png"
             Title=""/>
         <views:DashboardView
-            IconImageSource="controller.png"
+            IconImageSource="book.png"
             Title=""/>
         <views:DashboardView
-            IconImageSource="book.png"
+            IconImageSource="account.png"
             Title=""/>
     </TabbedPage.Children>
 </TabbedPage>

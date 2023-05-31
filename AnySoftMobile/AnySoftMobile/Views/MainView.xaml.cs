@@ -15,5 +15,6 @@ public partial class MainView : TabbedPage
     public MainView()
     {
         InitializeComponent();
+        BindingContext = new MainViewModel();
     }
 }
