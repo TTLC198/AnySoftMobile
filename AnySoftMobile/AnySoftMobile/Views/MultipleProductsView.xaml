@@ -21,16 +21,19 @@
             VerticalOptions="FillAndExpand"
             VerticalScrollBarVisibility="Always">
             <StackLayout
+                Padding="15, 5"
                 BindableLayout.ItemsSource="{Binding Products}">
                 <BindableLayout.ItemTemplate>
                     <DataTemplate>
                         <ui:MaterialCard
                             Margin="5"
-                            HeightRequest="350"
+                            HeightRequest="310"
                             CornerRadius="15"
                             BackgroundColor="{StaticResource UiElementsColor}"
                             Elevation="1"
                             IsClickable="True"
+                            ClickCommand="{Binding BindingContext.OnProductViewEntered, Source={x:RelativeSource Mode=FindAncestor, AncestorType={x:Type views:BaseMultipleProductsView}}}"
+                            ClickCommandParameter="{Binding Id}"
                             HorizontalOptions="FillAndExpand">
                             <ui:MaterialCard.Content>
                                 <StackLayout
@@ -51,7 +54,7 @@
                                             IsClippedToBounds="True">
                                             <Image
                                                 HeightRequest="{Binding Height, Source={x:Reference ProductDescriptionLayout}}"
-                                                WidthRequest="{Binding Height, Source={RelativeSource Self}}"
+                                                WidthRequest="{Binding Height}"
                                                 Aspect="AspectFill"
                                                 Source="{Binding Images[0], Converter={x:Static converters:UrlToImageConverter.Instance}}" />
                                         </Frame>
