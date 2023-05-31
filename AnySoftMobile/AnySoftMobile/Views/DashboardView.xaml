@@ -8,7 +8,6 @@
     xmlns:converters="clr-namespace:AnySoftMobile.Utils.Converters;assembly=AnySoftMobile"
     x:Class="AnySoftMobile.Views.DashboardView"
     x:Name="Root"
-    Title="AnySoft"
     BackgroundColor="{StaticResource BackgroundColor}"
     ui:MaterialNavigationPage.AppBarColor="{StaticResource BackgroundColor}"
     ui:MaterialNavigationPage.AppBarTitleTextAlignment="Start"
@@ -20,12 +19,12 @@
         <StackLayout>
             <ScrollView>
                 <StackLayout
-                    VerticalOptions="FillAndExpand">
+                    VerticalOptions="FillAndExpand"
+                    Padding="15">
                     <StackLayout
                         Orientation="Horizontal"
                         VerticalOptions="Start"
-                        HeightRequest="40"
-                        Padding="15, 15, 15, 5">
+                        HeightRequest="40">
                         <!-- top controls -->
                         <Frame
                             Padding="0"
@@ -39,15 +38,6 @@
                                 VerticalOptions="Center"
                                 HorizontalOptions="FillAndExpand"
                                 Padding="0">
-                                <!--
-                        <ui:MaterialIconButton
-                            HorizontalOptions="Start"
-                            VerticalOptions="CenterAndExpand"
-                            ButtonType="Outlined"
-                            TintColor="{StaticResource PrimaryColor}"
-                            Image="magnify.png"
-                            BackgroundColor="{StaticResource UiElementsColor}" 
-                            HeightRequest="25"/>-->
                                 <ui:MaterialTextField
                                     LeadingIcon="magnify.png"
                                     HorizontalOptions="FillAndExpand"
@@ -65,28 +55,72 @@
                                     InputType="Text" 
                                     Text="{Binding SearchString, Mode=TwoWay}"
                                     ReturnCommand="{Binding OnSearchBarTextEntered}"/>
-                                
+                                <Grid>
+                                    <Image 
+                                        IsVisible="{Binding BindingContext.IsAuthorized, Source={x:RelativeSource Mode=FindAncestor, AncestorType={x:Type views:MainView}}}"
+                                        Source="{Binding BindingContext.ApplicationUser.Image, Source={x:RelativeSource Mode=FindAncestor, AncestorType={x:Type views:MainView}}, Converter={x:Static converters:UrlToImageConverter.Instance}}"
+                                        WidthRequest="20"
+                                        HeightRequest="20">
+                                        <Image.Clip>
+                                            <EllipseGeometry                                
+                                                Center="10,10"
+                                                RadiusX="10"
+                                                RadiusY="10"/>
+                                        </Image.Clip>
+                                    </Image>
+                                    <ui:MaterialIconButton
+                                        IsVisible="{Binding BindingContext.IsAuthorized, Source={x:RelativeSource Mode=FindAncestor, AncestorType={x:Type views:MainView}}, Converter={x:Static converters:InverseBoolToBoolConverter.Instance}}"
+                                        HorizontalOptions="Center"
+                                        VerticalOptions="CenterAndExpand"
+                                        ButtonType="Elevated"
+                                        TintColor="{StaticResource PrimaryColor}"
+                                        Image="login.png"
+                                        BackgroundColor="Transparent" 
+                                        HeightRequest="20"/>
+                                </Grid>
                             </StackLayout>
                         </Frame>
                     </StackLayout>
                     <!--Products list-->
                     <StackLayout
                         VerticalOptions="Start">
+                        <StackLayout
+                            Orientation="Horizontal"
+                            HorizontalOptions="FillAndExpand">
+                            <ui:MaterialLabel
+                                TextColor="{StaticResource PrimaryColor}"
+                                VerticalOptions="FillAndExpand"
+                                HorizontalOptions="FillAndExpand"
+                                VerticalTextAlignment="Center"
+                                HorizontalTextAlignment="Start"
+                                LineHeight="1"
+                                Text="New &amp; Hot"
+                                TypeScale="Subtitle1" />
+                            <ui:MaterialIconButton
+                                HorizontalOptions="Start"
+                                VerticalOptions="CenterAndExpand"
+                                ButtonType="Outlined"
+                                TintColor="{StaticResource PrimaryColor}"
+                                Image="arrowrightbold.png"
+                                BackgroundColor="{StaticResource UiElementsColor}" 
+                                HeightRequest="20"/>
+                        </StackLayout>
                         <CarouselView
                             IsBounceEnabled="True"
                             ItemsSource="{Binding Products}"
-                            PeekAreaInsets="15"
+                            PeekAreaInsets="0,  0,25 ,0"
                             HorizontalOptions="FillAndExpand"
                             HorizontalScrollBarVisibility="Never"
                             VerticalScrollBarVisibility="Never"
                             MinimumHeightRequest="310"
                             HeightRequest="310"
-                            Loop="False">
+                            Loop="True">
                             <CarouselView.ItemsLayout>
                                 <LinearItemsLayout
                                     Orientation="Horizontal"
                                     ItemSpacing="5" 
-                                    SnapPointsType="MandatorySingle"/>
+                                    SnapPointsType="Mandatory"
+                                    SnapPointsAlignment="Center"/>
                             </CarouselView.ItemsLayout>
                             <CarouselView.ItemTemplate>
                                 <DataTemplate>
@@ -117,7 +151,7 @@
                                                         IsClippedToBounds="True">
                                                         <Image
                                                             HeightRequest="{Binding Height, Source={x:Reference ProductDescriptionLayout}}"
-                                                            WidthRequest="{Binding Height, Source={RelativeSource Self}}"
+                                                            WidthRequest="{Binding Height}"
                                                             Aspect="AspectFill"
                                                             Source="{Binding Images[0], Converter={x:Static converters:UrlToImageConverter.Instance}}" />
                                                     </Frame>
@@ -149,33 +183,6 @@
                     </StackLayout>
                 </StackLayout>
             </ScrollView>
-            <StackLayout
-                HeightRequest="100"
-                VerticalOptions="EndAndExpand"
-                BackgroundColor="{StaticResource UiElementsColor}">
-                <FlexLayout
-                    JustifyContent="SpaceEvenly"
-                    VerticalOptions="CenterAndExpand">
-                    <ui:MaterialIconButton
-                        ButtonType="Outlined"
-                        VerticalOptions="Center"
-                        TintColor="{StaticResource PrimaryColor}"
-                        Image="controller.png"
-                        BackgroundColor="{StaticResource UiElementsColor}" />
-                    <ui:MaterialIconButton
-                        ButtonType="Outlined"
-                        VerticalOptions="Center"
-                        TintColor="{StaticResource PrimaryColor}"
-                        Image="viewdashboard.png"
-                        BackgroundColor="{StaticResource UiElementsColor}" />
-                    <ui:MaterialIconButton
-                        ButtonType="Outlined"
-                        VerticalOptions="Center"
-                        TintColor="{StaticResource PrimaryColor}"
-                        Image="book.png"
-                        BackgroundColor="{StaticResource UiElementsColor}" />
-                </FlexLayout>
-            </StackLayout>
         </StackLayout>
     </views:BaseDashboardView.Content>
 </views:BaseDashboardView>
