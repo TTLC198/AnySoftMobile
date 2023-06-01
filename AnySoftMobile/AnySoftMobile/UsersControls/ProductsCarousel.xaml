@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<CarouselView
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ui="clr-namespace:XF.Material.Forms.UI;assembly=XF.Material"
+    xmlns:views="clr-namespace:AnySoftMobile.Views;assembly=AnySoftMobile"
+    xmlns:converters="clr-namespace:AnySoftMobile.Utils.Converters;assembly=AnySoftMobile"
+    x:Class="AnySoftMobile.UsersControls.ProductsCarousel"
+    IsBounceEnabled="True"
+    ItemsSource="{Binding Products}"
+    PeekAreaInsets="0,  0,25 ,0"
+    HorizontalOptions="FillAndExpand"
+    HorizontalScrollBarVisibility="Never"
+    VerticalScrollBarVisibility="Never"
+    MinimumHeightRequest="310"
+    HeightRequest="310"
+    Loop="True">
+    <CarouselView.ItemsLayout>
+        <LinearItemsLayout
+            Orientation="Horizontal"
+            ItemSpacing="5"
+            SnapPointsType="Mandatory"
+            SnapPointsAlignment="Center" />
+    </CarouselView.ItemsLayout>
+    <CarouselView.ItemTemplate>
+        <DataTemplate>
+            <ui:MaterialCard
+                CornerRadius="15"
+                BackgroundColor="{StaticResource UiElementsColor}"
+                Elevation="1"
+                IsClickable="True"
+                ClickCommand="{Binding BindingContext.OnProductViewEntered, Source={x:RelativeSource Mode=FindAncestor, AncestorType={x:Type views:BaseDashboardView}}}"
+                ClickCommandParameter="{Binding Id}"
+                HorizontalOptions="Center">
+                <ui:MaterialCard.Content>
+                    <StackLayout
+                        Orientation="Vertical">
+                        <Frame
+                            CornerRadius="15"
+                            Padding="0"
+                            IsClippedToBounds="True">
+                            <Image
+                                Aspect="AspectFit"
+                                Source="{Binding Images[1], Converter={x:Static converters:UrlToImageConverter.Instance}}" />
+                        </Frame>
+                        <FlexLayout
+                            HorizontalOptions="Start">
+                            <Frame
+                                CornerRadius="15"
+                                Padding="0"
+                                IsClippedToBounds="True">
+                                <Image
+                                    HeightRequest="{Binding Height, Source={x:Reference ProductDescriptionLayout}}"
+                                    WidthRequest="{Binding Height}"
+                                    Aspect="AspectFill"
+                                    Source="{Binding Images[0], Converter={x:Static converters:UrlToImageConverter.Instance}}" />
+                            </Frame>
+                            <StackLayout
+                                x:Name="ProductDescriptionLayout"
+                                Margin="7, 0, 0, 0"
+                                VerticalOptions="StartAndExpand"
+                                Orientation="Vertical"
+                                HorizontalOptions="Fill">
+                                <ui:MaterialLabel
+                                    TextColor="{StaticResource PrimaryColor}"
+                                    VerticalTextAlignment="Center"
+                                    Text="{Binding Name}"
+                                    TypeScale="H6" />
+                                <ui:MaterialLabel
+                                    TextColor="{StaticResource SecondaryColor}"
+                                    VerticalTextAlignment="Start"
+                                    LineHeight="1"
+                                    Text="{Binding Description, StringFormat='{0,15}'}"
+                                    TypeScale="Subtitle1" />
+                            </StackLayout>
+                        </FlexLayout>
+                    </StackLayout>
+                </ui:MaterialCard.Content>
+            </ui:MaterialCard>
+        </DataTemplate>
+    </CarouselView.ItemTemplate>
+</CarouselView>
