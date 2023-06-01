@@ -116,6 +116,29 @@
                         </StackLayout>
                         <usersControls:ProductsCarousel
                             Products="{Binding Products}"/>
+                        <StackLayout
+                            Orientation="Horizontal"
+                            HorizontalOptions="FillAndExpand">
+                            <ui:MaterialLabel
+                                TextColor="{StaticResource PrimaryColor}"
+                                VerticalOptions="FillAndExpand"
+                                HorizontalOptions="FillAndExpand"
+                                VerticalTextAlignment="Center"
+                                HorizontalTextAlignment="Start"
+                                LineHeight="1"
+                                Text="Recommended"
+                                TypeScale="Subtitle1" />
+                            <ui:MaterialIconButton
+                                HorizontalOptions="Start"
+                                VerticalOptions="CenterAndExpand"
+                                ButtonType="Outlined"
+                                TintColor="{StaticResource PrimaryColor}"
+                                Image="arrowrightbold.png"
+                                BackgroundColor="{StaticResource UiElementsColor}" 
+                                HeightRequest="20"/>
+                        </StackLayout>
+                        <usersControls:ProductsCarousel
+                            Products="{Binding Products}"/>
                     </StackLayout>
                 </StackLayout>
             </ScrollView>

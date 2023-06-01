@@ -53,6 +53,8 @@
                                 <Image
                                     HeightRequest="{Binding Height, Source={x:Reference ProductDescriptionLayout}}"
                                     WidthRequest="{Binding Height}"
+                                    MinimumHeightRequest="40"
+                                    MinimumWidthRequest="40"
                                     Aspect="AspectFill"
                                     Source="{Binding Images[0], Converter={x:Static converters:UrlToImageConverter.Instance}}" />
                             </Frame>

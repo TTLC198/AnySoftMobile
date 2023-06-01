@@ -100,7 +100,7 @@ public class DashboardViewModel : BaseViewModel
                                 Discount = p.Discount,
                                 Rating = p.Rating,
                                 Seller = p.Seller,
-                                Description = p.Description?.Substring(0, 65) + "...",
+                                Description = p.Description?.Substring(0, 55) + "...",
                                 Images = p.Images,
                                 Genres = p.Genres,
                                 Properties = p.Properties
