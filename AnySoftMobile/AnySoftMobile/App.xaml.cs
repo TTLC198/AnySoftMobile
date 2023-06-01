@@ -38,10 +38,8 @@ namespace AnySoftMobile
     
     public partial class App
     {
-        public static string CdnUrl { get; } = "https://0353-91-245-37-31.ngrok-free.app/";
+        public static string CdnUrl { get; } = "https://7807-91-245-37-31.ngrok-free.app/";
         
-        public static string ApiUrl { get; } = "https://0353-91-245-37-31.ngrok-free.app/";
-
-        public static ApplicationUser ApplicationUser { get; set; } = new ApplicationUser();
+        public static string ApiUrl { get; } = "https://7807-91-245-37-31.ngrok-free.app/";
     }
 }
