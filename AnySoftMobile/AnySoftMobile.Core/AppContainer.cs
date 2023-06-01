@@ -36,12 +36,14 @@ namespace AnySoftMobile.Core
             containerBuilder.RegisterType<MainView>().Named<Page>(ViewNames.MainView).As<MainView>().InstancePerDependency();
             containerBuilder.RegisterType<MultipleProductsView>().Named<Page>(ViewNames.MultipleProductsView).As<MultipleProductsView>().InstancePerDependency();
             containerBuilder.RegisterType<LoginView>().Named<Page>(ViewNames.LoginView).As<LoginView>().InstancePerDependency();
+            containerBuilder.RegisterType<ProfileView>().Named<Page>(ViewNames.ProfileView).As<ProfileView>().InstancePerDependency();
             
             containerBuilder.RegisterType<MultipleProductsViewModel>().InstancePerDependency();
             containerBuilder.RegisterType<SingleProductViewModel>().InstancePerDependency();
             containerBuilder.RegisterType<DashboardViewModel>().InstancePerDependency();
             containerBuilder.RegisterType<MainViewModel>().InstancePerDependency();
             containerBuilder.RegisterType<LoginViewModel>().InstancePerDependency();
+            containerBuilder.RegisterType<ProfileViewModel>().InstancePerDependency();
         }
     }
 }
