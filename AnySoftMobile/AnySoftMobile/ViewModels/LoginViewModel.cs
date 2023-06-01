@@ -14,6 +14,7 @@ using AnySoftBackend.Library.Misc;
 using AnySoftDesktop.Models;
 using AnySoftDesktop.Utils;
 using AnySoftMobile.Services;
+using AnySoftMobile.Utils;
 using Xamarin.Forms;
 using XF.Material.Forms.UI.Dialogs;
 
@@ -84,7 +85,7 @@ public class LoginViewModel : BaseViewModel
                         CustomJsonSerializerOptions.Options, cancellationToken: cancellationTokenSource.Token);
                     if (responseUserResult != null)
                     {
-                        App.ApplicationUser = new ApplicationUser()
+                        VersionManager.Instance.ApplicationUser = new ApplicationUser()
                         {
                             Id = responseUserResult.Id,
                             Login = responseUserResult.Login,
@@ -92,6 +93,7 @@ public class LoginViewModel : BaseViewModel
                             JwtToken = tokenString,
                             Image = responseUserResult.Image
                         };
+                        VersionManager.Instance.IsAuthorized = true;
                         await Navigation.PopAsync();
                     }
                 }
