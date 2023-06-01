@@ -10,6 +10,7 @@ using AnySoftBackend.Library.DataTransferObjects.Review;
 using AnySoftBackend.Library.DataTransferObjects.User;
 using AnySoftDesktop.Utils;
 using AnySoftMobile.Services;
+using AnySoftMobile.Utils;
 using XF.Material.Forms.UI.Dialogs;
 
 namespace AnySoftMobile.ViewModels
@@ -93,14 +94,14 @@ namespace AnySoftMobile.ViewModels
                         if (product is null)
                             throw new InvalidOperationException("Product is null");
                         product.Reviews?
-                            .Where(r => (r.User ?? new UserResponseDto()).Id == App.ApplicationUser?.Id)
+                            .Where(r => (r.User ?? new UserResponseDto()).Id == VersionManager.Instance.ApplicationUser?.Id)
                             .ToList()
                             .ForEach(r => r.IsOwn = true);
                         IsOwnReviewExists = product.Reviews?.Any(r => r.IsOwn) ?? false;
                         Product = product;
                     }
 
-                    var getOrdersRequest = await WebApiService.GetCall("api/orders", App.ApplicationUser?.JwtToken!);
+                    var getOrdersRequest = await WebApiService.GetCall("api/orders", VersionManager.Instance.ApplicationUser?.JwtToken!);
                     if (getOrdersRequest.IsSuccessStatusCode)
                     {
                         using (var cancellationTokenSource = new CancellationTokenSource(timeoutAfter))
@@ -119,7 +120,7 @@ namespace AnySoftMobile.ViewModels
                     }
 
                     var getProductsInCartRequest =
-                        await WebApiService.GetCall($"api/cart", App.ApplicationUser?.JwtToken!);
+                        await WebApiService.GetCall($"api/cart", VersionManager.Instance.ApplicationUser?.JwtToken!);
                     if (getProductsInCartRequest.IsSuccessStatusCode)
                     {
                         using var cancellationTokenSource = new CancellationTokenSource(timeoutAfter);
