@@ -6,6 +6,8 @@
     xmlns:views="clr-namespace:AnySoftMobile.Views;assembly=AnySoftMobile"
     xmlns:ui="clr-namespace:XF.Material.Forms.UI;assembly=XF.Material"
     xmlns:converters="clr-namespace:AnySoftMobile.Utils.Converters;assembly=AnySoftMobile"
+    xmlns:local="clr-namespace:AnySoftMobile.Utils;assembly=AnySoftMobile"
+    xmlns:usersControls="clr-namespace:AnySoftMobile.UsersControls;assembly=AnySoftMobile"
     x:Class="AnySoftMobile.Views.DashboardView"
     x:Name="Root"
     BackgroundColor="{StaticResource BackgroundColor}"
@@ -55,21 +57,12 @@
                                     InputType="Text" 
                                     Text="{Binding SearchString, Mode=TwoWay}"
                                     ReturnCommand="{Binding OnSearchBarTextEntered}"/>
-                                <Grid>
-                                    <Image 
-                                        IsVisible="{Binding BindingContext.IsAuthorized, Source={x:RelativeSource Mode=FindAncestor, AncestorType={x:Type views:MainView}}}"
-                                        Source="{Binding BindingContext.ApplicationUser.Image, Source={x:RelativeSource Mode=FindAncestor, AncestorType={x:Type views:MainView}}, Converter={x:Static converters:UrlToImageConverter.Instance}}"
-                                        WidthRequest="20"
-                                        HeightRequest="20">
-                                        <Image.Clip>
-                                            <EllipseGeometry                                
-                                                Center="10,10"
-                                                RadiusX="10"
-                                                RadiusY="10"/>
-                                        </Image.Clip>
-                                    </Image>
+                                <Grid
+                                    HorizontalOptions="EndAndExpand"
+                                    VerticalOptions="CenterAndExpand"
+                                    Margin="0, 0, 10, 0">
                                     <ui:MaterialIconButton
-                                        IsVisible="{Binding BindingContext.IsAuthorized, Source={x:RelativeSource Mode=FindAncestor, AncestorType={x:Type views:MainView}}, Converter={x:Static converters:InverseBoolToBoolConverter.Instance}}"
+                                        IsVisible="{Binding Source={x:Static local:VersionManager.Instance}, Path=IsAuthorized, Converter={x:Static converters:InverseBoolToBoolConverter.Instance}}"
                                         HorizontalOptions="Center"
                                         VerticalOptions="CenterAndExpand"
                                         ButtonType="Elevated"
@@ -78,6 +71,21 @@
                                         BackgroundColor="Transparent" 
                                         HeightRequest="20"
                                         Command="{Binding OnLoginViewEntered}"/>
+                                    <Image 
+                                        IsVisible="{Binding Source={x:Static local:VersionManager.Instance}, Path=IsAuthorized}"
+                                        Source="{Binding Source={x:Static local:VersionManager.Instance}, Path=ApplicationUser.Image, Converter={x:Static converters:UrlToImageConverter.Instance}}"
+                                        HorizontalOptions="FillAndExpand"
+                                        VerticalOptions="Center"
+                                        WidthRequest="30"
+                                        HeightRequest="30"
+                                        Aspect="AspectFit">
+                                        <Image.Clip>
+                                            <EllipseGeometry                                
+                                                Center="15,15"
+                                                RadiusX="15"
+                                                RadiusY="15"/>
+                                        </Image.Clip>
+                                    </Image>
                                 </Grid>
                             </StackLayout>
                         </Frame>
@@ -106,81 +114,8 @@
                                 BackgroundColor="{StaticResource UiElementsColor}" 
                                 HeightRequest="20"/>
                         </StackLayout>
-                        <CarouselView
-                            IsBounceEnabled="True"
-                            ItemsSource="{Binding Products}"
-                            PeekAreaInsets="0,  0,25 ,0"
-                            HorizontalOptions="FillAndExpand"
-                            HorizontalScrollBarVisibility="Never"
-                            VerticalScrollBarVisibility="Never"
-                            MinimumHeightRequest="310"
-                            HeightRequest="310"
-                            Loop="True">
-                            <CarouselView.ItemsLayout>
-                                <LinearItemsLayout
-                                    Orientation="Horizontal"
-                                    ItemSpacing="5" 
-                                    SnapPointsType="Mandatory"
-                                    SnapPointsAlignment="Center"/>
-                            </CarouselView.ItemsLayout>
-                            <CarouselView.ItemTemplate>
-                                <DataTemplate>
-                                    <ui:MaterialCard
-                                        CornerRadius="15"
-                                        BackgroundColor="{StaticResource UiElementsColor}"
-                                        Elevation="1"
-                                        IsClickable="True"
-                                        ClickCommand="{Binding BindingContext.OnProductViewEntered, Source={x:RelativeSource Mode=FindAncestor, AncestorType={x:Type views:BaseDashboardView}}}"
-                                        ClickCommandParameter="{Binding Id}"
-                                        HorizontalOptions="Center">
-                                        <ui:MaterialCard.Content>
-                                            <StackLayout
-                                                Orientation="Vertical">
-                                                <Frame
-                                                    CornerRadius="15"
-                                                    Padding="0"
-                                                    IsClippedToBounds="True">
-                                                    <Image
-                                                        Aspect="AspectFit"
-                                                        Source="{Binding Images[1], Converter={x:Static converters:UrlToImageConverter.Instance}}" />
-                                                </Frame>
-                                                <FlexLayout
-                                                    HorizontalOptions="Start">
-                                                    <Frame
-                                                        CornerRadius="15"
-                                                        Padding="0"
-                                                        IsClippedToBounds="True">
-                                                        <Image
-                                                            HeightRequest="{Binding Height, Source={x:Reference ProductDescriptionLayout}}"
-                                                            WidthRequest="{Binding Height}"
-                                                            Aspect="AspectFill"
-                                                            Source="{Binding Images[0], Converter={x:Static converters:UrlToImageConverter.Instance}}" />
-                                                    </Frame>
-                                                    <StackLayout
-                                                        x:Name="ProductDescriptionLayout"
-                                                        Margin="7, 0, 0, 0"
-                                                        VerticalOptions="StartAndExpand"
-                                                        Orientation="Vertical"
-                                                        HorizontalOptions="Fill">
-                                                        <ui:MaterialLabel
-                                                            TextColor="{StaticResource PrimaryColor}"
-                                                            VerticalTextAlignment="Center"
-                                                            Text="{Binding Name}"
-                                                            TypeScale="H6" />
-                                                        <ui:MaterialLabel
-                                                            TextColor="{StaticResource SecondaryColor}"
-                                                            VerticalTextAlignment="Start"
-                                                            LineHeight="1"
-                                                            Text="{Binding Description, StringFormat='{0,15}'}"
-                                                            TypeScale="Subtitle1" />
-                                                    </StackLayout>
-                                                </FlexLayout>
-                                            </StackLayout>
-                                        </ui:MaterialCard.Content>
-                                    </ui:MaterialCard>
-                                </DataTemplate>
-                            </CarouselView.ItemTemplate>
-                        </CarouselView>
+                        <usersControls:ProductsCarousel
+                            Products="{Binding Products}"/>
                     </StackLayout>
                 </StackLayout>
             </ScrollView>
