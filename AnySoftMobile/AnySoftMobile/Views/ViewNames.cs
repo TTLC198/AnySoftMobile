@@ -8,5 +8,7 @@
         public const string DashboardView = nameof(Views.DashboardView);
         public const string LoginView = nameof(Views.LoginView);
         public const string ProfileView = nameof(Views.ProfileView);
+        public const string LibraryView = nameof(Views.LibraryView);
+        public const string CartView = nameof(Views.CartView);
     }
 }
