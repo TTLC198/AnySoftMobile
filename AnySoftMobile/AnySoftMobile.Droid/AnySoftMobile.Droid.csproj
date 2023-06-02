@@ -67,9 +67,12 @@
         <AndroidResource Include="Resources\drawable-hdpi\arrowrightbold.png" />
         <AndroidResource Include="Resources\drawable-hdpi\arrowleftbold.png" />
         <AndroidResource Include="Resources\drawable-hdpi\book.png" />
+        <AndroidResource Include="Resources\drawable-hdpi\cart.png" />
+        <AndroidResource Include="Resources\drawable-hdpi\contentsave.png" />
         <AndroidResource Include="Resources\drawable-hdpi\controller.png" />
         <AndroidResource Include="Resources\drawable-hdpi\key.png" />
         <AndroidResource Include="Resources\drawable-hdpi\login.png" />
+        <AndroidResource Include="Resources\drawable-hdpi\logout.png" />
         <AndroidResource Include="Resources\drawable-hdpi\magnify.png" />
         <AndroidResource Include="Resources\drawable-hdpi\mail.png" />
         <AndroidResource Include="Resources\drawable-hdpi\star.png" />
