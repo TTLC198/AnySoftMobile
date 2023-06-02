@@ -32,17 +32,20 @@ public class DashboardViewModel : BaseViewModel
     
     public string? SearchString { get; set; }
     
-    public ICommand OnSearchBarTextEntered { get; set; }
-    public ICommand OnProductViewEntered { get; set; }
+    public ICommand OnSearchBarTextEnteredCommand { get; set; }
+    public ICommand OnProductViewEnteredCommand { get; set; }
     
-    public ICommand OnLoginViewEntered { get; set; }
+    public ICommand OnLoginViewEnteredCommand { get; set; }
+    
+    public ICommand OnProfileViewEnteredCommand { get; set; }
 
     public DashboardViewModel(IJobDialogService dialogService)
     {
         _dialogService = dialogService;
-        OnSearchBarTextEntered = new Command(OpenSearchPage);
-        OnProductViewEntered = new Command(OpenSingleProductPage);
-        OnLoginViewEntered = new Command(OpenLoginPage);
+        OnSearchBarTextEnteredCommand = new Command(OpenSearchPage);
+        OnProductViewEnteredCommand = new Command(OpenSingleProductPage);
+        OnLoginViewEnteredCommand = new Command(OpenLoginPage);
+        OnProfileViewEnteredCommand = new Command(OpenProfilePage);
     }
 
     public override async void OnViewAppearing(object sender, EventArgs args)
@@ -58,6 +61,11 @@ public class DashboardViewModel : BaseViewModel
     private async void OpenLoginPage()
     {
         await Navigation.PushAsync(ViewNames.LoginView);
+    }
+    
+    private async void OpenProfilePage()
+    {
+        await Navigation.PushAsync(ViewNames.ProfileView);
     }
 
     private async void OpenSearchPage(object o)
@@ -100,7 +108,7 @@ public class DashboardViewModel : BaseViewModel
                                 Discount = p.Discount,
                                 Rating = p.Rating,
                                 Seller = p.Seller,
-                                Description = p.Description?.Substring(0, 55) + "...",
+                                Description = p.Description?.Substring(0, 45) + "...",
                                 Images = p.Images,
                                 Genres = p.Genres,
                                 Properties = p.Properties
@@ -144,7 +152,7 @@ public class DashboardViewModel : BaseViewModel
                             Discount = p.Discount,
                             Rating = p.Rating,
                             Seller = p.Seller,
-                            Description = p.Description?.Substring(0, 65) + "...",
+                            Description = p.Description?.Substring(0, 45) + "...",
                             Images = p.Images,
                             Genres = p.Genres,
                             Properties = p.Properties

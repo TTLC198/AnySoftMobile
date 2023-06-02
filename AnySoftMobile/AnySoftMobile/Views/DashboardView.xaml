@@ -8,6 +8,7 @@
     xmlns:converters="clr-namespace:AnySoftMobile.Utils.Converters;assembly=AnySoftMobile"
     xmlns:local="clr-namespace:AnySoftMobile.Utils;assembly=AnySoftMobile"
     xmlns:usersControls="clr-namespace:AnySoftMobile.UsersControls;assembly=AnySoftMobile"
+    xmlns:effects="clr-namespace:AnySoftMobile.Effects;assembly=AnySoftMobile"
     x:Class="AnySoftMobile.Views.DashboardView"
     x:Name="Root"
     BackgroundColor="{StaticResource BackgroundColor}"
@@ -56,11 +57,11 @@
                                     Placeholder="Search something..."
                                     InputType="Text" 
                                     Text="{Binding SearchString, Mode=TwoWay}"
-                                    ReturnCommand="{Binding OnSearchBarTextEntered}"/>
+                                    ReturnCommand="{Binding OnSearchBarTextEnteredCommand}"/>
                                 <Grid
                                     HorizontalOptions="EndAndExpand"
                                     VerticalOptions="CenterAndExpand"
-                                    Margin="0, 0, 10, 0">
+                                    Margin="0, 0, 5, 0">
                                     <ui:MaterialIconButton
                                         IsVisible="{Binding Source={x:Static local:VersionManager.Instance}, Path=IsAuthorized, Converter={x:Static converters:InverseBoolToBoolConverter.Instance}}"
                                         HorizontalOptions="Center"
@@ -70,21 +71,24 @@
                                         Image="login.png"
                                         BackgroundColor="Transparent" 
                                         HeightRequest="20"
-                                        Command="{Binding OnLoginViewEntered}"/>
+                                        Command="{Binding OnLoginViewEnteredCommand}"/>
                                     <Image 
                                         IsVisible="{Binding Source={x:Static local:VersionManager.Instance}, Path=IsAuthorized}"
+                                        IsEnabled="{Binding Source={x:Static local:VersionManager.Instance}, Path=IsAuthorized}"
                                         Source="{Binding Source={x:Static local:VersionManager.Instance}, Path=ApplicationUser.Image, Converter={x:Static converters:UrlToImageConverter.Instance}}"
                                         HorizontalOptions="FillAndExpand"
                                         VerticalOptions="Center"
                                         WidthRequest="30"
                                         HeightRequest="30"
-                                        Aspect="AspectFit">
-                                        <Image.Clip>
-                                            <EllipseGeometry                                
-                                                Center="15,15"
-                                                RadiusX="15"
-                                                RadiusY="15"/>
-                                        </Image.Clip>
+                                        Aspect="AspectFill">
+                                        <Image.Effects>
+                                            <effects:RoundEffect />
+                                        </Image.Effects>
+                                        <Image.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                Command="{Binding OnProfileViewEnteredCommand}"
+                                                NumberOfTapsRequired="1" />
+                                        </Image.GestureRecognizers>
                                     </Image>
                                 </Grid>
                             </StackLayout>
