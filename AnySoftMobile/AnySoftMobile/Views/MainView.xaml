@@ -23,11 +23,11 @@
         <views:DashboardView
             IconImageSource="viewdashboard.png"
             Title=""/>
-        <views:DashboardView
-            IconImageSource="book.png"
+        <views:CartView
+            IconImageSource="cart.png"
             Title=""/>
-        <views:DashboardView
-            IconImageSource="account.png"
+        <views:LibraryView
+            IconImageSource="book.png"
             Title=""/>
     </TabbedPage.Children>
 </TabbedPage>
