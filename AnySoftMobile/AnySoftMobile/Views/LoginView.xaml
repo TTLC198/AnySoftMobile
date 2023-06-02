@@ -14,6 +14,7 @@
     ui:MaterialNavigationPage.AppBarTitleTextFontFamily="{StaticResource FontFamily.OutfitBold}"
     ui:MaterialNavigationPage.AppBarTitleTextFontSize="14"
     ui:MaterialNavigationPage.StatusBarColor="{StaticResource UiElementsColor}"
+    ui:MaterialNavigationPage.AppBarTitleTextColor="{StaticResource PrimaryColor}"
     NavigationPage.HasNavigationBar="True">
     <views:BaseLoginView.Resources>
         <Style
@@ -74,7 +75,8 @@
                     Text="{Binding UserCredentials.Login}"
                     LeadingIcon="account.png"
                     BackgroundColor="Transparent"
-                    InputType="Text" />
+                    InputType="Text"
+                    IsAutoCapitalizationEnabled="False"/>
                 <ui:MaterialTextField
                     VerticalOptions="Start"
                     HorizontalOptions="FillAndExpand"

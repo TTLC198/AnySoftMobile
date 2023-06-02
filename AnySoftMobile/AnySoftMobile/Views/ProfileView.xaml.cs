@@ -16,6 +16,11 @@ public partial class ProfileView : BaseProfileView
     {
         InitializeComponent();
     }
+
+    public ProfileView()
+    {
+        InitializeComponent();
+    }
 }
 
 public abstract class BaseProfileView : BaseView<ProfileViewModel>

@@ -35,7 +35,7 @@ public class MultipleProductsViewModel : BaseViewModel
         _dialogService = dialogService;
         OnProductViewEntered = new Command(OpenSingleProductPage);
     }
-    
+
     private async void OpenSingleProductPage(object id)
     {
         await Navigation.PushAsync(ViewNames.SingleProductView, id);

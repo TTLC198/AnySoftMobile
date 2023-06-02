@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
@@ -45,16 +46,18 @@ public class CartViewModel : BaseViewModel
 
     public override async void OnViewPushed(object navigationParameter = null!)
     {
-        await UpdateProductsInCart();
+        await UpdateProducts();
     }
 
     public override async void OnViewAppearing(object sender, EventArgs args)
     {
-        await UpdateProductsInCart();
+        await UpdateProducts();
     }
 
-    private async Task UpdateProductsInCart()
+    private async Task UpdateProducts()
     {
+        if (!VersionManager.Instance.IsAuthorized)
+            await Navigation.PushAsync(ViewNames.LoginView);
         try
         {
             var getProductsRequest =
