@@ -100,10 +100,46 @@
                     HorizontalOptions="FillAndExpand"
                     VerticalOptions="Start"
                     ButtonType="Flat"
-                    BackgroundColor="{StaticResource PrimaryColor}"
-                    Text="Download"
                     AllCaps="True"
-                    HeightRequest="45" />
+                    HeightRequest="45"
+                    Command="{Binding OnAddToCartButtonClicked}"
+                    CommandParameter="{Binding Product.Id}">
+                    <ui:MaterialButton.Style>
+                        <Style
+                            TargetType="ui:MaterialButton">
+                            <Setter
+                                Property="Text"
+                                Value="Add to cart"/>
+                            <Setter
+                                Property="BackgroundColor"
+                                Value="{StaticResource PrimaryColor}"/>
+                            <Style.Triggers>
+                                <DataTrigger
+                                    TargetType="ui:MaterialButton"
+                                    Binding="{Binding IsInCart}"
+                                    Value="True">
+                                    <Setter
+                                        Property="Text"
+                                        Value="Remove from cart"/>
+                                    <Setter
+                                        Property="BackgroundColor"
+                                        Value="Firebrick"/>
+                                </DataTrigger>
+                                <DataTrigger
+                                    TargetType="ui:MaterialButton"
+                                    Binding="{Binding IsBought}"
+                                    Value="True">
+                                    <Setter
+                                        Property="Text"
+                                        Value="Download"/>
+                                    <Setter
+                                        Property="BackgroundColor"
+                                        Value="{StaticResource PrimaryColor}"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ui:MaterialButton.Style>
+                </ui:MaterialButton>
                 <!--Images-->
                 <CarouselView
                     IsBounceEnabled="True"
