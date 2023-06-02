@@ -1,4 +1,4 @@
-﻿namespace AnySoftDesktop.Models;
+﻿namespace AnySoftMobile.Models;
 
 public class CustomDate
 {

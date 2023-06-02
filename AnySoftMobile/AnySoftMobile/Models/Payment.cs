@@ -1,16 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using AnySoftDesktop.Models;
 
 namespace AnySoftMobile.Models;
 
-public class CustomPayment : INotifyPropertyChanged
+public class Payment : INotifyPropertyChanged
 {
     public int? Id { get; set; }
     public int UserId { get; set; }
     public string? Number { get; set; }
-    public CustomDate ExpirationDate { get; set; } = new CustomDate();
+    public DateTime ExpirationDate { get; set; } = new DateTime();
     public string? CardName { get; set; }
     public string? Cvc { get; set; }
     public bool IsActive { get; set; }
