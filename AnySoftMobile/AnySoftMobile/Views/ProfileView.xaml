@@ -1,10 +1,141 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
-<views:BaseProfileView xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:views="clr-namespace:AnySoftMobile.Views;assembly=AnySoftMobile"
-             x:Class="AnySoftMobile.Views.ProfileView">
+<views:BaseProfileView
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:AnySoftMobile.Views;assembly=AnySoftMobile"
+    xmlns:ui="clr-namespace:XF.Material.Forms.UI;assembly=XF.Material"
+    xmlns:local="clr-namespace:AnySoftMobile.Utils;assembly=AnySoftMobile"
+    xmlns:converters="clr-namespace:AnySoftMobile.Utils.Converters;assembly=AnySoftMobile"
+    x:Class="AnySoftMobile.Views.ProfileView"
+    x:Name="Root"
+    Title="Profile page"
+    BackgroundColor="{StaticResource BackgroundColor}"
+    ui:MaterialNavigationPage.AppBarColor="{StaticResource BackgroundColor}"
+    ui:MaterialNavigationPage.AppBarTitleTextAlignment="Start"
+    ui:MaterialNavigationPage.AppBarTitleTextFontFamily="{StaticResource FontFamily.OutfitBold}"
+    ui:MaterialNavigationPage.AppBarTitleTextFontSize="14"
+    ui:MaterialNavigationPage.StatusBarColor="{StaticResource BackgroundColor}"
+    ui:MaterialNavigationPage.AppBarTitleTextColor="{StaticResource PrimaryColor}"
+    NavigationPage.HasNavigationBar="True">
+    <views:BaseProfileView.ToolbarItems>
+        <ToolbarItem 
+            Text=""
+            IconImageSource="contentsave.png"
+            Command="{Binding OnProfileChangedCommand}"
+            Order="Primary"
+            Priority="0" />
+        <ToolbarItem 
+            Text=""
+            IconImageSource="logout.png"
+            Command="{Binding OnLogoutClickedCommand}"
+            Order="Primary"
+            Priority="0" />
+    </views:BaseProfileView.ToolbarItems>
+    <views:BaseProfileView.Resources>
+        <Style
+            TargetType="ui:MaterialTextField">
+            <Setter
+                Property="LeadingIconTintColor"
+                Value="{StaticResource PrimaryColor}" />
+            <Setter
+                Property="PlaceholderColor"
+                Value="{StaticResource SecondaryColor}" />
+            <Setter
+                Property="UnderlineColor"
+                Value="{StaticResource PrimaryColor}" />
+            <Setter
+                Property="TintColor"
+                Value="{StaticResource PrimaryColor}" />
+            <Setter
+                Property="TextColor"
+                Value="{StaticResource PrimaryColor}" />
+            <Setter
+                Property="FloatingPlaceholderColor"
+                Value="{StaticResource SecondaryColor}" />
+            <Setter
+                Property="CardBackgroundColor"
+                Value="Transparent" />
+            <Setter
+                Property="AlwaysShowUnderline"
+                Value="True" />
+            <Setter
+                Property="FloatingPlaceholderEnabled"
+                Value="False" />
+        </Style>
+    </views:BaseProfileView.Resources>
     <views:BaseProfileView.Content>
-        
+        <StackLayout
+            VerticalOptions="FillAndExpand"
+            Padding="15, 5">
+            <StackLayout
+                Orientation="Horizontal"
+                HorizontalOptions="FillAndExpand">
+                <ui:MaterialLabel
+                    TextColor="{StaticResource PrimaryColor}"
+                    VerticalOptions="FillAndExpand"
+                    HorizontalOptions="FillAndExpand"
+                    VerticalTextAlignment="Center"
+                    HorizontalTextAlignment="Start"
+                    LineHeight="1"
+                    Text="Information"
+                    TypeScale="Subtitle1" />
+            </StackLayout>
+            <StackLayout
+                Orientation="Horizontal"
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="FillAndExpand">
+                <Image
+                    IsVisible="{Binding Source={x:Static local:VersionManager.Instance}, Path=IsAuthorized}"
+                    Source="{Binding ApplicationUser.Image, Converter={x:Static converters:UrlToImageConverter.Instance}}"
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="Start"
+                    WidthRequest="100"
+                    HeightRequest="100"
+                    Aspect="AspectFill">
+                    <Image.Clip>
+                        <EllipseGeometry
+                            Center="50,50"
+                            RadiusX="50"
+                            RadiusY="50" />
+                    </Image.Clip>
+                </Image>
+                <StackLayout
+                    Orientation="Vertical"
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="StartAndExpand">
+                    <ui:MaterialTextField
+                        VerticalOptions="Start"
+                        HorizontalOptions="FillAndExpand"
+                        Placeholder="{Binding ApplicationUser.Login, Mode=OneTime}"
+                        HelperText="Login"
+                        ErrorText="Enter valid data!"
+                        Text="{Binding ApplicationUser.Login}"
+                        LeadingIcon="account.png"
+                        BackgroundColor="Transparent"
+                        InputType="Text" />
+                    <ui:MaterialTextField
+                        VerticalOptions="Start"
+                        HorizontalOptions="FillAndExpand"
+                        Placeholder="{Binding ApplicationUser.Email, Mode=OneTime}"
+                        HelperText="Email"
+                        ErrorText="Enter valid data!"
+                        Text="{Binding ApplicationUser.Email}"
+                        LeadingIcon="mail.png"
+                        BackgroundColor="Transparent"
+                        InputType="Email" />
+                    <ui:MaterialTextField
+                        VerticalOptions="Start"
+                        HorizontalOptions="FillAndExpand"
+                        Placeholder="Password"
+                        HelperText="Password"
+                        ErrorText="Enter valid data!"
+                        Text="{Binding UserCredentials.Password}"
+                        LeadingIcon="key.png"
+                        BackgroundColor="Transparent"
+                        InputType="Password" />
+                </StackLayout>
+            </StackLayout>
+        </StackLayout>
     </views:BaseProfileView.Content>
 </views:BaseProfileView>
