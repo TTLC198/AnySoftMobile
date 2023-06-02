@@ -30,7 +30,7 @@
                 BackgroundColor="{StaticResource UiElementsColor}"
                 Elevation="1"
                 IsClickable="True"
-                ClickCommand="{Binding BindingContext.OnProductViewEntered, Source={x:RelativeSource Mode=FindAncestor, AncestorType={x:Type views:BaseDashboardView}}}"
+                ClickCommand="{Binding BindingContext.OnProductViewEnteredCommand, Source={x:RelativeSource Mode=FindAncestor, AncestorType={x:Type views:BaseDashboardView}}}"
                 ClickCommandParameter="{Binding Id}"
                 HorizontalOptions="Center">
                 <ui:MaterialCard.Content>
@@ -75,6 +75,34 @@
                                     LineHeight="1"
                                     Text="{Binding Description, StringFormat='{0,15}'}"
                                     TypeScale="Subtitle1" />
+                                <StackLayout
+                                    Orientation="Horizontal">
+                                    <ui:MaterialLabel
+                                        Padding="0"
+                                        Margin="0"
+                                        HorizontalOptions="Start"
+                                        TextColor="{StaticResource SecondaryColor}"
+                                        VerticalTextAlignment="Start"
+                                        LineHeight="1"
+                                        Text="{Binding Rating}"
+                                        TypeScale="Body1" />
+                                    <ui:MaterialIcon
+                                        Margin="0"
+                                        HorizontalOptions="Start"
+                                        WidthRequest="15"
+                                        HeightRequest="15"
+                                        Source="star.png"
+                                        TintColor="{StaticResource SecondaryColor}" />
+                                    <ui:MaterialLabel
+                                        Padding="0"
+                                        Margin="0"
+                                        HorizontalOptions="Start"
+                                        TextColor="{StaticResource SecondaryColor}"
+                                        VerticalTextAlignment="Start"
+                                        LineHeight="1"
+                                        Text="{Binding Cost, StringFormat='{0} руб.'}"
+                                        TypeScale="Body1" />
+                                </StackLayout>
                             </StackLayout>
                         </FlexLayout>
                     </StackLayout>
