@@ -23,6 +23,9 @@
             SnapPointsType="Mandatory"
             SnapPointsAlignment="Center" />
     </CarouselView.ItemsLayout>
+    <CarouselView.EmptyView>
+        <Label Text="No data" />
+    </CarouselView.EmptyView>
     <CarouselView.ItemTemplate>
         <DataTemplate>
             <ui:MaterialCard

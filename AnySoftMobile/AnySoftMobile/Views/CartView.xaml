@@ -7,7 +7,7 @@
     xmlns:converters="clr-namespace:AnySoftMobile.Utils.Converters;assembly=AnySoftMobile"
     x:Class="AnySoftMobile.Views.CartView"
     x:Name="Root"
-    Title="Shopping cart"
+    Title=""
     BackgroundColor="{StaticResource BackgroundColor}"
     ui:MaterialNavigationPage.AppBarColor="{StaticResource BackgroundColor}"
     ui:MaterialNavigationPage.AppBarTitleTextAlignment="Start"
@@ -23,6 +23,9 @@
             <StackLayout
                 Padding="15, 5"
                 BindableLayout.ItemsSource="{Binding Products}">
+                <BindableLayout.EmptyView>
+                    <Label Text="No data" />
+                </BindableLayout.EmptyView>
                 <BindableLayout.ItemTemplate>
                     <DataTemplate>
                         <ui:MaterialCard
