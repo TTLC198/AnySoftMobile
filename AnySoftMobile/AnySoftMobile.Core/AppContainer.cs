@@ -35,10 +35,14 @@ namespace AnySoftMobile.Core
             containerBuilder.RegisterType<DashboardView>().Named<Page>(ViewNames.DashboardView).As<DashboardView>().InstancePerDependency();
             containerBuilder.RegisterType<MainView>().Named<Page>(ViewNames.MainView).As<MainView>().InstancePerDependency();
             containerBuilder.RegisterType<MultipleProductsView>().Named<Page>(ViewNames.MultipleProductsView).As<MultipleProductsView>().InstancePerDependency();
+            containerBuilder.RegisterType<CartView>().Named<Page>(ViewNames.CartView).As<CartView>().InstancePerDependency();
+            containerBuilder.RegisterType<LibraryView>().Named<Page>(ViewNames.LibraryView).As<LibraryView>().InstancePerDependency();
             containerBuilder.RegisterType<LoginView>().Named<Page>(ViewNames.LoginView).As<LoginView>().InstancePerDependency();
             containerBuilder.RegisterType<ProfileView>().Named<Page>(ViewNames.ProfileView).As<ProfileView>().InstancePerDependency();
             
             containerBuilder.RegisterType<MultipleProductsViewModel>().InstancePerDependency();
+            containerBuilder.RegisterType<CartViewModel>().InstancePerDependency();
+            containerBuilder.RegisterType<LibraryViewModel>().InstancePerDependency();
             containerBuilder.RegisterType<SingleProductViewModel>().InstancePerDependency();
             containerBuilder.RegisterType<DashboardViewModel>().InstancePerDependency();
             containerBuilder.RegisterType<MainViewModel>().InstancePerDependency();
