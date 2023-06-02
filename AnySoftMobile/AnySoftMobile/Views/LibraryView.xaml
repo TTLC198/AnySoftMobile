@@ -1,14 +1,126 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
-<views:BaseLibraryView xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:views="clr-namespace:AnySoftMobile.Views;assembly=AnySoftMobile"
-             x:Class="AnySoftMobile.Views.LibraryView">
+<views:BaseLibraryView
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:AnySoftMobile.Views;assembly=AnySoftMobile"
+    xmlns:ui="clr-namespace:XF.Material.Forms.UI;assembly=XF.Material"
+    xmlns:converters="clr-namespace:AnySoftMobile.Utils.Converters;assembly=AnySoftMobile"
+    xmlns:uniformGrid="clr-namespace:UniformGrid;assembly=UniformGrid"
+    x:Class="AnySoftMobile.Views.LibraryView"
+    x:Name="Root"
+    Title=""
+    BackgroundColor="{StaticResource BackgroundColor}"
+    ui:MaterialNavigationPage.AppBarColor="{StaticResource BackgroundColor}"
+    ui:MaterialNavigationPage.AppBarTitleTextAlignment="Start"
+    ui:MaterialNavigationPage.AppBarTitleTextFontFamily="{StaticResource FontFamily.OutfitBold}"
+    ui:MaterialNavigationPage.AppBarTitleTextFontSize="14"
+    ui:MaterialNavigationPage.StatusBarColor="{StaticResource UiElementsColor}"
+    ui:MaterialNavigationPage.AppBarTitleTextColor="{StaticResource PrimaryColor}"
+    NavigationPage.HasNavigationBar="False">
     <views:BaseLibraryView.Content>
-        <StackLayout>
-            <Label Text="Hello, world!"
-                   VerticalOptions="CenterAndExpand"
-                   HorizontalOptions="CenterAndExpand" />
+        <StackLayout
+            Orientation="Vertical"
+            HorizontalOptions="FillAndExpand"
+            VerticalOptions="FillAndExpand"
+            Padding="15, 5">
+            <ui:MaterialLabel
+                TextColor="{StaticResource PrimaryColor}"
+                VerticalOptions="FillAndExpand"
+                HorizontalOptions="FillAndExpand"
+                VerticalTextAlignment="Center"
+                HorizontalTextAlignment="Center"
+                LineHeight="1"
+                Text="Your library"
+                TypeScale="H6" />
+            <ScrollView
+                VerticalOptions="FillAndExpand"
+                VerticalScrollBarVisibility="Always">
+                <uniformGrid:UniformGrid
+                    VerticalOptions="FillAndExpand"
+                    BindableLayout.ItemsSource="{Binding Products}"
+                    ColumnSpacing="5"
+                    RowSpacing="5"
+                    BackgroundColor="Transparent">
+                    <BindableLayout.EmptyView>
+                        <Label Text="No data" />
+                    </BindableLayout.EmptyView>
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <ui:MaterialCard
+                                Margin="0"
+                                Padding="10"
+                                CornerRadius="15"
+                                BackgroundColor="{StaticResource UiElementsColor}"
+                                Elevation="1"
+                                IsClickable="True"
+                                ClickCommand="{Binding BindingContext.OnProductViewEntered, Source={x:RelativeSource Mode=FindAncestor, AncestorType={x:Type views:BaseLibraryView}}}"
+                                ClickCommandParameter="{Binding Id}"
+                                HorizontalOptions="FillAndExpand">
+                                <ui:MaterialCard.Content>
+                                    <StackLayout
+                                        Orientation="Vertical">
+                                        <Frame
+                                            CornerRadius="15"
+                                            Padding="0"
+                                            IsClippedToBounds="True">
+                                            <Image
+                                                HeightRequest="100"
+                                                Aspect="AspectFill"
+                                                Source="{Binding Images[0], Converter={x:Static converters:UrlToImageConverter.Instance}}" />
+                                        </Frame>
+                                        <StackLayout
+                                            x:Name="ProductDescriptionLayout"
+                                            VerticalOptions="StartAndExpand"
+                                            Orientation="Vertical"
+                                            HorizontalOptions="Fill">
+                                            <ui:MaterialLabel
+                                                TextColor="{StaticResource PrimaryColor}"
+                                                VerticalTextAlignment="Center"
+                                                Text="{Binding Name}"
+                                                TypeScale="H6" />
+                                            <ui:MaterialLabel
+                                                TextColor="{StaticResource SecondaryColor}"
+                                                VerticalTextAlignment="Start"
+                                                LineHeight="1"
+                                                Text="{Binding Description, StringFormat='{0,15}'}"
+                                                TypeScale="Subtitle1" />
+                                            <StackLayout
+                                                Orientation="Horizontal">
+                                                <ui:MaterialLabel
+                                                    Padding="0"
+                                                    Margin="0"
+                                                    HorizontalOptions="Start"
+                                                    TextColor="{StaticResource SecondaryColor}"
+                                                    VerticalTextAlignment="Start"
+                                                    LineHeight="1"
+                                                    Text="{Binding Rating}"
+                                                    TypeScale="Body1" />
+                                                <ui:MaterialIcon
+                                                    Margin="0"
+                                                    HorizontalOptions="Start"
+                                                    WidthRequest="15"
+                                                    HeightRequest="15"
+                                                    Source="star.png"
+                                                    TintColor="{StaticResource SecondaryColor}" />
+                                                <ui:MaterialLabel
+                                                    Padding="0"
+                                                    Margin="0"
+                                                    HorizontalOptions="Start"
+                                                    TextColor="{StaticResource SecondaryColor}"
+                                                    VerticalTextAlignment="Start"
+                                                    LineHeight="1"
+                                                    Text="{Binding Cost, StringFormat='{0} руб.'}"
+                                                    TypeScale="Body1" />
+                                            </StackLayout>
+                                        </StackLayout>
+                                    </StackLayout>
+                                </ui:MaterialCard.Content>
+                            </ui:MaterialCard>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </uniformGrid:UniformGrid>
+            </ScrollView>
         </StackLayout>
     </views:BaseLibraryView.Content>
 </views:BaseLibraryView>
