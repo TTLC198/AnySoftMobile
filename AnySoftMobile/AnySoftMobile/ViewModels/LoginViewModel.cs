@@ -22,7 +22,13 @@ namespace AnySoftMobile.ViewModels;
 
 public class LoginViewModel : BaseViewModel
 {
-    public bool IsRegisterView { get; set; }
+    private bool _isRegisterView;
+
+    public bool IsRegisterView
+    {
+        get => _isRegisterView;
+        set => Set(ref _isRegisterView, value);
+    }
 
     public UserCreateDto UserCredentials { get; set; } = new UserCreateDto();
 
