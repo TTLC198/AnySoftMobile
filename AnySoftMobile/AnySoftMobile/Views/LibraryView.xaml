@@ -6,7 +6,7 @@
     xmlns:views="clr-namespace:AnySoftMobile.Views;assembly=AnySoftMobile"
     xmlns:ui="clr-namespace:XF.Material.Forms.UI;assembly=XF.Material"
     xmlns:converters="clr-namespace:AnySoftMobile.Utils.Converters;assembly=AnySoftMobile"
-    xmlns:uniformGrid="clr-namespace:UniformGrid;assembly=UniformGrid"
+    xmlns:controls="clr-namespace:AnySoftMobile.Controls;assembly=AnySoftMobile"
     x:Class="AnySoftMobile.Views.LibraryView"
     x:Name="Root"
     Title=""
@@ -26,7 +26,7 @@
             Padding="15, 5">
             <ui:MaterialLabel
                 TextColor="{StaticResource PrimaryColor}"
-                VerticalOptions="FillAndExpand"
+                VerticalOptions="Start"
                 HorizontalOptions="FillAndExpand"
                 VerticalTextAlignment="Center"
                 HorizontalTextAlignment="Center"
@@ -36,12 +36,11 @@
             <ScrollView
                 VerticalOptions="FillAndExpand"
                 VerticalScrollBarVisibility="Always">
-                <uniformGrid:UniformGrid
+                <controls:UniformGrid
+                    Columns="2"
                     VerticalOptions="FillAndExpand"
-                    BindableLayout.ItemsSource="{Binding Products}"
-                    ColumnSpacing="5"
-                    RowSpacing="5"
-                    BackgroundColor="Transparent">
+                    BackgroundColor="Transparent"
+                    BindableLayout.ItemsSource="{Binding Products}">
                     <BindableLayout.EmptyView>
                         <Label Text="No data" />
                     </BindableLayout.EmptyView>
@@ -119,7 +118,7 @@
                             </ui:MaterialCard>
                         </DataTemplate>
                     </BindableLayout.ItemTemplate>
-                </uniformGrid:UniformGrid>
+                </controls:UniformGrid>
             </ScrollView>
         </StackLayout>
     </views:BaseLibraryView.Content>
