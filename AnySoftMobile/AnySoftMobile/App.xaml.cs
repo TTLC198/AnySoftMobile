@@ -16,6 +16,7 @@ namespace AnySoftMobile
             XF.Material.Forms.Material.Init(this);
             InitializeComponent();
             XF.Material.Forms.Material.Use("Material.Style");
+            Xamarin.Forms.DataGrid.DataGridComponent.Init(); 
 
             navigationService.SetRootView(ViewNames.MainView);
         }
@@ -38,8 +39,8 @@ namespace AnySoftMobile
     
     public partial class App
     {
-        public static string CdnUrl { get; } = "https://7807-91-245-37-31.ngrok-free.app/";
+        public static string CdnUrl { get; } = "https://d24d-91-245-37-31.ngrok-free.app/";
         
-        public static string ApiUrl { get; } = "https://7807-91-245-37-31.ngrok-free.app/";
+        public static string ApiUrl { get; } = "https://d24d-91-245-37-31.ngrok-free.app/";
     }
 }

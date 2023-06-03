@@ -11,6 +11,7 @@ using AnySoftBackend.Library.DataTransferObjects.Review;
 using AnySoftBackend.Library.DataTransferObjects.ShoppingCart;
 using AnySoftBackend.Library.DataTransferObjects.User;
 using AnySoftDesktop.Utils;
+using AnySoftMobile.Models;
 using AnySoftMobile.Services;
 using AnySoftMobile.Utils;
 using Xamarin.Forms;
@@ -218,7 +219,8 @@ namespace AnySoftMobile.ViewModels
         private async Task OnRemoveFromCartButtonClick(int id)
         {
             var removeProductsFromCartRequest =
-                await WebApiService.DeleteCall($"api/cart?productId={id}", VersionManager.Instance.ApplicationUser.JwtToken!);
+                await WebApiService.DeleteCall($"api/cart?productId={id}",
+                    VersionManager.Instance.ApplicationUser.JwtToken!);
             try
             {
                 if (removeProductsFromCartRequest.IsSuccessStatusCode)

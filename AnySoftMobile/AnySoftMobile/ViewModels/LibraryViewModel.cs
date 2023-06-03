@@ -56,7 +56,10 @@ public class LibraryViewModel : BaseViewModel
     private async Task UpdateOrders()
     {
         if (!VersionManager.Instance.IsAuthorized)
+        {
             await Navigation.PushAsync(ViewNames.LoginView);
+            return;
+        }
         try
         {
             var getOrdersRequest = await WebApiService.GetCall("api/orders",  VersionManager.Instance.ApplicationUser.JwtToken!);
