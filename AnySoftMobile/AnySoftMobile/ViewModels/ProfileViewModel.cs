@@ -85,6 +85,12 @@ public class ProfileViewModel : BaseViewModel
         OnProfileChangedCommand = new Command(OnProfileChanged);
         OnLogoutClickedCommand = new Command(OnLogoutClicked);
     }
+    
+    public override async void OnViewPushed(object navigationParameter = null!)
+    {
+        await UpdatePayments();
+        await UpdateOrders();
+    }
 
     public async Task UpdatePayments()
     {
