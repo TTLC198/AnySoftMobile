@@ -7,6 +7,7 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using AnySoftBackend.Library.DataTransferObjects.Order;
 using AnySoftBackend.Library.DataTransferObjects.Product;
 using AnySoftDesktop.Utils;
 using AnySoftMobile.Models;
@@ -32,11 +33,14 @@ public class CartViewModel : BaseViewModel
     }
 
     public ICommand OnProductViewEntered { get; set; }
+    
+    public ICommand OnCheckoutButtonClicked { get; set; }
 
     public CartViewModel(IJobDialogService dialogService)
     {
         _dialogService = dialogService;
         OnProductViewEntered = new Command(OpenSingleProductPage);
+        OnCheckoutButtonClicked = new Command(OnOrderRequest);
     }
 
     private async void OpenSingleProductPage(object id)
@@ -57,7 +61,10 @@ public class CartViewModel : BaseViewModel
     private async Task UpdateProducts()
     {
         if (!VersionManager.Instance.IsAuthorized)
+        {
             await Navigation.PushAsync(ViewNames.LoginView);
+            return;
+        }
         try
         {
             var getProductsRequest =
@@ -89,6 +96,77 @@ public class CartViewModel : BaseViewModel
             {
                 var msg = await getProductsRequest.Content.ReadAsStringAsync();
                 throw new InvalidOperationException($"{getProductsRequest.ReasonPhrase}\n{msg}");
+            }
+        }
+        catch (Exception exception)
+        {
+            await MaterialDialog.Instance.AlertAsync(message: $"{exception.Message}".Trim());
+        }
+    }
+
+    private async void OnOrderRequest()
+    {
+        try
+        {
+            var cartOrderRequest =
+                await WebApiService.PostCall("api/cart/order", null!,
+                    VersionManager.Instance.ApplicationUser.JwtToken!);
+            if (cartOrderRequest.IsSuccessStatusCode)
+            {
+                var createdOrder = new OrderResponseDto();
+                var timeoutAfter = TimeSpan.FromMilliseconds(3000);
+                using (var cancellationTokenSource = new CancellationTokenSource(timeoutAfter))
+                {
+                    var responseStream =
+                        await cartOrderRequest.Content.ReadAsStreamAsync();
+                    createdOrder = await JsonSerializer.DeserializeAsync<OrderResponseDto>(responseStream,
+                        CustomJsonSerializerOptions.Options, cancellationToken: cancellationTokenSource.Token);
+                    if (createdOrder is null)
+                        throw new InvalidOperationException("Order is null");
+                }
+
+                var getPaymentsRequest =
+                    await WebApiService.GetCall("api/payment", VersionManager.Instance.ApplicationUser.JwtToken!);
+                if (getPaymentsRequest.IsSuccessStatusCode)
+                {
+                    using var cancellationTokenSource = new CancellationTokenSource(timeoutAfter);
+                    var responseStream =
+                        await getPaymentsRequest.Content.ReadAsStreamAsync();
+                    var payments = await JsonSerializer.DeserializeAsync<IEnumerable<Payment>>(responseStream,
+                        CustomJsonSerializerOptions.Options, cancellationToken: cancellationTokenSource.Token);
+                    if (payments is null)
+                        throw new InvalidOperationException("You have not added a means of payment");
+
+                    var selectedPaymentMethod = await MaterialDialog.Instance.SelectChoiceAsync(
+                        title: "Select a payment method",
+                        choices: payments
+                            .Select(p => p.Number)
+                            .ToArray());
+                    if (selectedPaymentMethod < 0)
+                        throw new InvalidOperationException("Payment method not selected");
+
+                    var orderPurchase = new OrderPurchaseDto()
+                    {
+                        OrderId = createdOrder.Id,
+                        PaymentId = payments.ToArray()[selectedPaymentMethod].Id ?? -1
+                    };
+
+                    var orderConfirmationRequest = await WebApiService.PostCall("api/orders/buy", orderPurchase,
+                        VersionManager.Instance.ApplicationUser.JwtToken!);
+                    if (!orderConfirmationRequest.IsSuccessStatusCode) return;
+
+                    await UpdateProducts();
+                }
+                else
+                {
+                    var msg = await getPaymentsRequest.Content.ReadAsStringAsync();
+                    throw new InvalidOperationException($"{getPaymentsRequest.ReasonPhrase}\n{msg}");
+                }
+            }
+            else
+            {
+                var msg = await cartOrderRequest.Content.ReadAsStringAsync();
+                throw new InvalidOperationException($"{cartOrderRequest.ReasonPhrase}\n{msg}");
             }
         }
         catch (Exception exception)
