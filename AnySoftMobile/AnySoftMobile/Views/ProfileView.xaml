@@ -9,6 +9,7 @@
     xmlns:converters="clr-namespace:AnySoftMobile.Utils.Converters;assembly=AnySoftMobile"
     xmlns:effects="clr-namespace:AnySoftMobile.Effects;assembly=AnySoftMobile"
     xmlns:controls="clr-namespace:AnySoftMobile.Controls;assembly=AnySoftMobile"
+    xmlns:dataGrid="clr-namespace:Xamarin.Forms.DataGrid;assembly=Xamarin.Forms.DataGrid"
     x:Class="AnySoftMobile.Views.ProfileView"
     x:Name="Root"
     Title="Profile page"
@@ -164,6 +165,52 @@
                             Text="Orders"
                             TypeScale="Subtitle1" />
                     </StackLayout>
+                    <dataGrid:DataGrid
+                        ItemsSource="{Binding Orders}"
+                        HeaderBackground="{StaticResource PrimaryColor}"
+                        BackgroundColor="{StaticResource UiElementsColor}"
+                        RowsTextColorPalette="{DynamicResource TextPalette}"
+                        RowsBackgroundColorPalette="{DynamicResource BgPalette}"
+                        IsSortable="False"
+                        IsEnabled="True"
+                        SelectionEnabled="True">
+                        <dataGrid:DataGrid.Resources>
+                            <dataGrid:PaletteCollection x:Key="BgPalette">
+                                <Color x:Key="UiElementsColor">#262626</Color>
+                            </dataGrid:PaletteCollection>
+                            <dataGrid:PaletteCollection x:Key="TextPalette">
+                                <Color x:Key="PrimaryColor">#66FCF1</Color>
+                            </dataGrid:PaletteCollection>
+                        </dataGrid:DataGrid.Resources>
+                        <dataGrid:DataGrid.Columns>
+                            <dataGrid:DataGridColumn
+                                Title="Id"
+                                PropertyName="Id"
+                                Width="0.2*"/>
+                            <dataGrid:DataGridColumn
+                                Title="Status"
+                                PropertyName="Status"
+                                Width="*"/>
+                            <dataGrid:DataGridColumn
+                                Title="Date"
+                                PropertyName="Ts"
+                                Width="*"/>
+                            <dataGrid:DataGridColumn
+                                Title="Options"
+                                Width="*">
+                                <dataGrid:DataGridColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ui:MaterialIconButton
+                                            IsVisible="{Binding Status, Converter={x:Static converters:OrderStatusToBoolConverter.Instance}}"
+                                            ButtonType="Outlined"
+                                            TintColor="{StaticResource PrimaryColor}"
+                                            BorderWidth="0"
+                                            Image="creditcard.png"/>
+                                    </DataTemplate>
+                                </dataGrid:DataGridColumn.CellTemplate>
+                            </dataGrid:DataGridColumn>
+                        </dataGrid:DataGrid.Columns>
+                    </dataGrid:DataGrid>
                 </StackLayout>
                 <!--Payments list-->
                 <StackLayout
