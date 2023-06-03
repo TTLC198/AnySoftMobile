@@ -171,6 +171,8 @@
                         BackgroundColor="{StaticResource UiElementsColor}"
                         RowsTextColorPalette="{DynamicResource TextPalette}"
                         RowsBackgroundColorPalette="{DynamicResource BgPalette}"
+                        IsRefreshing="{Binding IsRefreshing}"
+                        PullToRefreshCommand="{Binding OrdersRefreshCommand}"
                         IsSortable="False"
                         IsEnabled="True"
                         SelectionEnabled="True">
@@ -186,15 +188,15 @@
                             <dataGrid:DataGridColumn
                                 Title="Id"
                                 PropertyName="Id"
-                                Width="0.2*"/>
+                                Width="0.3*" />
                             <dataGrid:DataGridColumn
                                 Title="Status"
                                 PropertyName="Status"
-                                Width="*"/>
+                                Width="*" />
                             <dataGrid:DataGridColumn
                                 Title="Date"
                                 PropertyName="Ts"
-                                Width="*"/>
+                                Width="*" />
                             <dataGrid:DataGridColumn
                                 Title="Options"
                                 Width="*">
@@ -205,7 +207,9 @@
                                             ButtonType="Outlined"
                                             TintColor="{StaticResource PrimaryColor}"
                                             BorderWidth="0"
-                                            Image="creditcard.png"/>
+                                            Command="{Binding BindingContext.OnOrderRequestCommand, Source={x:RelativeSource Mode=FindAncestor, AncestorType={x:Type views:BaseProfileView}}}"
+                                            CommandParameter="{Binding Id}"
+                                            Image="creditcard.png" />
                                     </DataTemplate>
                                 </dataGrid:DataGridColumn.CellTemplate>
                             </dataGrid:DataGridColumn>
@@ -320,9 +324,9 @@
                                                 Margin="0">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition
-                                                        Width="*"/>
+                                                        Width="*" />
                                                     <ColumnDefinition
-                                                        Width="*"/>
+                                                        Width="*" />
                                                 </Grid.ColumnDefinitions>
                                                 <ui:MaterialButton
                                                     Grid.Column="0"
@@ -334,7 +338,9 @@
                                                     VerticalOptions="Start"
                                                     HorizontalOptions="FillAndExpand"
                                                     ButtonType="Flat"
-                                                    AllCaps="True"/>
+                                                    Command="{Binding BindingContext.OnRemovePaymentClickedCommand, Source={x:RelativeSource Mode=FindAncestor, AncestorType={x:Type views:BaseProfileView}}}"
+                                                    CommandParameter="{Binding Id}"
+                                                    AllCaps="True" />
                                                 <ui:MaterialButton
                                                     Grid.Column="1"
                                                     CornerRadius="5"
@@ -345,7 +351,24 @@
                                                     VerticalOptions="Start"
                                                     HorizontalOptions="FillAndExpand"
                                                     ButtonType="Flat"
-                                                    AllCaps="True"/>
+                                                    Command="{Binding BindingContext.OnEditPaymentClickedCommand, Source={x:RelativeSource Mode=FindAncestor, AncestorType={x:Type views:BaseProfileView}}}"
+                                                    CommandParameter="{Binding .}"
+                                                    IsVisible="{Binding Id, Converter={x:Static converters:NullToBoolConverter.Instance}}"
+                                                    AllCaps="True" />
+                                                <ui:MaterialButton
+                                                    Grid.Column="1"
+                                                    CornerRadius="5"
+                                                    Margin="0"
+                                                    Padding="0"
+                                                    BackgroundColor="{StaticResource BackgroundColor}"
+                                                    Text="Save"
+                                                    VerticalOptions="Start"
+                                                    HorizontalOptions="FillAndExpand"
+                                                    ButtonType="Flat"
+                                                    Command="{Binding BindingContext.OnSavePaymentClickedCommand, Source={x:RelativeSource Mode=FindAncestor, AncestorType={x:Type views:BaseProfileView}}}"
+                                                    CommandParameter="{Binding .}"
+                                                    IsVisible="{Binding Id, Converter={x:Static converters:InverseNullToBoolConverter.Instance}}"
+                                                    AllCaps="True" />
                                             </Grid>
                                         </StackLayout>
                                     </ui:MaterialCard.Content>
@@ -362,7 +385,8 @@
                         VerticalOptions="Start"
                         HorizontalOptions="FillAndExpand"
                         ButtonType="Flat"
-                        AllCaps="True"/>
+                        Command="{Binding OnAddPaymentClickedCommand}"
+                        AllCaps="True" />
                 </StackLayout>
             </StackLayout>
         </ScrollView>

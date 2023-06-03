@@ -77,6 +77,17 @@ public class ProfileViewModel : BaseViewModel
         }
     }
 
+    private bool _isRefreshing;
+    
+    public bool IsRefreshing
+    {
+        get => _isRefreshing;
+        set { 
+            _isRefreshing = value;
+            OnPropertyChanged();
+        }
+    }
+
     public ICommand OnProfileChangedCommand { get; set; }
     
     public ICommand OnLogoutClickedCommand { get; set; }
@@ -88,6 +99,10 @@ public class ProfileViewModel : BaseViewModel
     public ICommand OnRemovePaymentClickedCommand { get; set; }
     
     public ICommand OnEditPaymentClickedCommand { get; set; }
+    
+    public ICommand OnOrderRequestCommand { get; set; }
+    
+    public ICommand OrdersRefreshCommand { get; set; }
 
     public ProfileViewModel()
     {
@@ -97,12 +112,22 @@ public class ProfileViewModel : BaseViewModel
         OnEditPaymentClickedCommand = new Command(EditPayment);
         OnProfileChangedCommand = new Command(OnProfileChanged);
         OnLogoutClickedCommand = new Command(OnLogoutClicked);
+        OnOrderRequestCommand = new Command(OnOrderPayment);
+        OrdersRefreshCommand = new Command(CmdRefresh);
     }
     
     public override async void OnViewPushed(object navigationParameter = null!)
     {
         await UpdatePayments();
         await UpdateOrders();
+        CmdRefresh();
+    }
+    
+    private async void CmdRefresh()
+    {
+        IsRefreshing = true;
+        await Task.Delay(3000);
+        IsRefreshing = false;
     }
 
     public async Task UpdatePayments()
@@ -159,7 +184,7 @@ public class ProfileViewModel : BaseViewModel
         }
     }
     
-    private async void OnProfileChanged()
+    public async void OnProfileChanged()
     {
         try
         {
@@ -195,12 +220,12 @@ public class ProfileViewModel : BaseViewModel
         }
     }
 
-    private async void AddPayment()
+    public async void AddPayment()
     {
         PaymentMethods.Add(new CustomPayment() { CardName = "", Number = "", Cvc = "", IsEditComplete = true });
     }
 
-    private async void SavePayment(object paymentObject)
+    public async void SavePayment(object paymentObject)
     {
         try
         {
@@ -230,7 +255,7 @@ public class ProfileViewModel : BaseViewModel
         }
     }
 
-    private async void EditPayment(object paymentObject)
+    public async void EditPayment(object paymentObject)
     {
         if (paymentObject is not CustomPayment payment) return;
         if (payment.IsEditComplete)
@@ -288,7 +313,7 @@ public class ProfileViewModel : BaseViewModel
         }
     }
 
-    private async void RemovePayment(object idObject)
+    public async void RemovePayment(object idObject)
     {
         try
         {
@@ -312,6 +337,59 @@ public class ProfileViewModel : BaseViewModel
             {
                 var msg = await postProductsToCartRequest.Content.ReadAsStringAsync();
                 throw new InvalidOperationException($"{postProductsToCartRequest.ReasonPhrase}\n{msg}");
+            }
+        }
+        catch (Exception exception)
+        {
+            await MaterialDialog.Instance.AlertAsync(message: $"{exception.Message}".Trim());
+        }
+    }
+
+    public async void OnOrderPayment(object orderIdObject)
+    {
+        try
+        {
+            if (orderIdObject is not int orderId) return;
+            var getPaymentsRequest = await WebApiService.GetCall("api/payment", VersionManager.Instance.ApplicationUser.JwtToken!);
+            var timeoutAfter = TimeSpan.FromMilliseconds(3000);
+            if (getPaymentsRequest.IsSuccessStatusCode)
+            {
+                using var cancellationTokenSource = new CancellationTokenSource(timeoutAfter);
+                var responseStream =
+                    await getPaymentsRequest.Content.ReadAsStreamAsync();
+                var payments = await JsonSerializer.DeserializeAsync<IEnumerable<Payment>>(responseStream,
+                    CustomJsonSerializerOptions.Options, cancellationToken: cancellationTokenSource.Token);
+
+                if (payments is null)
+                    throw new InvalidOperationException("You have not added a means of payment");
+
+                var selectedPaymentMethod = await MaterialDialog.Instance.SelectChoiceAsync(
+                    title: "Select a payment method",
+                    choices: payments
+                        .Select(p => p.Number)
+                        .ToArray());
+                if (selectedPaymentMethod < 0)
+                    throw new InvalidOperationException("Payment method not selected");
+
+                var orderPurchase = new OrderPurchaseDto()
+                {
+                    OrderId = orderId,
+                    PaymentId = payments.ToArray()[selectedPaymentMethod].Id ?? -1
+                };
+
+                var orderConfirmationRequest = await WebApiService.PostCall("api/orders/buy", orderPurchase,
+                    VersionManager.Instance.ApplicationUser.JwtToken!);
+                if (!orderConfirmationRequest.IsSuccessStatusCode)
+                {
+                    // ReSharper disable once MethodSupportsCancellation
+                    var msg = await orderConfirmationRequest.Content.ReadAsStringAsync();
+                    throw new InvalidOperationException($"{orderConfirmationRequest.ReasonPhrase}\n{msg}");
+                }
+            }
+            else
+            {
+                var msg = await getPaymentsRequest.Content.ReadAsStringAsync();
+                throw new InvalidOperationException($"{getPaymentsRequest.ReasonPhrase}\n{msg}");
             }
         }
         catch (Exception exception)
