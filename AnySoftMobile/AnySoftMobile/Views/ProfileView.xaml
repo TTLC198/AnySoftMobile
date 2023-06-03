@@ -8,6 +8,7 @@
     xmlns:local="clr-namespace:AnySoftMobile.Utils;assembly=AnySoftMobile"
     xmlns:converters="clr-namespace:AnySoftMobile.Utils.Converters;assembly=AnySoftMobile"
     xmlns:effects="clr-namespace:AnySoftMobile.Effects;assembly=AnySoftMobile"
+    xmlns:controls="clr-namespace:AnySoftMobile.Controls;assembly=AnySoftMobile"
     x:Class="AnySoftMobile.Views.ProfileView"
     x:Name="Root"
     Title="Profile page"
@@ -55,6 +56,9 @@
                 Property="FloatingPlaceholderColor"
                 Value="{StaticResource SecondaryColor}" />
             <Setter
+                Property="HelperTextColor"
+                Value="{StaticResource SecondaryColor}" />
+            <Setter
                 Property="CardBackgroundColor"
                 Value="Transparent" />
             <Setter
@@ -66,100 +70,254 @@
         </Style>
     </views:BaseProfileView.Resources>
     <views:BaseProfileView.Content>
-        <StackLayout
-            VerticalOptions="FillAndExpand"
-            Padding="15, 5">
-            <!--Main information-->
+        <ScrollView>
             <StackLayout
-                Orientation="Vertical"
-                HorizontalOptions="FillAndExpand"
-                VerticalOptions="Start">
+                VerticalOptions="FillAndExpand"
+                Padding="15, 5">
+                <!--Main information-->
                 <StackLayout
-                    Orientation="Horizontal"
-                    HorizontalOptions="FillAndExpand">
-                    <ui:MaterialLabel
-                        TextColor="{StaticResource PrimaryColor}"
-                        VerticalOptions="FillAndExpand"
-                        HorizontalOptions="FillAndExpand"
-                        VerticalTextAlignment="Center"
-                        HorizontalTextAlignment="Start"
-                        LineHeight="1"
-                        Text="Information"
-                        TypeScale="Subtitle1" />
-                </StackLayout>
-                <StackLayout
-                    Orientation="Horizontal"
+                    Orientation="Vertical"
                     HorizontalOptions="FillAndExpand"
                     VerticalOptions="Start">
-                    <Image
-                        Source="{Binding ApplicationUser.Image, Converter={x:Static converters:UrlToImageConverter.Instance}}"
-                        HorizontalOptions="FillAndExpand"
-                        VerticalOptions="Start"
-                        WidthRequest="100"
-                        HeightRequest="100"
-                        Aspect="AspectFill">
-                        <Image.Effects>
-                            <effects:RoundEffect />
-                        </Image.Effects>
-                    </Image>
                     <StackLayout
-                        Orientation="Vertical"
+                        Orientation="Horizontal"
+                        HorizontalOptions="FillAndExpand">
+                        <ui:MaterialLabel
+                            TextColor="{StaticResource PrimaryColor}"
+                            VerticalOptions="FillAndExpand"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalTextAlignment="Center"
+                            HorizontalTextAlignment="Start"
+                            LineHeight="1"
+                            Text="Information"
+                            TypeScale="Subtitle1" />
+                    </StackLayout>
+                    <StackLayout
+                        Orientation="Horizontal"
                         HorizontalOptions="FillAndExpand"
-                        VerticalOptions="Start"
-                        HeightRequest="190">
-                        <ui:MaterialTextField
-                            VerticalOptions="Start"
+                        VerticalOptions="Start">
+                        <Image
+                            Source="{Binding ApplicationUser.Image, Converter={x:Static converters:UrlToImageConverter.Instance}}"
                             HorizontalOptions="FillAndExpand"
-                            Placeholder="{Binding ApplicationUser.Login, Mode=OneTime}"
-                            HelperText="Login"
-                            ErrorText="Enter valid data!"
-                            Text="{Binding ApplicationUser.Login}"
-                            LeadingIcon="account.png"
-                            BackgroundColor="Transparent"
-                            InputType="Text" />
-                        <ui:MaterialTextField
                             VerticalOptions="Start"
+                            WidthRequest="100"
+                            HeightRequest="100"
+                            Aspect="AspectFill">
+                            <Image.Effects>
+                                <effects:RoundEffect />
+                            </Image.Effects>
+                        </Image>
+                        <StackLayout
+                            Orientation="Vertical"
                             HorizontalOptions="FillAndExpand"
-                            Placeholder="{Binding ApplicationUser.Email, Mode=OneTime}"
-                            HelperText="Email"
-                            ErrorText="Enter valid data!"
-                            Text="{Binding ApplicationUser.Email}"
-                            LeadingIcon="mail.png"
-                            BackgroundColor="Transparent"
-                            InputType="Email" />
-                        <ui:MaterialTextField
                             VerticalOptions="Start"
-                            HorizontalOptions="FillAndExpand"
-                            Placeholder="Password"
-                            HelperText="Password"
-                            ErrorText="Enter valid data!"
-                            Text="{Binding UserCredentials.Password}"
-                            LeadingIcon="key.png"
-                            BackgroundColor="Transparent"
-                            InputType="Password" />
+                            HeightRequest="190">
+                            <ui:MaterialTextField
+                                VerticalOptions="Start"
+                                HorizontalOptions="FillAndExpand"
+                                Placeholder="{Binding ApplicationUser.Login, Mode=OneTime}"
+                                HelperText="Login"
+                                ErrorText="Enter valid data!"
+                                Text="{Binding ApplicationUser.Login}"
+                                LeadingIcon="account.png"
+                                BackgroundColor="Transparent"
+                                InputType="Text" />
+                            <ui:MaterialTextField
+                                VerticalOptions="Start"
+                                HorizontalOptions="FillAndExpand"
+                                Placeholder="{Binding ApplicationUser.Email, Mode=OneTime}"
+                                HelperText="Email"
+                                ErrorText="Enter valid data!"
+                                Text="{Binding ApplicationUser.Email}"
+                                LeadingIcon="mail.png"
+                                BackgroundColor="Transparent"
+                                InputType="Email" />
+                            <ui:MaterialTextField
+                                VerticalOptions="Start"
+                                HorizontalOptions="FillAndExpand"
+                                Placeholder="Password"
+                                HelperText="Password"
+                                ErrorText="Enter valid data!"
+                                Text="{Binding UserCredentials.Password}"
+                                LeadingIcon="key.png"
+                                BackgroundColor="Transparent"
+                                InputType="Password" />
+                        </StackLayout>
                     </StackLayout>
                 </StackLayout>
-            </StackLayout>
-            <!--Orders table-->
-            <StackLayout
-                Orientation="Vertical"
-                HorizontalOptions="FillAndExpand"
-                VerticalOptions="Start">
+                <!--Orders table-->
                 <StackLayout
-                    Orientation="Horizontal"
+                    Orientation="Vertical"
                     HorizontalOptions="FillAndExpand"
-                    VerticalOptions="StartAndExpand">
-                    <ui:MaterialLabel
-                        TextColor="{StaticResource PrimaryColor}"
-                        VerticalOptions="FillAndExpand"
+                    VerticalOptions="Start">
+                    <StackLayout
+                        Orientation="Horizontal"
                         HorizontalOptions="FillAndExpand"
-                        VerticalTextAlignment="Center"
-                        HorizontalTextAlignment="Start"
-                        LineHeight="1"
-                        Text="Orders"
-                        TypeScale="Subtitle1" />
+                        VerticalOptions="StartAndExpand">
+                        <ui:MaterialLabel
+                            TextColor="{StaticResource PrimaryColor}"
+                            VerticalOptions="FillAndExpand"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalTextAlignment="Center"
+                            HorizontalTextAlignment="Start"
+                            LineHeight="1"
+                            Text="Orders"
+                            TypeScale="Subtitle1" />
+                    </StackLayout>
+                </StackLayout>
+                <!--Payments list-->
+                <StackLayout
+                    Orientation="Vertical"
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="Start">
+                    <StackLayout
+                        Orientation="Horizontal"
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="StartAndExpand">
+                        <ui:MaterialLabel
+                            TextColor="{StaticResource PrimaryColor}"
+                            VerticalOptions="FillAndExpand"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalTextAlignment="Center"
+                            HorizontalTextAlignment="Start"
+                            LineHeight="1"
+                            Text="Payments"
+                            TypeScale="Subtitle1" />
+                    </StackLayout>
+                    <StackLayout
+                        VerticalOptions="FillAndExpand"
+                        BackgroundColor="Transparent"
+                        BindableLayout.ItemsSource="{Binding PaymentMethods}">
+                        <BindableLayout.EmptyView>
+                            <Label Text="No data" />
+                        </BindableLayout.EmptyView>
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate>
+                                <ui:MaterialCard
+                                    Margin="0"
+                                    Padding="10"
+                                    CornerRadius="15"
+                                    BackgroundColor="{StaticResource UiElementsColor}"
+                                    Elevation="1"
+                                    IsClickable="True"
+                                    HorizontalOptions="FillAndExpand"
+                                    VerticalOptions="Start">
+                                    <ui:MaterialCard.Content>
+                                        <StackLayout
+                                            Orientation="Vertical"
+                                            VerticalOptions="Start">
+                                            <ui:MaterialTextField
+                                                VerticalOptions="Start"
+                                                HorizontalOptions="FillAndExpand"
+                                                Placeholder="{Binding CardName, Mode=OneTime}"
+                                                HelperText="Owner name"
+                                                ErrorText="Enter valid data!"
+                                                Text="{Binding CardName}"
+                                                BackgroundColor="Transparent"
+                                                InputType="Text"
+                                                IsAutoCapitalizationEnabled="False" />
+                                            <ui:MaterialTextField
+                                                VerticalOptions="Start"
+                                                HorizontalOptions="FillAndExpand"
+                                                Placeholder="{Binding Number, Mode=OneTime}"
+                                                HelperText="Card number"
+                                                ErrorText="Enter valid data!"
+                                                Text="{Binding Number}"
+                                                BackgroundColor="Transparent"
+                                                InputType="Numeric"
+                                                IsAutoCapitalizationEnabled="False" />
+                                            <StackLayout
+                                                VerticalOptions="Start"
+                                                HeightRequest="65"
+                                                HorizontalOptions="FillAndExpand"
+                                                Orientation="Horizontal">
+                                                <ui:MaterialTextField
+                                                    VerticalOptions="Start"
+                                                    HorizontalOptions="Start"
+                                                    Placeholder="{Binding Cvc, Mode=OneTime}"
+                                                    HelperText="CVC"
+                                                    ErrorText="Enter valid data!"
+                                                    Text="{Binding Cvc}"
+                                                    BackgroundColor="Transparent"
+                                                    InputType="Numeric"
+                                                    IsAutoCapitalizationEnabled="False" />
+                                                <StackLayout
+                                                    Orientation="Horizontal"
+                                                    VerticalOptions="Start"
+                                                    HorizontalOptions="EndAndExpand">
+                                                    <ui:MaterialTextField
+                                                        VerticalOptions="Start"
+                                                        HorizontalOptions="Start"
+                                                        Placeholder="{Binding ExpirationDate.Month, Mode=OneTime}"
+                                                        HelperText="Month"
+                                                        ErrorText="Enter valid data!"
+                                                        Text="{Binding ExpirationDate.Month}"
+                                                        BackgroundColor="Transparent"
+                                                        InputType="Numeric"
+                                                        IsAutoCapitalizationEnabled="False" />
+                                                    <ui:MaterialTextField
+                                                        VerticalOptions="Start"
+                                                        HorizontalOptions="End"
+                                                        Placeholder="{Binding ExpirationDate.Year, Mode=OneTime}"
+                                                        HelperText="Year"
+                                                        ErrorText="Enter valid data!"
+                                                        Text="{Binding ExpirationDate.Year}"
+                                                        BackgroundColor="Transparent"
+                                                        InputType="Numeric"
+                                                        IsAutoCapitalizationEnabled="False" />
+                                                </StackLayout>
+                                            </StackLayout>
+                                            <Grid
+                                                HorizontalOptions="FillAndExpand"
+                                                Padding="0"
+                                                Margin="0">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition
+                                                        Width="*"/>
+                                                    <ColumnDefinition
+                                                        Width="*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <ui:MaterialButton
+                                                    Grid.Column="0"
+                                                    CornerRadius="5"
+                                                    Margin="0"
+                                                    Padding="0"
+                                                    BackgroundColor="{StaticResource BackgroundColor}"
+                                                    Text="Remove"
+                                                    VerticalOptions="Start"
+                                                    HorizontalOptions="FillAndExpand"
+                                                    ButtonType="Flat"
+                                                    AllCaps="True"/>
+                                                <ui:MaterialButton
+                                                    Grid.Column="1"
+                                                    CornerRadius="5"
+                                                    Margin="0"
+                                                    Padding="0"
+                                                    BackgroundColor="{StaticResource BackgroundColor}"
+                                                    Text="Edit"
+                                                    VerticalOptions="Start"
+                                                    HorizontalOptions="FillAndExpand"
+                                                    ButtonType="Flat"
+                                                    AllCaps="True"/>
+                                            </Grid>
+                                        </StackLayout>
+                                    </ui:MaterialCard.Content>
+                                </ui:MaterialCard>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </StackLayout>
+                    <ui:MaterialButton
+                        CornerRadius="5"
+                        Margin="0"
+                        Padding="0"
+                        BackgroundColor="{StaticResource UiElementsColor}"
+                        Text="Add payment"
+                        VerticalOptions="Start"
+                        HorizontalOptions="FillAndExpand"
+                        ButtonType="Flat"
+                        AllCaps="True"/>
                 </StackLayout>
             </StackLayout>
-        </StackLayout>
+        </ScrollView>
     </views:BaseProfileView.Content>
 </views:BaseProfileView>
