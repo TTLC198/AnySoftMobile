@@ -10,6 +10,7 @@
     xmlns:effects="clr-namespace:AnySoftMobile.Effects;assembly=AnySoftMobile"
     xmlns:controls="clr-namespace:AnySoftMobile.Controls;assembly=AnySoftMobile"
     xmlns:dataGrid="clr-namespace:Xamarin.Forms.DataGrid;assembly=Xamarin.Forms.DataGrid"
+    xmlns:iconize="clr-namespace:Plugin.Iconize;assembly=Plugin.Iconize"
     x:Class="AnySoftMobile.Views.ProfileView"
     x:Name="Root"
     Title="Profile page"
@@ -22,18 +23,14 @@
     ui:MaterialNavigationPage.AppBarTitleTextColor="{StaticResource PrimaryColor}"
     NavigationPage.HasNavigationBar="True">
     <views:BaseProfileView.ToolbarItems>
-        <ToolbarItem
-            Text=""
-            IconImageSource="contentsave.png"
-            Command="{Binding OnProfileChangedCommand}"
-            Order="Primary"
-            Priority="0" />
-        <ToolbarItem
-            Text=""
-            IconImageSource="logout.png"
-            Command="{Binding OnLogoutClickedCommand}"
-            Order="Primary"
-            Priority="0" />
+        <iconize:IconToolbarItem 
+            Command="{Binding OnProfileChangedCommand}" 
+            IconImageSource="contentsave.png" 
+            IconColor="{StaticResource PrimaryColor}"/>
+        <iconize:IconToolbarItem 
+            Command="{Binding OnLogoutClickedCommand}" 
+            IconImageSource="logout.png" 
+            IconColor="{StaticResource PrimaryColor}"/>
     </views:BaseProfileView.ToolbarItems>
     <views:BaseProfileView.Resources>
         <Style
@@ -102,7 +99,7 @@
                             HorizontalOptions="FillAndExpand"
                             VerticalOptions="Start"
                             WidthRequest="100"
-                            HeightRequest="100"
+                            HeightRequest="{Binding Width, Source={RelativeSource Self}}"
                             Aspect="AspectFill">
                             <Image.Effects>
                                 <effects:RoundEffect />
@@ -175,7 +172,7 @@
                         PullToRefreshCommand="{Binding OrdersRefreshCommand}"
                         IsSortable="False"
                         IsEnabled="True"
-                        SelectionEnabled="True">
+                        SelectionEnabled="False">
                         <dataGrid:DataGrid.Resources>
                             <dataGrid:PaletteCollection x:Key="BgPalette">
                                 <Color x:Key="UiElementsColor">#262626</Color>
@@ -272,6 +269,7 @@
                                                 HorizontalOptions="FillAndExpand"
                                                 Placeholder="{Binding Number, Mode=OneTime}"
                                                 HelperText="Card number"
+                                                MaxLength="12"
                                                 ErrorText="Enter valid data!"
                                                 Text="{Binding Number}"
                                                 BackgroundColor="Transparent"
@@ -287,6 +285,7 @@
                                                     HorizontalOptions="Start"
                                                     Placeholder="{Binding Cvc, Mode=OneTime}"
                                                     HelperText="CVC"
+                                                    MaxLength="3"
                                                     ErrorText="Enter valid data!"
                                                     Text="{Binding Cvc}"
                                                     BackgroundColor="Transparent"
@@ -301,6 +300,7 @@
                                                         HorizontalOptions="Start"
                                                         Placeholder="{Binding ExpirationDate.Month, Mode=OneTime}"
                                                         HelperText="Month"
+                                                        MaxLength="2"
                                                         ErrorText="Enter valid data!"
                                                         Text="{Binding ExpirationDate.Month}"
                                                         BackgroundColor="Transparent"
@@ -311,6 +311,7 @@
                                                         HorizontalOptions="End"
                                                         Placeholder="{Binding ExpirationDate.Year, Mode=OneTime}"
                                                         HelperText="Year"
+                                                        MaxLength="4"
                                                         ErrorText="Enter valid data!"
                                                         Text="{Binding ExpirationDate.Year}"
                                                         BackgroundColor="Transparent"
