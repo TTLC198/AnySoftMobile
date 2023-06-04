@@ -98,6 +98,17 @@
                     <ui:MaterialTextField
                         VerticalOptions="Start"
                         HorizontalOptions="FillAndExpand"
+                        HelperText="Tap on field"
+                        ErrorText="Enter valid data!"
+                        Placeholder="User icon"
+                        LeadingIcon="image.png"
+                        BackgroundColor="Transparent"
+                        InputType="CommandChoice"
+                        ChoiceSelectedCommand="{Binding OnFileDialogClicked}"
+                        IsAutoCapitalizationEnabled="False"/>
+                    <ui:MaterialTextField
+                        VerticalOptions="Start"
+                        HorizontalOptions="FillAndExpand"
                         Placeholder="Login"
                         HelperText="Login"
                         ErrorText="Enter valid data!"
