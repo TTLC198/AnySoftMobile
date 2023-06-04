@@ -76,6 +76,7 @@
         <AndroidResource Include="Resources\drawable-hdpi\creditcardchip.png" />
         <AndroidResource Include="Resources\drawable-hdpi\creditcard.png" />
         <AndroidResource Include="Resources\drawable-hdpi\delete.png" />
+        <AndroidResource Include="Resources\drawable-hdpi\image.png" />
         <AndroidResource Include="Resources\drawable-hdpi\key.png" />
         <AndroidResource Include="Resources\drawable-hdpi\login.png" />
         <AndroidResource Include="Resources\drawable-hdpi\logout.png" />

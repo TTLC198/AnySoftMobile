@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:views="clr-namespace:AnySoftMobile.Views;assembly=AnySoftMobile"
     xmlns:ui="clr-namespace:XF.Material.Forms.UI;assembly=XF.Material"
+    xmlns:converters="clr-namespace:AnySoftMobile.Utils.Converters;assembly=AnySoftMobile"
     x:Class="AnySoftMobile.Views.LoginView"
     x:Name="Root"
     Title="Login page"
@@ -21,41 +22,41 @@
             TargetType="ui:MaterialTextField">
             <Setter
                 Property="LeadingIconTintColor"
-                Value="{StaticResource PrimaryColor}"/>
+                Value="{StaticResource PrimaryColor}" />
             <Setter
                 Property="PlaceholderColor"
-                Value="{StaticResource SecondaryColor}"/>
+                Value="{StaticResource SecondaryColor}" />
             <Setter
                 Property="UnderlineColor"
-                Value="{StaticResource PrimaryColor}"/>
+                Value="{StaticResource PrimaryColor}" />
             <Setter
                 Property="TintColor"
-                Value="{StaticResource PrimaryColor}"/>
+                Value="{StaticResource PrimaryColor}" />
             <Setter
                 Property="TextColor"
-                Value="{StaticResource PrimaryColor}"/>
+                Value="{StaticResource PrimaryColor}" />
             <Setter
                 Property="FloatingPlaceholderColor"
-                Value="{StaticResource SecondaryColor}"/>
+                Value="{StaticResource SecondaryColor}" />
             <Setter
                 Property="CardBackgroundColor"
-                Value="Transparent"/>
+                Value="Transparent" />
             <Setter
                 Property="AlwaysShowUnderline"
-                Value="True"/>
+                Value="True" />
         </Style>
         <Style
             TargetType="ui:MaterialButton"
             x:Key="LoginButtonStyle">
             <Setter
                 Property="BackgroundColor"
-                Value="{StaticResource UiElementsColor}"/>
+                Value="{StaticResource UiElementsColor}" />
             <Setter
                 Property="TextColor"
-                Value="{StaticResource PrimaryColor}"/>
+                Value="{StaticResource PrimaryColor}" />
             <Setter
                 Property="CornerRadius"
-                Value="5"/>
+                Value="5" />
         </Style>
     </views:BaseLoginView.Resources>
     <views:BaseLoginView.Content>
@@ -63,31 +64,81 @@
             VerticalOptions="FillAndExpand"
             HorizontalOptions="FillAndExpand"
             Padding="15, 5">
-            <StackLayout
-                Orientation="Vertical"
-                VerticalOptions="StartAndExpand">
-                <ui:MaterialTextField
-                    VerticalOptions="Start"
-                    HorizontalOptions="FillAndExpand"
-                    Placeholder="Login"
-                    HelperText="Login"
-                    ErrorText="Enter valid data!"
-                    Text="{Binding UserCredentials.Login}"
-                    LeadingIcon="account.png"
-                    BackgroundColor="Transparent"
-                    InputType="Text"
-                    IsAutoCapitalizationEnabled="False"/>
-                <ui:MaterialTextField
-                    VerticalOptions="Start"
-                    HorizontalOptions="FillAndExpand"
-                    Placeholder="Password"
-                    HelperText="Password"
-                    ErrorText="Enter valid data!"
-                    LeadingIcon="key.png"
-                    LeadingIconTintColor="{StaticResource PrimaryColor}"
-                    Text="{Binding UserCredentials.Password}"
-                    InputType="Password" />
-            </StackLayout>
+            <Grid>
+                <StackLayout
+                    Orientation="Vertical"
+                    VerticalOptions="StartAndExpand"
+                    IsVisible="{Binding IsRegisterView, Converter={x:Static converters:InverseBoolToBoolConverter.Instance}}">
+                    <ui:MaterialTextField
+                        VerticalOptions="Start"
+                        HorizontalOptions="FillAndExpand"
+                        Placeholder="Login"
+                        HelperText="Login"
+                        ErrorText="Enter valid data!"
+                        Text="{Binding UserCredentials.Login}"
+                        LeadingIcon="account.png"
+                        BackgroundColor="Transparent"
+                        InputType="Text"
+                        IsAutoCapitalizationEnabled="False" />
+                    <ui:MaterialTextField
+                        VerticalOptions="Start"
+                        HorizontalOptions="FillAndExpand"
+                        Placeholder="Password"
+                        HelperText="Password"
+                        ErrorText="Enter valid data!"
+                        LeadingIcon="key.png"
+                        LeadingIconTintColor="{StaticResource PrimaryColor}"
+                        Text="{Binding UserCredentials.Password}"
+                        InputType="Password" />
+                </StackLayout>
+                <StackLayout
+                    Orientation="Vertical"
+                    VerticalOptions="StartAndExpand"
+                    IsVisible="{Binding IsRegisterView}">
+                    <ui:MaterialTextField
+                        VerticalOptions="Start"
+                        HorizontalOptions="FillAndExpand"
+                        HelperText="Tap on field"
+                        ErrorText="Enter valid data!"
+                        Placeholder="User icon"
+                        LeadingIcon="image.png"
+                        BackgroundColor="Transparent"
+                        InputType="CommandChoice"
+                        ChoiceSelectedCommand="{Binding OnFileDialogClicked}"
+                        IsAutoCapitalizationEnabled="False"/>
+                    <ui:MaterialTextField
+                        VerticalOptions="Start"
+                        HorizontalOptions="FillAndExpand"
+                        Placeholder="Login"
+                        HelperText="Login"
+                        ErrorText="Enter valid data!"
+                        Text="{Binding UserCredentials.Login}"
+                        LeadingIcon="account.png"
+                        BackgroundColor="Transparent"
+                        InputType="Text"
+                        IsAutoCapitalizationEnabled="False" />
+                    <ui:MaterialTextField
+                        VerticalOptions="Start"
+                        HorizontalOptions="FillAndExpand"
+                        Placeholder="Email"
+                        HelperText="Email"
+                        ErrorText="Enter valid data!"
+                        LeadingIcon="mail.png"
+                        LeadingIconTintColor="{StaticResource PrimaryColor}"
+                        Text="{Binding UserCredentials.Email}"
+                        InputType="Email" />
+                    <ui:MaterialTextField
+                        VerticalOptions="Start"
+                        HorizontalOptions="FillAndExpand"
+                        Placeholder="Password"
+                        HelperText="Password"
+                        ErrorText="Enter valid data!"
+                        LeadingIcon="key.png"
+                        LeadingIconTintColor="{StaticResource PrimaryColor}"
+                        Text="{Binding UserCredentials.Password}"
+                        InputType="Password" />
+                </StackLayout>
+            </Grid>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition
@@ -98,7 +149,7 @@
                 <ui:MaterialButton
                     Grid.Column="0"
                     Style="{StaticResource LoginButtonStyle}"
-                    
+
                     Margin="0"
                     Padding="0"
                     HorizontalOptions="FillAndExpand"

@@ -15,6 +15,7 @@ using AnySoftDesktop.Models;
 using AnySoftDesktop.Utils;
 using AnySoftMobile.Services;
 using AnySoftMobile.Utils;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using XF.Material.Forms.UI.Dialogs;
 
@@ -22,18 +23,24 @@ namespace AnySoftMobile.ViewModels;
 
 public class LoginViewModel : BaseViewModel
 {
-    public bool IsRegisterView { get; set; }
+    private bool _isRegisterView;
+
+    public bool IsRegisterView
+    {
+        get => _isRegisterView;
+        set => Set(ref _isRegisterView, value);
+    }
 
     public UserCreateDto UserCredentials { get; set; } = new UserCreateDto();
 
-    private string? _userImagePath;
+    private FileResult? _userImage;
 
-    public string? UserImagePath
+    public FileResult? UserImage
     {
-        get => _userImagePath;
+        get => _userImage;
         set
         {
-            _userImagePath = value;
+            _userImage = value;
             OnPropertyChanged();
         }
     }
@@ -42,10 +49,22 @@ public class LoginViewModel : BaseViewModel
     
     public ICommand OnRegisterButtonClicked { get; set; }
     
+    public ICommand OnFileDialogClicked { get; set; }
+    
     public LoginViewModel()
     {
         OnLoginButtonClicked = new Command(AccountLogin);
-        OnRegisterButtonClicked =  new Command(AccountRegister);
+        OnRegisterButtonClicked = new Command(AccountRegister);
+        OnFileDialogClicked = new Command(OpenFileDialog);
+    }
+    
+    public async void OpenFileDialog()
+    {
+        var result = await FilePicker.PickAsync();
+        if (result != null)
+        {
+            UserImage = result;
+        }
     }
 
     private async void AccountLogin()
@@ -160,13 +179,20 @@ public class LoginViewModel : BaseViewModel
 
                         var formContent = new MultipartFormDataContent();
 
-                        var stream = File.OpenRead(UserImagePath!);
+                        Stream imageStream = new MemoryStream();
+                        
+                        if (UserImage!.FileName.EndsWith("jpg", StringComparison.OrdinalIgnoreCase) ||
+                            UserImage!.FileName.EndsWith("png", StringComparison.OrdinalIgnoreCase))
+                        {
+                            imageStream = await UserImage.OpenReadAsync();
+                        }
+                        
                         formContent.Add(new StringContent(user.Id.ToString()), "userId");
 
-                        var imageContent = new StreamContent(stream);
+                        var imageContent = new StreamContent(imageStream);
                         imageContent.Headers.ContentType =
-                            MediaTypeHeaderValue.Parse($"image/{UserImagePath?.Split('/').Last().Split('.').Last()}");
-                        formContent.Add(imageContent, "image", $"{UserImagePath?.Split('/').Last()}");
+                            MediaTypeHeaderValue.Parse($"image/{UserImage!.FileName.Split('/').Last().Split('.').Last()}");
+                        formContent.Add(imageContent, "image", $"{UserImage!.FileName.Split('/').Last()}");
 
                         var postImageRequest = await WebApiService.PostCall(
                             "resources/image/upload",
