@@ -36,11 +36,4 @@ namespace AnySoftMobile
             // Handle when your app resumes
         }
     }
-    
-    public partial class App
-    {
-        public static string CdnUrl { get; } = "https://d24d-91-245-37-31.ngrok-free.app/";
-        
-        public static string ApiUrl { get; } = "https://d24d-91-245-37-31.ngrok-free.app/";
-    }
 }
