@@ -300,10 +300,10 @@
                                                     <ui:MaterialSlider
                                                         IsVisible="{Binding IsModified}"
                                                         Value="{Binding Grade, StringFormat='{0.00}'}"
-                                                        MinValue="0" 
-                                                        MaxValue="5" 
+                                                        MinValue="0"
+                                                        MaxValue="5"
                                                         ThumbColor="{StaticResource PrimaryColor}"
-                                                        TrackColor="{StaticResource SecondaryColor}"/>
+                                                        TrackColor="{StaticResource SecondaryColor}" />
                                                 </Grid>
                                             </StackLayout>
                                             <StackLayout
@@ -382,6 +382,97 @@
                             </DataTemplate>
                         </BindableLayout.ItemTemplate>
                     </StackLayout>
+                    <ui:MaterialCard
+                        Margin="0"
+                        Padding="10"
+                        CornerRadius="15"
+                        BackgroundColor="{StaticResource UiElementsColor}"
+                        Elevation="1"
+                        IsVisible="{Binding IsBought}"
+                        IsClickable="True"
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="Start">
+                        <StackLayout
+                            IsVisible="{Binding IsOwnReviewExists, Converter={x:Static converters:InverseBoolToBoolConverter.Instance}}"
+                            Orientation="Vertical"
+                            Margin="0, 5">
+                            <StackLayout
+                                IsVisible="{Binding IsReviewAdded}"
+                                Orientation="Vertical">
+                                <StackLayout
+                                    Orientation="Horizontal"
+                                    Margin="0, 15">
+                                    <ui:MaterialSlider
+                                        Value="{Binding NewReview.Grade, StringFormat='{0.00}', Mode=TwoWay}"
+                                        MinValue="0"
+                                        MaxValue="5"
+                                        ThumbColor="{StaticResource PrimaryColor}"
+                                        TrackColor="{StaticResource SecondaryColor}" />
+                                    <ui:MaterialLabel
+                                        Padding="0"
+                                        Margin="0"
+                                        HorizontalOptions="Start"
+                                        TextColor="{StaticResource SecondaryColor}"
+                                        VerticalTextAlignment="Start"
+                                        LineHeight="1"
+                                        Text="{Binding NewReview.Grade}"
+                                        TypeScale="Body1" />
+                                    <ui:MaterialIcon
+                                        Margin="0"
+                                        HorizontalOptions="Start"
+                                        WidthRequest="15"
+                                        HeightRequest="15"
+                                        Source="star.png"
+                                        TintColor="{StaticResource SecondaryColor}" />
+                                </StackLayout>
+                                <ui:MaterialTextField
+                                    TextColor="{StaticResource PrimaryColor}"
+                                    PlaceholderColor="{StaticResource SecondaryColor}"
+                                    UnderlineColor="{StaticResource PrimaryColor}"
+                                    TintColor="{StaticResource SecondaryColor}"
+                                    BackgroundColor="Transparent"
+                                    CardBackgroundColor="Transparent"
+                                    ShouldAnimateUnderline="True"
+                                    FloatingPlaceholderEnabled="False"
+                                    InputType="Plain"
+                                    VerticalOptions="FillAndExpand"
+                                    Placeholder="Enter your opinion..."
+                                    HorizontalOptions="FillAndExpand"
+                                    Text="{Binding NewReview.Text}" />
+                            </StackLayout>
+                            <ui:MaterialButton
+                                CornerRadius="5"
+                                Margin="0"
+                                Padding="0"
+                                HorizontalOptions="FillAndExpand"
+                                VerticalOptions="FillAndExpand"
+                                ButtonType="Outlined"
+                                BorderWidth="0"
+                                BackgroundColor="Transparent"
+                                TextColor="{StaticResource PrimaryColor}"
+                                AllCaps="True"
+                                Command="{Binding OnAddReviewButtonClicked}">
+                                <ui:MaterialButton.Style>
+                                    <Style
+                                        TargetType="ui:MaterialButton">
+                                        <Setter
+                                            Property="Text"
+                                            Value="Add review" />
+                                        <Style.Triggers>
+                                            <DataTrigger
+                                                TargetType="ui:MaterialButton"
+                                                Binding="{Binding IsReviewAdded}"
+                                                Value="True">
+                                                <Setter
+                                                    Property="Text"
+                                                    Value="Save changes" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ui:MaterialButton.Style>
+                            </ui:MaterialButton>
+                        </StackLayout>
+                    </ui:MaterialCard>
                 </StackLayout>
             </StackLayout>
         </ScrollView>
