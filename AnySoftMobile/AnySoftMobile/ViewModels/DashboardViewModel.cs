@@ -11,6 +11,7 @@ using AnySoftBackend.Library.DataTransferObjects.Product;
 using AnySoftDesktop.Utils;
 using AnySoftMobile.Models;
 using AnySoftMobile.Services;
+using AnySoftMobile.Utils;
 using AnySoftMobile.Utils.Dialogs;
 using AnySoftMobile.Views;
 using Xamarin.Forms;
@@ -31,6 +32,8 @@ public class DashboardViewModel : BaseViewModel
     }
     
     public string? SearchString { get; set; }
+
+    private bool IsFirstStart = true;
     
     public ICommand OnSearchBarTextEnteredCommand { get; set; }
     public ICommand OnProductViewEnteredCommand { get; set; }
@@ -50,6 +53,22 @@ public class DashboardViewModel : BaseViewModel
 
     public override async void OnViewAppearing(object sender, EventArgs args)
     {
+        if (IsFirstStart)
+        {
+            string? apiUrl, cdnUrl;
+            do
+            {
+                apiUrl = await MaterialDialog.Instance.InputAsync(title: "Enter valid api url ending with /");
+            } while (apiUrl is null);
+            do
+            {
+                cdnUrl = await MaterialDialog.Instance.InputAsync(title: "Enter valid cdn url ending with /");
+            } while (cdnUrl is null);
+
+            VersionManager.Instance.ApiUrl = apiUrl;
+            VersionManager.Instance.CdnUrl = cdnUrl;
+            IsFirstStart = false;
+        }
         await UpdateProducts();
     }
 
