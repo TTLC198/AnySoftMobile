@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
+using AnySoftMobile.Utils;
 
 namespace AnySoftMobile.Services;
 
@@ -12,7 +13,7 @@ public class WebApiService
     public static async Task<HttpResponseMessage> GetCall(string url, string authorizatonToken = "")  
     {  
         ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;  
-        var apiUrl = App.ApiUrl + url;
+        var apiUrl = VersionManager.Instance.ApiUrl + url;
         using var client = new HttpClient();
         if (authorizatonToken != string.Empty)
             client.DefaultRequestHeaders.Add("Authorization", $"Bearer {authorizatonToken}");
@@ -30,7 +31,7 @@ public class WebApiService
         string? authorizationToken = null,
         string? contentType = null) where T : class
     {
-        var apiUrl = App.ApiUrl + url;
+        var apiUrl = VersionManager.Instance.ApiUrl + url;
         ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
         using var client = new HttpClient();
         if (authorizationToken is not null)
@@ -49,7 +50,7 @@ public class WebApiService
         string? authorizationToken = null,
         string? contentType = null)
     {
-        var apiUrl = App.ApiUrl + url;
+        var apiUrl = VersionManager.Instance.ApiUrl + url;
         ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
         using var client = new HttpClient();
         if (authorizationToken is not null)
@@ -68,7 +69,7 @@ public class WebApiService
         string? authorizationToken = null) where T : class  
     {  
         ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;  
-        var apiUrl = App.ApiUrl + url;
+        var apiUrl = VersionManager.Instance.ApiUrl + url;
         using var client = new HttpClient();
         if (authorizationToken is not null)
             client.DefaultRequestHeaders.Add("Authorization", $"Bearer {authorizationToken}");
@@ -85,7 +86,7 @@ public class WebApiService
         string? authorizationToken = null)   
     {  
         ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;  
-        var apiUrl = App.ApiUrl + url;
+        var apiUrl = VersionManager.Instance.ApiUrl + url;
         try
         {
             using var client = new HttpClient();
