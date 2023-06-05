@@ -38,7 +38,7 @@
                 VerticalScrollBarVisibility="Always">
                 <controls:UniformGrid
                     Columns="2"
-                    VerticalOptions="FillAndExpand"
+                    VerticalOptions="Start"
                     BackgroundColor="Transparent"
                     BindableLayout.ItemsSource="{Binding Products}">
                     <BindableLayout.EmptyView>
@@ -53,8 +53,10 @@
                                 BackgroundColor="{StaticResource UiElementsColor}"
                                 Elevation="1"
                                 IsClickable="True"
+                                HeightRequest="250"
                                 ClickCommand="{Binding BindingContext.OnProductViewEntered, Source={x:RelativeSource Mode=FindAncestor, AncestorType={x:Type views:BaseLibraryView}}}"
                                 ClickCommandParameter="{Binding Id}"
+                                VerticalOptions="Start"
                                 HorizontalOptions="FillAndExpand">
                                 <ui:MaterialCard.Content>
                                     <StackLayout
