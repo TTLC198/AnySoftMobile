@@ -9,10 +9,10 @@ using Android.App;
 [assembly: AssemblyTitle("AnySoftMobile.Droid")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("CompanyName")]
+[assembly: AssemblyCompany("ttlc198")]
 [assembly: AssemblyProduct("AnySoftMobile.Droid")]
-[assembly: AssemblyCopyright("Copyright © CompanyName Year")]
-[assembly: AssemblyTrademark("CompanyTrademark")]
+[assembly: AssemblyCopyright("Copyright © ttlc198 2023")]
+[assembly: AssemblyTrademark("ttlc198")]
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]
 
