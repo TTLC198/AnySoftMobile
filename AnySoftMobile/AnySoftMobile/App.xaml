@@ -82,6 +82,7 @@
         <Style TargetType="NavigationPage">
             <Setter Property="BarBackgroundColor" Value="{StaticResource BackgroundColor}" />
             <Setter Property="BarTextColor" Value="{StaticResource PrimaryColor}" />
+            <Setter Property="IconColor" Value="{StaticResource PrimaryColor}" />
         </Style>
     </Application.Resources>
 </Application>

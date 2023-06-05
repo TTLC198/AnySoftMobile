@@ -47,6 +47,9 @@
         <Reference Include="System.Xml" />
     </ItemGroup>
     <ItemGroup>
+        <PackageReference Include="Xam.Plugin.Iconize" Version="3.5.0.129" />
+        <PackageReference Include="Xamarin.Android.Support.Compat" Version="28.0.0.3" />
+        <PackageReference Include="Xamarin.Android.Support.v7.AppCompat" Version="28.0.0.3" />
         <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
     </ItemGroup>
     <ItemGroup>
@@ -70,6 +73,9 @@
         <AndroidResource Include="Resources\drawable-hdpi\book.png" />
         <AndroidResource Include="Resources\drawable-hdpi\calendarmonth.png" />
         <AndroidResource Include="Resources\drawable-hdpi\cart.png" />
+        <AndroidResource Include="Resources\drawable-hdpi\commentcheck.png" />
+        <AndroidResource Include="Resources\drawable-hdpi\commentedit.png" />
+        <AndroidResource Include="Resources\drawable-hdpi\commentremove.png" />
         <AndroidResource Include="Resources\drawable-hdpi\contentsave.png" />
         <AndroidResource Include="Resources\drawable-hdpi\controller.png" />
         <AndroidResource Include="Resources\drawable-hdpi\creditcardedit.png" />
@@ -82,6 +88,7 @@
         <AndroidResource Include="Resources\drawable-hdpi\logout.png" />
         <AndroidResource Include="Resources\drawable-hdpi\magnify.png" />
         <AndroidResource Include="Resources\drawable-hdpi\mail.png" />
+        <AndroidResource Include="Resources\drawable-hdpi\staroutline.png" />
         <AndroidResource Include="Resources\drawable-hdpi\star.png" />
         <AndroidResource Include="Resources\drawable-hdpi\viewdashboard.png" />
         <AndroidResource Include="Resources\layout\Tabbar.axml" />

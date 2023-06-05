@@ -6,6 +6,7 @@
     xmlns:views="clr-namespace:AnySoftMobile.Views;assembly=AnySoftMobile"
     xmlns:converters="clr-namespace:AnySoftMobile.Utils.Converters;assembly=AnySoftMobile"
     xmlns:ui="clr-namespace:XF.Material.Forms.UI;assembly=XF.Material"
+    xmlns:local="clr-namespace:AnySoftMobile.Utils;assembly=AnySoftMobile"
     x:Class="AnySoftMobile.Views.SingleProductView"
     x:Name="Root"
     Title="{Binding Product.Name}"
@@ -14,7 +15,8 @@
     ui:MaterialNavigationPage.AppBarTitleTextAlignment="Start"
     ui:MaterialNavigationPage.AppBarTitleTextFontFamily="{StaticResource FontFamily.OutfitBold}"
     ui:MaterialNavigationPage.AppBarTitleTextFontSize="14"
-    ui:MaterialNavigationPage.StatusBarColor="{StaticResource UiElementsColor}"
+    ui:MaterialNavigationPage.StatusBarColor="{StaticResource BackgroundColor}"
+    ui:MaterialNavigationPage.AppBarTitleTextColor="{StaticResource PrimaryColor}"
     NavigationPage.HasNavigationBar="True">
     <views:BaseSingleProductView.Content>
         <ScrollView
@@ -109,10 +111,10 @@
                             TargetType="ui:MaterialButton">
                             <Setter
                                 Property="Text"
-                                Value="Add to cart"/>
+                                Value="Add to cart" />
                             <Setter
                                 Property="BackgroundColor"
-                                Value="{StaticResource PrimaryColor}"/>
+                                Value="{StaticResource PrimaryColor}" />
                             <Style.Triggers>
                                 <DataTrigger
                                     TargetType="ui:MaterialButton"
@@ -120,10 +122,10 @@
                                     Value="True">
                                     <Setter
                                         Property="Text"
-                                        Value="Remove from cart"/>
+                                        Value="Remove from cart" />
                                     <Setter
                                         Property="BackgroundColor"
-                                        Value="Firebrick"/>
+                                        Value="Firebrick" />
                                 </DataTrigger>
                                 <DataTrigger
                                     TargetType="ui:MaterialButton"
@@ -131,10 +133,10 @@
                                     Value="True">
                                     <Setter
                                         Property="Text"
-                                        Value="Download"/>
+                                        Value="Download" />
                                     <Setter
                                         Property="BackgroundColor"
-                                        Value="{StaticResource PrimaryColor}"/>
+                                        Value="{StaticResource PrimaryColor}" />
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
@@ -227,78 +229,250 @@
                         Text="Grades &amp; Reviews"
                         TypeScale="H6" />
                     <StackLayout
-                        BindableLayout.ItemsSource="{Binding Product.Reviews}"
+                        BindableLayout.ItemsSource="{Binding Reviews}"
                         VerticalOptions="Start"
                         HorizontalOptions="FillAndExpand"
                         Orientation="Vertical">
                         <BindableLayout.ItemTemplate>
                             <DataTemplate>
-                                <StackLayout
-                                    Orientation="Vertical"
-                                    Margin="0, 5">
+                                <ui:MaterialCard
+                                    Margin="0"
+                                    Padding="10"
+                                    CornerRadius="15"
+                                    BackgroundColor="{StaticResource UiElementsColor}"
+                                    Elevation="1"
+                                    IsClickable="True"
+                                    HorizontalOptions="FillAndExpand"
+                                    VerticalOptions="Start">
                                     <StackLayout
-                                        Orientation="Horizontal">
-                                        <Frame
-                                            CornerRadius="15"
-                                            Padding="0"
-                                            IsClippedToBounds="True">
-                                            <Image
-                                                HeightRequest="{Binding Height, Source={x:Reference ReviewDescriptionLayout}}"
-                                                WidthRequest="{Binding Height, Source={RelativeSource Self}}"
-                                                Aspect="AspectFill"
-                                                Source="{Binding User.Image, Converter={x:Static converters:UrlToImageConverter.Instance}}" />
-                                        </Frame>
+                                        Orientation="Vertical"
+                                        Margin="0, 5">
                                         <StackLayout
-                                            x:Name="ReviewDescriptionLayout"
-                                            Margin="7, 0, 0, 0"
-                                            VerticalOptions="StartAndExpand"
-                                            Orientation="Vertical"
-                                            HorizontalOptions="Fill">
-                                            <ui:MaterialLabel
-                                                TextColor="{StaticResource PrimaryColor}"
-                                                VerticalTextAlignment="Center"
-                                                Text="{Binding User.Login}"
-                                                TypeScale="Subtitle1" />
-                                            <ui:MaterialLabel
-                                                TextColor="{StaticResource SecondaryColor}"
-                                                VerticalTextAlignment="Start"
-                                                LineHeight="1"
-                                                Text="{Binding Ts, StringFormat='Posted {0:D}'}"
-                                                TypeScale="Subtitle2" />
+                                            Orientation="Horizontal">
+                                            <Frame
+                                                CornerRadius="15"
+                                                Padding="0"
+                                                IsClippedToBounds="True">
+                                                <Image
+                                                    HeightRequest="{Binding Height, Source={x:Reference ReviewDescriptionLayout}}"
+                                                    WidthRequest="{Binding Height, Source={RelativeSource Self}}"
+                                                    Aspect="AspectFill"
+                                                    Source="{Binding User.Image, Converter={x:Static converters:UrlToImageConverter.Instance}}" />
+                                            </Frame>
                                             <StackLayout
-                                                Orientation="Horizontal">
+                                                x:Name="ReviewDescriptionLayout"
+                                                Margin="7, 0, 0, 0"
+                                                VerticalOptions="StartAndExpand"
+                                                Orientation="Vertical"
+                                                HorizontalOptions="Fill">
                                                 <ui:MaterialLabel
-                                                    Padding="0"
-                                                    Margin="0"
-                                                    HorizontalOptions="Start"
+                                                    TextColor="{StaticResource PrimaryColor}"
+                                                    VerticalTextAlignment="Center"
+                                                    Text="{Binding User.Login}"
+                                                    TypeScale="Subtitle1" />
+                                                <ui:MaterialLabel
                                                     TextColor="{StaticResource SecondaryColor}"
                                                     VerticalTextAlignment="Start"
                                                     LineHeight="1"
-                                                    Text="{Binding Grade}"
-                                                    TypeScale="Body1" />
-                                                <ui:MaterialIcon
-                                                    Margin="0"
-                                                    HorizontalOptions="Start"
-                                                    WidthRequest="15"
-                                                    HeightRequest="15"
-                                                    Source="star.png"
-                                                    TintColor="{StaticResource SecondaryColor}" />
+                                                    Text="{Binding Ts, StringFormat='Posted {0:D}'}"
+                                                    TypeScale="Subtitle2" />
+                                                <Grid>
+                                                    <StackLayout
+                                                        IsVisible="{Binding IsModified, Converter={x:Static converters:InverseBoolToBoolConverter.Instance}}"
+                                                        Orientation="Horizontal">
+                                                        <ui:MaterialLabel
+                                                            Padding="0"
+                                                            Margin="0"
+                                                            HorizontalOptions="Start"
+                                                            TextColor="{StaticResource SecondaryColor}"
+                                                            VerticalTextAlignment="Start"
+                                                            LineHeight="1"
+                                                            Text="{Binding Grade}"
+                                                            TypeScale="Body1" />
+                                                        <ui:MaterialIcon
+                                                            Margin="0"
+                                                            HorizontalOptions="Start"
+                                                            WidthRequest="15"
+                                                            HeightRequest="15"
+                                                            Source="star.png"
+                                                            TintColor="{StaticResource SecondaryColor}" />
+                                                    </StackLayout>
+                                                    <ui:MaterialSlider
+                                                        IsVisible="{Binding IsModified}"
+                                                        Value="{Binding Grade, StringFormat='{0.00}'}"
+                                                        MinValue="0"
+                                                        MaxValue="5"
+                                                        ThumbColor="{StaticResource PrimaryColor}"
+                                                        TrackColor="{StaticResource SecondaryColor}" />
+                                                </Grid>
+                                            </StackLayout>
+                                            <StackLayout
+                                                Orientation="Horizontal"
+                                                HorizontalOptions="EndAndExpand"
+                                                IsVisible="{Binding IsOwn}">
+                                                <ui:MaterialIconButton
+                                                    HeightRequest="35"
+                                                    Margin="2"
+                                                    HorizontalOptions="EndAndExpand"
+                                                    VerticalOptions="CenterAndExpand"
+                                                    ButtonType="Outlined"
+                                                    TintColor="{StaticResource PrimaryColor}"
+                                                    BackgroundColor="Transparent"
+                                                    Command="{Binding BindingContext.OnEditReviewButtonClicked, Source={x:RelativeSource Mode=FindAncestor, AncestorType={x:Type views:BaseSingleProductView}}}"
+                                                    CommandParameter="{Binding .}">
+                                                    <ui:MaterialIconButton.Style>
+                                                        <Style
+                                                            TargetType="ui:MaterialIconButton">
+                                                            <Setter
+                                                                Property="Image"
+                                                                Value="commentedit.png" />
+                                                            <Style.Triggers>
+                                                                <DataTrigger
+                                                                    TargetType="ui:MaterialIconButton"
+                                                                    Binding="{Binding IsModified}"
+                                                                    Value="True">
+                                                                    <Setter
+                                                                        Property="Image"
+                                                                        Value="commentcheck.png" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </ui:MaterialIconButton.Style>
+                                                </ui:MaterialIconButton>
+                                                <ui:MaterialIconButton
+                                                    HeightRequest="35"
+                                                    Margin="2"
+                                                    HorizontalOptions="EndAndExpand"
+                                                    VerticalOptions="CenterAndExpand"
+                                                    ButtonType="Outlined"
+                                                    TintColor="{StaticResource PrimaryColor}"
+                                                    Image="commentremove.png"
+                                                    BackgroundColor="Transparent"
+                                                    Command="{Binding BindingContext.OnRemoveReviewButtonClicked, Source={x:RelativeSource Mode=FindAncestor, AncestorType={x:Type views:BaseSingleProductView}}}"
+                                                    CommandParameter="{Binding Id}" />
                                             </StackLayout>
                                         </StackLayout>
+                                        <Grid>
+                                            <ui:MaterialTextField
+                                                IsVisible="{Binding IsModified}"
+                                                TextColor="{StaticResource SecondaryColor}"
+                                                UnderlineColor="{StaticResource SecondaryColor}"
+                                                TintColor="{StaticResource SecondaryColor}"
+                                                BackgroundColor="Transparent"
+                                                CardBackgroundColor="Transparent"
+                                                ShouldAnimateUnderline="True"
+                                                FloatingPlaceholderEnabled="False"
+                                                InputType="Plain"
+                                                VerticalOptions="FillAndExpand"
+                                                HorizontalOptions="FillAndExpand"
+                                                Text="{Binding Text}" />
+                                            <ui:MaterialLabel
+                                                IsVisible="{Binding IsModified, Converter={x:Static converters:InverseBoolToBoolConverter.Instance}}"
+                                                TextColor="{StaticResource SecondaryColor}"
+                                                VerticalOptions="FillAndExpand"
+                                                HorizontalOptions="FillAndExpand"
+                                                VerticalTextAlignment="Start"
+                                                HorizontalTextAlignment="Start"
+                                                LineHeight="1"
+                                                Text="{Binding Text}"
+                                                TypeScale="Body1" />
+                                        </Grid>
                                     </StackLayout>
-                                    <ui:MaterialLabel
-                                        TextColor="{StaticResource SecondaryColor}"
-                                        VerticalOptions="FillAndExpand"
-                                        HorizontalOptions="FillAndExpand"
-                                        VerticalTextAlignment="Start"
-                                        HorizontalTextAlignment="Start"
-                                        LineHeight="1"
-                                        Text="{Binding Text}"
-                                        TypeScale="Body1" />
-                                </StackLayout>
+                                </ui:MaterialCard>
                             </DataTemplate>
                         </BindableLayout.ItemTemplate>
                     </StackLayout>
+                    <ui:MaterialCard
+                        Margin="0"
+                        Padding="10"
+                        CornerRadius="15"
+                        BackgroundColor="{StaticResource UiElementsColor}"
+                        Elevation="1"
+                        IsVisible="{Binding IsBought}"
+                        IsClickable="True"
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="Start">
+                        <StackLayout
+                            IsVisible="{Binding IsOwnReviewExists, Converter={x:Static converters:InverseBoolToBoolConverter.Instance}}"
+                            Orientation="Vertical"
+                            Margin="0, 5">
+                            <StackLayout
+                                IsVisible="{Binding IsReviewAdded}"
+                                Orientation="Vertical">
+                                <StackLayout
+                                    Orientation="Horizontal"
+                                    Margin="0, 15">
+                                    <ui:MaterialSlider
+                                        Value="{Binding NewReview.Grade, StringFormat='{0.00}', Mode=TwoWay}"
+                                        MinValue="0"
+                                        MaxValue="5"
+                                        ThumbColor="{StaticResource PrimaryColor}"
+                                        TrackColor="{StaticResource SecondaryColor}" />
+                                    <ui:MaterialLabel
+                                        Padding="0"
+                                        Margin="0"
+                                        HorizontalOptions="Start"
+                                        TextColor="{StaticResource SecondaryColor}"
+                                        VerticalTextAlignment="Start"
+                                        LineHeight="1"
+                                        Text="{Binding NewReview.Grade}"
+                                        TypeScale="Body1" />
+                                    <ui:MaterialIcon
+                                        Margin="0"
+                                        HorizontalOptions="Start"
+                                        WidthRequest="15"
+                                        HeightRequest="15"
+                                        Source="star.png"
+                                        TintColor="{StaticResource SecondaryColor}" />
+                                </StackLayout>
+                                <ui:MaterialTextField
+                                    TextColor="{StaticResource PrimaryColor}"
+                                    PlaceholderColor="{StaticResource SecondaryColor}"
+                                    UnderlineColor="{StaticResource PrimaryColor}"
+                                    TintColor="{StaticResource SecondaryColor}"
+                                    BackgroundColor="Transparent"
+                                    CardBackgroundColor="Transparent"
+                                    ShouldAnimateUnderline="True"
+                                    FloatingPlaceholderEnabled="False"
+                                    InputType="Plain"
+                                    VerticalOptions="FillAndExpand"
+                                    Placeholder="Enter your opinion..."
+                                    HorizontalOptions="FillAndExpand"
+                                    Text="{Binding NewReview.Text}" />
+                            </StackLayout>
+                            <ui:MaterialButton
+                                CornerRadius="5"
+                                Margin="0"
+                                Padding="0"
+                                HorizontalOptions="FillAndExpand"
+                                VerticalOptions="FillAndExpand"
+                                ButtonType="Outlined"
+                                BorderWidth="0"
+                                BackgroundColor="Transparent"
+                                TextColor="{StaticResource PrimaryColor}"
+                                AllCaps="True"
+                                Command="{Binding OnAddReviewButtonClicked}">
+                                <ui:MaterialButton.Style>
+                                    <Style
+                                        TargetType="ui:MaterialButton">
+                                        <Setter
+                                            Property="Text"
+                                            Value="Add review" />
+                                        <Style.Triggers>
+                                            <DataTrigger
+                                                TargetType="ui:MaterialButton"
+                                                Binding="{Binding IsReviewAdded}"
+                                                Value="True">
+                                                <Setter
+                                                    Property="Text"
+                                                    Value="Save changes" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ui:MaterialButton.Style>
+                            </ui:MaterialButton>
+                        </StackLayout>
+                    </ui:MaterialCard>
                 </StackLayout>
             </StackLayout>
         </ScrollView>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.Json;
 using System.Threading;
@@ -21,9 +22,9 @@ namespace AnySoftMobile.ViewModels
 {
     public class SingleProductViewModel : BaseViewModel
     {
-        private ProductResponseDto _product = new();
+        private ProductResponseDto? _product = new();
 
-        public ProductResponseDto Product
+        public ProductResponseDto? Product
         {
             get => _product;
             set => Set(ref _product, value);
@@ -45,6 +46,14 @@ namespace AnySoftMobile.ViewModels
             set => Set(ref _isBought, value);
         }
 
+        private ObservableCollection<CustomReview> _reviews;
+
+        public ObservableCollection<CustomReview> Reviews
+        {
+            get => _reviews;
+            set => Set(ref _reviews, value);
+        }
+
         public ReviewCreateDto? NewReview { get; set; } = new();
 
         private bool _isReviewAdded;
@@ -53,14 +62,6 @@ namespace AnySoftMobile.ViewModels
         {
             get => _isReviewAdded;
             set => Set(ref _isReviewAdded, value);
-        }
-
-        private bool _isReviewModified;
-
-        public bool IsReviewModified
-        {
-            get => _isReviewModified;
-            set => Set(ref _isReviewModified, value);
         }
 
         private bool _isOwnReviewExists;
@@ -72,10 +73,19 @@ namespace AnySoftMobile.ViewModels
         }
 
         public ICommand OnAddToCartButtonClicked { get; set; }
+        
+        public ICommand OnAddReviewButtonClicked { get; set; }
+        
+        public ICommand OnEditReviewButtonClicked { get; set; }
+        
+        public ICommand OnRemoveReviewButtonClicked { get; set; }
 
         public SingleProductViewModel()
         {
             OnAddToCartButtonClicked = new Command(OnCartButtonClick);
+            OnAddReviewButtonClicked = new Command(OnReviewAddButtonClick);
+            OnEditReviewButtonClicked = new Command(OnReviewEditButtonClick);
+            OnRemoveReviewButtonClicked = new Command(OnReviewRemoveButtonClick);
         }
 
         public override async void OnViewAppearing(object sender, EventArgs args)
@@ -104,12 +114,20 @@ namespace AnySoftMobile.ViewModels
                             CustomJsonSerializerOptions.Options, cancellationToken: cancellationTokenSource.Token);
                         if (product is null)
                             throw new InvalidOperationException("Product is null");
-                        product.Reviews?
-                            .Where(r => (r.User ?? new UserResponseDto()).Id ==
-                                        VersionManager.Instance.ApplicationUser?.Id)
-                            .ToList()
-                            .ForEach(r => r.IsOwn = true);
-                        IsOwnReviewExists = product.Reviews?.Any(r => r.IsOwn) ?? false;
+                        Reviews = new ObservableCollection<CustomReview>(product.Reviews
+                                .Select(r => new CustomReview()
+                                {
+                                    Id = r.Id,
+                                    Grade = r.Grade,
+                                    ProductId = r.ProductId,
+                                    Text = r.Text,
+                                    Ts = r.Ts,
+                                    IsModified = false,
+                                    IsOwn = (r.User ?? new UserResponseDto()).Id ==
+                                                 VersionManager.Instance.ApplicationUser?.Id,
+                                    User = r.User
+                                }));
+                        IsOwnReviewExists = Reviews?.Any(r => r.IsOwn) ?? false;
                         Product = product;
                     }
 
@@ -231,6 +249,114 @@ namespace AnySoftMobile.ViewModels
                 {
                     var msg = await removeProductsFromCartRequest.Content.ReadAsStringAsync();
                     throw new InvalidOperationException($"{removeProductsFromCartRequest.ReasonPhrase}\n{msg}");
+                }
+            }
+            catch (Exception exception)
+            {
+                await MaterialDialog.Instance.AlertAsync(message: $"{exception.Message}".Trim());
+            }
+        }
+
+        public async void OnReviewAddButtonClick()
+        {
+            if (Reviews is not null)
+                if (Reviews.Any(r => r.IsOwn))
+                {
+                    await MaterialDialog.Instance.AlertAsync(message: "You can only add one review per product".Trim());
+                    return;
+                }
+
+            if (IsReviewAdded)
+            {
+                var reviewDto = new ReviewCreateDto()
+                {
+                    Grade = NewReview!.Grade,
+                    ProductId = Product.Id,
+                    Text = NewReview.Text
+                };
+                var postReviewRequest =
+                    await WebApiService.PostCall("api/reviews", reviewDto, VersionManager.Instance.ApplicationUser.JwtToken!);
+                try
+                {
+                    if (postReviewRequest.IsSuccessStatusCode)
+                    {
+                        IsReviewAdded = false;
+
+                        if (Product.Id is not 0)
+                            await UpdateProduct(Product.Id);
+                        NewReview = new ReviewCreateDto();
+                    }
+                    else
+                    {
+                        var msg = await postReviewRequest.Content.ReadAsStringAsync();
+                        throw new InvalidOperationException($"{postReviewRequest.ReasonPhrase}\n{msg}");
+                    }
+                }
+                catch (Exception exception)
+                {
+                    await MaterialDialog.Instance.AlertAsync(message: $"{exception.Message}".Trim());
+                }
+            }
+            else
+                IsReviewAdded = !IsReviewAdded;
+        }
+
+        public async void OnReviewEditButtonClick(object reviewResponseDtoObject)
+        {
+            if (reviewResponseDtoObject is not CustomReview reviewResponseDto) return;
+            if (reviewResponseDto.IsModified)
+            {
+                var reviewEditDto = new ReviewEditDto
+                {
+                    Id = reviewResponseDto.Id,
+                    Grade = reviewResponseDto.Grade,
+                    Text = reviewResponseDto.Text
+                };
+                var putReviewRequest =
+                    await WebApiService.PutCall("api/reviews", reviewEditDto, VersionManager.Instance.ApplicationUser.JwtToken!);
+                try
+                {
+                    if (putReviewRequest.IsSuccessStatusCode)
+                    {
+                        reviewResponseDto.IsModified = false;
+
+                        if (Product.Id is not 0)
+                            await UpdateProduct(Product.Id);
+                        NewReview = new ReviewCreateDto();
+                    }
+                    else
+                    {
+                        var msg = await putReviewRequest.Content.ReadAsStringAsync();
+                        throw new InvalidOperationException($"{putReviewRequest.ReasonPhrase}\n{msg}");
+                    }
+                }
+                catch (Exception exception)
+                {
+                    await MaterialDialog.Instance.AlertAsync(message: $"{exception.Message}".Trim());
+                }
+            }
+            else
+            {
+                reviewResponseDto.IsModified = true;
+            }
+        }
+
+        public async void OnReviewRemoveButtonClick(object idObject)
+        {
+            try
+            {
+                if (idObject is not int id) return;
+                var deleteReviewRequest =
+                    await WebApiService.DeleteCall($"api/reviews/{id}", VersionManager.Instance.ApplicationUser.JwtToken!);
+                if (deleteReviewRequest.IsSuccessStatusCode)
+                {
+                    if (Product.Id is not 0)
+                        await UpdateProduct(Product.Id);
+                }
+                else
+                {
+                    var msg = await deleteReviewRequest.Content.ReadAsStringAsync();
+                    throw new InvalidOperationException($"{deleteReviewRequest.ReasonPhrase}\n{msg}");
                 }
             }
             catch (Exception exception)

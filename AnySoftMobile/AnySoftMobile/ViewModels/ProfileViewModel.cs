@@ -126,6 +126,7 @@ public class ProfileViewModel : BaseViewModel
     private async void CmdRefresh()
     {
         IsRefreshing = true;
+        await UpdateOrders();
         await Task.Delay(3000);
         IsRefreshing = false;
     }

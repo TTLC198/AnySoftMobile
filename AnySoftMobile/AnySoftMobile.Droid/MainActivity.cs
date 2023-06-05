@@ -21,6 +21,7 @@ namespace AnySoftMobile.Droid
             Rg.Plugins.Popup.Popup.Init(this);
             Xamarin.Forms.Forms.Init(this, savedInstanceState);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
+            Plugin.Iconize.Iconize.Init(Resource.Id.toolbar, Resource.Id.sliding_tabs);
             Material.Init(this, savedInstanceState);
 
             var appContainer = new PlatformContainer();

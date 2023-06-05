@@ -69,87 +69,94 @@ public class LoginViewModel : BaseViewModel
 
     private async void AccountLogin()
     {
-        if (IsRegisterView)
+        try
         {
-            IsRegisterView = false;
-            return;
-        }
-
-        var validationContext = new ValidationContext(UserCredentials, null, null);
-        var results = new List<ValidationResult>();
-        var timeoutAfter = TimeSpan.FromMilliseconds(3000);
-
-        if (Validator.TryValidateObject(UserCredentials, validationContext, results, true))
-        {
-            var getTokenRequest = await WebApiService.PostCall("api/auth/login", UserCredentials);
-            if (getTokenRequest.IsSuccessStatusCode)
+            if (IsRegisterView)
             {
-                string? userId, tokenString;
-                using (var cancellationTokenSource = new CancellationTokenSource(timeoutAfter))
-                {
-                    var responseStream = await getTokenRequest.Content.ReadAsStreamAsync();
-                    tokenString = await JsonSerializer.DeserializeAsync<string>(responseStream,
-                        CustomJsonSerializerOptions.Options, cancellationToken: cancellationTokenSource.Token);
-                    var handler = new JwtSecurityTokenHandler();
-                    var token = handler.ReadJwtToken(tokenString);
-                    userId = token.Payload.Claims.First(cl => cl.Type == "id").Value;
-                }
+                IsRegisterView = false;
+                return;
+            }
 
-                var getUserRequest = await WebApiService.GetCall($"api/users/{userId}", tokenString!);
+            var validationContext = new ValidationContext(UserCredentials, null, null);
+            var results = new List<ValidationResult>();
+            var timeoutAfter = TimeSpan.FromMilliseconds(3000);
+
+            if (Validator.TryValidateObject(UserCredentials, validationContext, results, true))
+            {
+                var getTokenRequest = await WebApiService.PostCall("api/auth/login", UserCredentials);
                 if (getTokenRequest.IsSuccessStatusCode)
                 {
-                    using var cancellationTokenSource = new CancellationTokenSource(timeoutAfter);
-                    var responseStream = await getUserRequest.Content.ReadAsStreamAsync();
-                    var responseUserResult = await JsonSerializer.DeserializeAsync<UserResponseDto>(responseStream,
-                        CustomJsonSerializerOptions.Options, cancellationToken: cancellationTokenSource.Token);
-                    if (responseUserResult != null)
+                    string? userId, tokenString;
+                    using (var cancellationTokenSource = new CancellationTokenSource(timeoutAfter))
                     {
-                        VersionManager.Instance.ApplicationUser = new ApplicationUser()
-                        {
-                            Id = responseUserResult.Id,
-                            Login = responseUserResult.Login,
-                            Email = responseUserResult.Email,
-                            JwtToken = tokenString,
-                            Image = responseUserResult.Image
-                        };
-                        VersionManager.Instance.IsAuthorized = true;
-                        await Navigation.PopAsync();
+                        var responseStream = await getTokenRequest.Content.ReadAsStreamAsync();
+                        tokenString = await JsonSerializer.DeserializeAsync<string>(responseStream,
+                            CustomJsonSerializerOptions.Options, cancellationToken: cancellationTokenSource.Token);
+                        var handler = new JwtSecurityTokenHandler();
+                        var token = handler.ReadJwtToken(tokenString);
+                        userId = token.Payload.Claims.First(cl => cl.Type == "id").Value;
                     }
+
+                    var getUserRequest = await WebApiService.GetCall($"api/users/{userId}", tokenString!);
+                    if (getTokenRequest.IsSuccessStatusCode)
+                    {
+                        using var cancellationTokenSource = new CancellationTokenSource(timeoutAfter);
+                        var responseStream = await getUserRequest.Content.ReadAsStreamAsync();
+                        var responseUserResult = await JsonSerializer.DeserializeAsync<UserResponseDto>(responseStream,
+                            CustomJsonSerializerOptions.Options, cancellationToken: cancellationTokenSource.Token);
+                        if (responseUserResult != null)
+                        {
+                            VersionManager.Instance.ApplicationUser = new ApplicationUser()
+                            {
+                                Id = responseUserResult.Id,
+                                Login = responseUserResult.Login,
+                                Email = responseUserResult.Email,
+                                JwtToken = tokenString,
+                                Image = responseUserResult.Image
+                            };
+                            VersionManager.Instance.IsAuthorized = true;
+                            await Navigation.PopAsync();
+                        }
+                    }
+                }
+                else
+                {
+                    using var cancellationTokenSource = new CancellationTokenSource(timeoutAfter);
+                    var responseStream = await getTokenRequest.Content.ReadAsStreamAsync();
+                    var errorModel = await JsonSerializer.DeserializeAsync<ErrorModel>(responseStream,
+                        CustomJsonSerializerOptions.Options, cancellationToken: cancellationTokenSource.Token);
+
+                    throw new InvalidOperationException(
+                        $"{(errorModel ?? new ErrorModel("An error occurred while making a request to the server")).Message}"
+                            .Trim()
+                            .Trim());
                 }
             }
             else
             {
-                using var cancellationTokenSource = new CancellationTokenSource(timeoutAfter);
-                var responseStream = await getTokenRequest.Content.ReadAsStreamAsync();
-                var errorModel = await JsonSerializer.DeserializeAsync<ErrorModel>(responseStream,
-                    CustomJsonSerializerOptions.Options, cancellationToken: cancellationTokenSource.Token);
-
-                throw new InvalidOperationException(
-                    $"{(errorModel ?? new ErrorModel("An error occurred while making a request to the server")).Message}"
-                        .Trim()
-                        .Trim());
+                await MaterialDialog.Instance.AlertAsync(message: "Please enter valid values!".Trim());
             }
         }
-        else
+        catch (Exception exception)
         {
-            await MaterialDialog.Instance.AlertAsync(message: "Please enter valid values!".Trim());
+            await MaterialDialog.Instance.AlertAsync(message: $"{exception.Message}".Trim());
         }
     }
 
     private async void AccountRegister()
     {
-        if (!IsRegisterView)
-        {
-            IsRegisterView = true;
-            return;
-        }
-
-        var validationContext = new ValidationContext(UserCredentials, null, null);
-        var results = new List<ValidationResult>();
-        var timeoutAfter = TimeSpan.FromMilliseconds(3000);
-
         try
         {
+            if (!IsRegisterView)
+            {
+                IsRegisterView = true;
+                return;
+            }
+
+            var validationContext = new ValidationContext(UserCredentials, null, null);
+            var results = new List<ValidationResult>();
+            var timeoutAfter = TimeSpan.FromMilliseconds(3000);
+            
             if (Validator.TryValidateObject(UserCredentials, validationContext, results, true))
             {
                 var postUserRequest = await WebApiService.PostCall("api/users", UserCredentials);

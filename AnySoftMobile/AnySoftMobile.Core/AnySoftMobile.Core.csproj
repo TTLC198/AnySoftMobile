@@ -12,6 +12,5 @@
 
     <ItemGroup>
       <ProjectReference Include="..\AnySoftMobile\AnySoftMobile.csproj" />
-      <ProjectReference Include="AnySoftMobile\AnySoftMobile\AnySoftMobile.csproj" />
     </ItemGroup>
 </Project>
