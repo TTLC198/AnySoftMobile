@@ -14,7 +14,7 @@ public class UrlToImageConverter : IValueConverter
             return "";
         if (path.StartsWith("/"))
             path = path.Substring(1);
-        return $"{App.CdnUrl}{path}";
+        return $"{VersionManager.Instance.CdnUrl}{path}";
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
