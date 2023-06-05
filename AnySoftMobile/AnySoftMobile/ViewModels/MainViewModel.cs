@@ -1,6 +1,8 @@
 ﻿using System;
 using AnySoftDesktop.Models;
+using AnySoftMobile.Utils;
 using AnySoftMobile.Views;
+using XF.Material.Forms.UI.Dialogs;
 
 namespace AnySoftMobile.ViewModels;
 
@@ -20,7 +22,8 @@ public class MainViewModel : BaseViewModel
         }
     }
     
-    public override void OnViewAppearing(object sender, EventArgs args)
+    public override async void OnViewAppearing(object sender, EventArgs args)
     {
+        
     }
 }
