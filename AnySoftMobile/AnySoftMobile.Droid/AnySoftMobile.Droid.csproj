@@ -85,6 +85,7 @@
         <AndroidResource Include="Resources\drawable-hdpi\image.png" />
         <AndroidResource Include="Resources\drawable-hdpi\key.png" />
         <AndroidResource Include="Resources\drawable-hdpi\login.png" />
+        <AndroidResource Include="Resources\drawable-hdpi\logo.png" />
         <AndroidResource Include="Resources\drawable-hdpi\logout.png" />
         <AndroidResource Include="Resources\drawable-hdpi\magnify.png" />
         <AndroidResource Include="Resources\drawable-hdpi\mail.png" />
