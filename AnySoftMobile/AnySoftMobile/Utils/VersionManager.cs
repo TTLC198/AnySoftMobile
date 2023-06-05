@@ -26,6 +26,30 @@ public class VersionManager : BindableObject
         get => (bool)GetValue(IsAuthorizedProperty);
         set => SetValue(IsAuthorizedProperty, value );
     }
+    
+    private static readonly BindableProperty ApiUrlProperty =
+        BindableProperty.Create( 
+            nameof(ApiUrl), 
+            typeof(string),
+            typeof(VersionManager));
+
+    public string? ApiUrl
+    {
+        get => (string)GetValue(ApiUrlProperty);
+        set => SetValue(ApiUrlProperty, value);
+    }
+    
+    private static readonly BindableProperty CdnUrlProperty =
+        BindableProperty.Create( 
+            nameof(CdnUrl), 
+            typeof(string),
+            typeof(VersionManager));
+    
+    public string? CdnUrl
+    {
+        get => (string)GetValue(CdnUrlProperty);
+        set => SetValue(CdnUrlProperty, value );
+    }
 
     public static VersionManager Instance { get; private set; }
 
